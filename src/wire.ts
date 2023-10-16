@@ -589,10 +589,10 @@ export const Envelope = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Envelope>, I>>(base?: I): Envelope {
-    return Envelope.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Envelope>): Envelope {
+    return Envelope.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Envelope>, I>>(object: I): Envelope {
+  fromPartial(object: DeepPartial<Envelope>): Envelope {
     const message = createBaseEnvelope();
     message.sender = object.sender ?? new Uint8Array(0);
     message.recipient = object.recipient ?? new Uint8Array(0);
@@ -696,7 +696,9 @@ export const Balance = {
   },
 
   fromJSON(object: any): Balance {
-    return { balance: Array.isArray(object?.balance) ? object.balance.map((e: any) => bytesFromBase64(e)) : [] };
+    return {
+      balance: globalThis.Array.isArray(object?.balance) ? object.balance.map((e: any) => bytesFromBase64(e)) : [],
+    };
   },
 
   toJSON(message: Balance): unknown {
@@ -707,10 +709,10 @@ export const Balance = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Balance>, I>>(base?: I): Balance {
-    return Balance.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Balance>): Balance {
+    return Balance.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Balance>, I>>(object: I): Balance {
+  fromPartial(object: DeepPartial<Balance>): Balance {
     const message = createBaseBalance();
     message.balance = object.balance?.map((e) => e) || [];
     return message;
@@ -753,7 +755,9 @@ export const Balances = {
   },
 
   fromJSON(object: any): Balances {
-    return { balances: Array.isArray(object?.balances) ? object.balances.map((e: any) => Balance.fromJSON(e)) : [] };
+    return {
+      balances: globalThis.Array.isArray(object?.balances) ? object.balances.map((e: any) => Balance.fromJSON(e)) : [],
+    };
   },
 
   toJSON(message: Balances): unknown {
@@ -764,10 +768,10 @@ export const Balances = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Balances>, I>>(base?: I): Balances {
-    return Balances.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Balances>): Balances {
+    return Balances.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Balances>, I>>(object: I): Balances {
+  fromPartial(object: DeepPartial<Balances>): Balances {
     const message = createBaseBalances();
     message.balances = object.balances?.map((e) => Balance.fromPartial(e)) || [];
     return message;
@@ -822,7 +826,9 @@ export const IndexMap = {
   },
 
   fromJSON(object: any): IndexMap {
-    return { indexMap: Array.isArray(object?.indexMap) ? object.indexMap.map((e: any) => Number(e)) : [] };
+    return {
+      indexMap: globalThis.Array.isArray(object?.indexMap) ? object.indexMap.map((e: any) => globalThis.Number(e)) : [],
+    };
   },
 
   toJSON(message: IndexMap): unknown {
@@ -833,10 +839,10 @@ export const IndexMap = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<IndexMap>, I>>(base?: I): IndexMap {
-    return IndexMap.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<IndexMap>): IndexMap {
+    return IndexMap.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<IndexMap>, I>>(object: I): IndexMap {
+  fromPartial(object: DeepPartial<IndexMap>): IndexMap {
     const message = createBaseIndexMap();
     message.indexMap = object.indexMap?.map((e) => e) || [];
     return message;
@@ -920,10 +926,10 @@ export const SubAlloc = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<SubAlloc>, I>>(base?: I): SubAlloc {
-    return SubAlloc.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<SubAlloc>): SubAlloc {
+    return SubAlloc.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<SubAlloc>, I>>(object: I): SubAlloc {
+  fromPartial(object: DeepPartial<SubAlloc>): SubAlloc {
     const message = createBaseSubAlloc();
     message.id = object.id ?? new Uint8Array(0);
     message.bals = (object.bals !== undefined && object.bals !== null) ? Balance.fromPartial(object.bals) : undefined;
@@ -991,9 +997,9 @@ export const Allocation = {
 
   fromJSON(object: any): Allocation {
     return {
-      assets: Array.isArray(object?.assets) ? object.assets.map((e: any) => bytesFromBase64(e)) : [],
+      assets: globalThis.Array.isArray(object?.assets) ? object.assets.map((e: any) => bytesFromBase64(e)) : [],
       balances: isSet(object.balances) ? Balances.fromJSON(object.balances) : undefined,
-      locked: Array.isArray(object?.locked) ? object.locked.map((e: any) => SubAlloc.fromJSON(e)) : [],
+      locked: globalThis.Array.isArray(object?.locked) ? object.locked.map((e: any) => SubAlloc.fromJSON(e)) : [],
     };
   },
 
@@ -1011,10 +1017,10 @@ export const Allocation = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Allocation>, I>>(base?: I): Allocation {
-    return Allocation.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Allocation>): Allocation {
+    return Allocation.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Allocation>, I>>(object: I): Allocation {
+  fromPartial(object: DeepPartial<Allocation>): Allocation {
     const message = createBaseAllocation();
     message.assets = object.assets?.map((e) => e) || [];
     message.balances = (object.balances !== undefined && object.balances !== null)
@@ -1131,7 +1137,7 @@ export const BaseChannelProposal = {
   fromJSON(object: any): BaseChannelProposal {
     return {
       proposalId: isSet(object.proposalId) ? bytesFromBase64(object.proposalId) : new Uint8Array(0),
-      challengeDuration: isSet(object.challengeDuration) ? Number(object.challengeDuration) : 0,
+      challengeDuration: isSet(object.challengeDuration) ? globalThis.Number(object.challengeDuration) : 0,
       nonceShare: isSet(object.nonceShare) ? bytesFromBase64(object.nonceShare) : new Uint8Array(0),
       app: isSet(object.app) ? bytesFromBase64(object.app) : new Uint8Array(0),
       initData: isSet(object.initData) ? bytesFromBase64(object.initData) : new Uint8Array(0),
@@ -1166,10 +1172,10 @@ export const BaseChannelProposal = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<BaseChannelProposal>, I>>(base?: I): BaseChannelProposal {
-    return BaseChannelProposal.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<BaseChannelProposal>): BaseChannelProposal {
+    return BaseChannelProposal.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<BaseChannelProposal>, I>>(object: I): BaseChannelProposal {
+  fromPartial(object: DeepPartial<BaseChannelProposal>): BaseChannelProposal {
     const message = createBaseBaseChannelProposal();
     message.proposalId = object.proposalId ?? new Uint8Array(0);
     message.challengeDuration = object.challengeDuration ?? 0;
@@ -1249,10 +1255,10 @@ export const BaseChannelProposalAcc = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<BaseChannelProposalAcc>, I>>(base?: I): BaseChannelProposalAcc {
-    return BaseChannelProposalAcc.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<BaseChannelProposalAcc>): BaseChannelProposalAcc {
+    return BaseChannelProposalAcc.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<BaseChannelProposalAcc>, I>>(object: I): BaseChannelProposalAcc {
+  fromPartial(object: DeepPartial<BaseChannelProposalAcc>): BaseChannelProposalAcc {
     const message = createBaseBaseChannelProposalAcc();
     message.proposalId = object.proposalId ?? new Uint8Array(0);
     message.nonceShare = object.nonceShare ?? new Uint8Array(0);
@@ -1366,12 +1372,12 @@ export const Params = {
   fromJSON(object: any): Params {
     return {
       id: isSet(object.id) ? bytesFromBase64(object.id) : new Uint8Array(0),
-      challengeDuration: isSet(object.challengeDuration) ? Number(object.challengeDuration) : 0,
-      parts: Array.isArray(object?.parts) ? object.parts.map((e: any) => bytesFromBase64(e)) : [],
+      challengeDuration: isSet(object.challengeDuration) ? globalThis.Number(object.challengeDuration) : 0,
+      parts: globalThis.Array.isArray(object?.parts) ? object.parts.map((e: any) => bytesFromBase64(e)) : [],
       app: isSet(object.app) ? bytesFromBase64(object.app) : new Uint8Array(0),
       nonce: isSet(object.nonce) ? bytesFromBase64(object.nonce) : new Uint8Array(0),
-      ledgerChannel: isSet(object.ledgerChannel) ? Boolean(object.ledgerChannel) : false,
-      virtualChannel: isSet(object.virtualChannel) ? Boolean(object.virtualChannel) : false,
+      ledgerChannel: isSet(object.ledgerChannel) ? globalThis.Boolean(object.ledgerChannel) : false,
+      virtualChannel: isSet(object.virtualChannel) ? globalThis.Boolean(object.virtualChannel) : false,
     };
   },
 
@@ -1401,10 +1407,10 @@ export const Params = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Params>, I>>(base?: I): Params {
-    return Params.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Params>): Params {
+    return Params.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Params>, I>>(object: I): Params {
+  fromPartial(object: DeepPartial<Params>): Params {
     const message = createBaseParams();
     message.id = object.id ?? new Uint8Array(0);
     message.challengeDuration = object.challengeDuration ?? 0;
@@ -1512,11 +1518,11 @@ export const State = {
   fromJSON(object: any): State {
     return {
       id: isSet(object.id) ? bytesFromBase64(object.id) : new Uint8Array(0),
-      version: isSet(object.version) ? Number(object.version) : 0,
+      version: isSet(object.version) ? globalThis.Number(object.version) : 0,
       app: isSet(object.app) ? bytesFromBase64(object.app) : new Uint8Array(0),
       allocation: isSet(object.allocation) ? Allocation.fromJSON(object.allocation) : undefined,
       data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(0),
-      isFinal: isSet(object.isFinal) ? Boolean(object.isFinal) : false,
+      isFinal: isSet(object.isFinal) ? globalThis.Boolean(object.isFinal) : false,
     };
   },
 
@@ -1543,10 +1549,10 @@ export const State = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<State>, I>>(base?: I): State {
-    return State.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<State>): State {
+    return State.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<State>, I>>(object: I): State {
+  fromPartial(object: DeepPartial<State>): State {
     const message = createBaseState();
     message.id = object.id ?? new Uint8Array(0);
     message.version = object.version ?? 0;
@@ -1608,7 +1614,7 @@ export const Transaction = {
   fromJSON(object: any): Transaction {
     return {
       state: isSet(object.state) ? State.fromJSON(object.state) : undefined,
-      sigs: Array.isArray(object?.sigs) ? object.sigs.map((e: any) => bytesFromBase64(e)) : [],
+      sigs: globalThis.Array.isArray(object?.sigs) ? object.sigs.map((e: any) => bytesFromBase64(e)) : [],
     };
   },
 
@@ -1623,10 +1629,10 @@ export const Transaction = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Transaction>, I>>(base?: I): Transaction {
-    return Transaction.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Transaction>): Transaction {
+    return Transaction.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Transaction>, I>>(object: I): Transaction {
+  fromPartial(object: DeepPartial<Transaction>): Transaction {
     const message = createBaseTransaction();
     message.state = (object.state !== undefined && object.state !== null) ? State.fromPartial(object.state) : undefined;
     message.sigs = object.sigs?.map((e) => e) || [];
@@ -1693,7 +1699,7 @@ export const SignedState = {
     return {
       params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
       state: isSet(object.state) ? State.fromJSON(object.state) : undefined,
-      sigs: Array.isArray(object?.sigs) ? object.sigs.map((e: any) => bytesFromBase64(e)) : [],
+      sigs: globalThis.Array.isArray(object?.sigs) ? object.sigs.map((e: any) => bytesFromBase64(e)) : [],
     };
   },
 
@@ -1711,10 +1717,10 @@ export const SignedState = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<SignedState>, I>>(base?: I): SignedState {
-    return SignedState.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<SignedState>): SignedState {
+    return SignedState.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<SignedState>, I>>(object: I): SignedState {
+  fromPartial(object: DeepPartial<SignedState>): SignedState {
     const message = createBaseSignedState();
     message.params = (object.params !== undefined && object.params !== null)
       ? Params.fromPartial(object.params)
@@ -1773,7 +1779,7 @@ export const ChannelUpdate = {
   fromJSON(object: any): ChannelUpdate {
     return {
       state: isSet(object.state) ? State.fromJSON(object.state) : undefined,
-      actorIdx: isSet(object.actorIdx) ? Number(object.actorIdx) : 0,
+      actorIdx: isSet(object.actorIdx) ? globalThis.Number(object.actorIdx) : 0,
     };
   },
 
@@ -1788,10 +1794,10 @@ export const ChannelUpdate = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ChannelUpdate>, I>>(base?: I): ChannelUpdate {
-    return ChannelUpdate.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ChannelUpdate>): ChannelUpdate {
+    return ChannelUpdate.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ChannelUpdate>, I>>(object: I): ChannelUpdate {
+  fromPartial(object: DeepPartial<ChannelUpdate>): ChannelUpdate {
     const message = createBaseChannelUpdate();
     message.state = (object.state !== undefined && object.state !== null) ? State.fromPartial(object.state) : undefined;
     message.actorIdx = object.actorIdx ?? 0;
@@ -1835,7 +1841,7 @@ export const PingMsg = {
   },
 
   fromJSON(object: any): PingMsg {
-    return { created: isSet(object.created) ? Number(object.created) : 0 };
+    return { created: isSet(object.created) ? globalThis.Number(object.created) : 0 };
   },
 
   toJSON(message: PingMsg): unknown {
@@ -1846,10 +1852,10 @@ export const PingMsg = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<PingMsg>, I>>(base?: I): PingMsg {
-    return PingMsg.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<PingMsg>): PingMsg {
+    return PingMsg.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<PingMsg>, I>>(object: I): PingMsg {
+  fromPartial(object: DeepPartial<PingMsg>): PingMsg {
     const message = createBasePingMsg();
     message.created = object.created ?? 0;
     return message;
@@ -1892,7 +1898,7 @@ export const PongMsg = {
   },
 
   fromJSON(object: any): PongMsg {
-    return { created: isSet(object.created) ? Number(object.created) : 0 };
+    return { created: isSet(object.created) ? globalThis.Number(object.created) : 0 };
   },
 
   toJSON(message: PongMsg): unknown {
@@ -1903,10 +1909,10 @@ export const PongMsg = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<PongMsg>, I>>(base?: I): PongMsg {
-    return PongMsg.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<PongMsg>): PongMsg {
+    return PongMsg.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<PongMsg>, I>>(object: I): PongMsg {
+  fromPartial(object: DeepPartial<PongMsg>): PongMsg {
     const message = createBasePongMsg();
     message.created = object.created ?? 0;
     return message;
@@ -1949,7 +1955,7 @@ export const ShutdownMsg = {
   },
 
   fromJSON(object: any): ShutdownMsg {
-    return { reason: isSet(object.reason) ? String(object.reason) : "" };
+    return { reason: isSet(object.reason) ? globalThis.String(object.reason) : "" };
   },
 
   toJSON(message: ShutdownMsg): unknown {
@@ -1960,10 +1966,10 @@ export const ShutdownMsg = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ShutdownMsg>, I>>(base?: I): ShutdownMsg {
-    return ShutdownMsg.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ShutdownMsg>): ShutdownMsg {
+    return ShutdownMsg.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ShutdownMsg>, I>>(object: I): ShutdownMsg {
+  fromPartial(object: DeepPartial<ShutdownMsg>): ShutdownMsg {
     const message = createBaseShutdownMsg();
     message.reason = object.reason ?? "";
     return message;
@@ -2004,10 +2010,10 @@ export const AuthResponseMsg = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<AuthResponseMsg>, I>>(base?: I): AuthResponseMsg {
-    return AuthResponseMsg.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<AuthResponseMsg>): AuthResponseMsg {
+    return AuthResponseMsg.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<AuthResponseMsg>, I>>(_: I): AuthResponseMsg {
+  fromPartial(_: DeepPartial<AuthResponseMsg>): AuthResponseMsg {
     const message = createBaseAuthResponseMsg();
     return message;
   },
@@ -2074,7 +2080,7 @@ export const LedgerChannelProposalMsg = {
         ? BaseChannelProposal.fromJSON(object.baseChannelProposal)
         : undefined,
       participant: isSet(object.participant) ? bytesFromBase64(object.participant) : new Uint8Array(0),
-      peers: Array.isArray(object?.peers) ? object.peers.map((e: any) => bytesFromBase64(e)) : [],
+      peers: globalThis.Array.isArray(object?.peers) ? object.peers.map((e: any) => bytesFromBase64(e)) : [],
     };
   },
 
@@ -2092,10 +2098,10 @@ export const LedgerChannelProposalMsg = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<LedgerChannelProposalMsg>, I>>(base?: I): LedgerChannelProposalMsg {
-    return LedgerChannelProposalMsg.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<LedgerChannelProposalMsg>): LedgerChannelProposalMsg {
+    return LedgerChannelProposalMsg.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<LedgerChannelProposalMsg>, I>>(object: I): LedgerChannelProposalMsg {
+  fromPartial(object: DeepPartial<LedgerChannelProposalMsg>): LedgerChannelProposalMsg {
     const message = createBaseLedgerChannelProposalMsg();
     message.baseChannelProposal = (object.baseChannelProposal !== undefined && object.baseChannelProposal !== null)
       ? BaseChannelProposal.fromPartial(object.baseChannelProposal)
@@ -2171,10 +2177,10 @@ export const LedgerChannelProposalAccMsg = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<LedgerChannelProposalAccMsg>, I>>(base?: I): LedgerChannelProposalAccMsg {
-    return LedgerChannelProposalAccMsg.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<LedgerChannelProposalAccMsg>): LedgerChannelProposalAccMsg {
+    return LedgerChannelProposalAccMsg.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<LedgerChannelProposalAccMsg>, I>>(object: I): LedgerChannelProposalAccMsg {
+  fromPartial(object: DeepPartial<LedgerChannelProposalAccMsg>): LedgerChannelProposalAccMsg {
     const message = createBaseLedgerChannelProposalAccMsg();
     message.baseChannelProposalAcc =
       (object.baseChannelProposalAcc !== undefined && object.baseChannelProposalAcc !== null)
@@ -2250,10 +2256,10 @@ export const SubChannelProposalMsg = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<SubChannelProposalMsg>, I>>(base?: I): SubChannelProposalMsg {
-    return SubChannelProposalMsg.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<SubChannelProposalMsg>): SubChannelProposalMsg {
+    return SubChannelProposalMsg.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<SubChannelProposalMsg>, I>>(object: I): SubChannelProposalMsg {
+  fromPartial(object: DeepPartial<SubChannelProposalMsg>): SubChannelProposalMsg {
     const message = createBaseSubChannelProposalMsg();
     message.baseChannelProposal = (object.baseChannelProposal !== undefined && object.baseChannelProposal !== null)
       ? BaseChannelProposal.fromPartial(object.baseChannelProposal)
@@ -2314,10 +2320,10 @@ export const SubChannelProposalAccMsg = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<SubChannelProposalAccMsg>, I>>(base?: I): SubChannelProposalAccMsg {
-    return SubChannelProposalAccMsg.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<SubChannelProposalAccMsg>): SubChannelProposalAccMsg {
+    return SubChannelProposalAccMsg.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<SubChannelProposalAccMsg>, I>>(object: I): SubChannelProposalAccMsg {
+  fromPartial(object: DeepPartial<SubChannelProposalAccMsg>): SubChannelProposalAccMsg {
     const message = createBaseSubChannelProposalAccMsg();
     message.baseChannelProposalAcc =
       (object.baseChannelProposalAcc !== undefined && object.baseChannelProposalAcc !== null)
@@ -2408,9 +2414,11 @@ export const VirtualChannelProposalMsg = {
         ? BaseChannelProposal.fromJSON(object.baseChannelProposal)
         : undefined,
       proposer: isSet(object.proposer) ? bytesFromBase64(object.proposer) : new Uint8Array(0),
-      peers: Array.isArray(object?.peers) ? object.peers.map((e: any) => bytesFromBase64(e)) : [],
-      parents: Array.isArray(object?.parents) ? object.parents.map((e: any) => bytesFromBase64(e)) : [],
-      indexMaps: Array.isArray(object?.indexMaps) ? object.indexMaps.map((e: any) => IndexMap.fromJSON(e)) : [],
+      peers: globalThis.Array.isArray(object?.peers) ? object.peers.map((e: any) => bytesFromBase64(e)) : [],
+      parents: globalThis.Array.isArray(object?.parents) ? object.parents.map((e: any) => bytesFromBase64(e)) : [],
+      indexMaps: globalThis.Array.isArray(object?.indexMaps)
+        ? object.indexMaps.map((e: any) => IndexMap.fromJSON(e))
+        : [],
     };
   },
 
@@ -2434,10 +2442,10 @@ export const VirtualChannelProposalMsg = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<VirtualChannelProposalMsg>, I>>(base?: I): VirtualChannelProposalMsg {
-    return VirtualChannelProposalMsg.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<VirtualChannelProposalMsg>): VirtualChannelProposalMsg {
+    return VirtualChannelProposalMsg.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<VirtualChannelProposalMsg>, I>>(object: I): VirtualChannelProposalMsg {
+  fromPartial(object: DeepPartial<VirtualChannelProposalMsg>): VirtualChannelProposalMsg {
     const message = createBaseVirtualChannelProposalMsg();
     message.baseChannelProposal = (object.baseChannelProposal !== undefined && object.baseChannelProposal !== null)
       ? BaseChannelProposal.fromPartial(object.baseChannelProposal)
@@ -2515,10 +2523,10 @@ export const VirtualChannelProposalAccMsg = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<VirtualChannelProposalAccMsg>, I>>(base?: I): VirtualChannelProposalAccMsg {
-    return VirtualChannelProposalAccMsg.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<VirtualChannelProposalAccMsg>): VirtualChannelProposalAccMsg {
+    return VirtualChannelProposalAccMsg.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<VirtualChannelProposalAccMsg>, I>>(object: I): VirtualChannelProposalAccMsg {
+  fromPartial(object: DeepPartial<VirtualChannelProposalAccMsg>): VirtualChannelProposalAccMsg {
     const message = createBaseVirtualChannelProposalAccMsg();
     message.baseChannelProposalAcc =
       (object.baseChannelProposalAcc !== undefined && object.baseChannelProposalAcc !== null)
@@ -2577,7 +2585,7 @@ export const ChannelProposalRejMsg = {
   fromJSON(object: any): ChannelProposalRejMsg {
     return {
       proposalId: isSet(object.proposalId) ? bytesFromBase64(object.proposalId) : new Uint8Array(0),
-      reason: isSet(object.reason) ? String(object.reason) : "",
+      reason: isSet(object.reason) ? globalThis.String(object.reason) : "",
     };
   },
 
@@ -2592,10 +2600,10 @@ export const ChannelProposalRejMsg = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ChannelProposalRejMsg>, I>>(base?: I): ChannelProposalRejMsg {
-    return ChannelProposalRejMsg.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ChannelProposalRejMsg>): ChannelProposalRejMsg {
+    return ChannelProposalRejMsg.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ChannelProposalRejMsg>, I>>(object: I): ChannelProposalRejMsg {
+  fromPartial(object: DeepPartial<ChannelProposalRejMsg>): ChannelProposalRejMsg {
     const message = createBaseChannelProposalRejMsg();
     message.proposalId = object.proposalId ?? new Uint8Array(0);
     message.reason = object.reason ?? "";
@@ -2666,10 +2674,10 @@ export const ChannelUpdateMsg = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ChannelUpdateMsg>, I>>(base?: I): ChannelUpdateMsg {
-    return ChannelUpdateMsg.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ChannelUpdateMsg>): ChannelUpdateMsg {
+    return ChannelUpdateMsg.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ChannelUpdateMsg>, I>>(object: I): ChannelUpdateMsg {
+  fromPartial(object: DeepPartial<ChannelUpdateMsg>): ChannelUpdateMsg {
     const message = createBaseChannelUpdateMsg();
     message.channelUpdate = (object.channelUpdate !== undefined && object.channelUpdate !== null)
       ? ChannelUpdate.fromPartial(object.channelUpdate)
@@ -2756,14 +2764,10 @@ export const VirtualChannelFundingProposalMsg = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<VirtualChannelFundingProposalMsg>, I>>(
-    base?: I,
-  ): VirtualChannelFundingProposalMsg {
-    return VirtualChannelFundingProposalMsg.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<VirtualChannelFundingProposalMsg>): VirtualChannelFundingProposalMsg {
+    return VirtualChannelFundingProposalMsg.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<VirtualChannelFundingProposalMsg>, I>>(
-    object: I,
-  ): VirtualChannelFundingProposalMsg {
+  fromPartial(object: DeepPartial<VirtualChannelFundingProposalMsg>): VirtualChannelFundingProposalMsg {
     const message = createBaseVirtualChannelFundingProposalMsg();
     message.channelUpdateMsg = (object.channelUpdateMsg !== undefined && object.channelUpdateMsg !== null)
       ? ChannelUpdateMsg.fromPartial(object.channelUpdateMsg)
@@ -2841,14 +2845,10 @@ export const VirtualChannelSettlementProposalMsg = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<VirtualChannelSettlementProposalMsg>, I>>(
-    base?: I,
-  ): VirtualChannelSettlementProposalMsg {
-    return VirtualChannelSettlementProposalMsg.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<VirtualChannelSettlementProposalMsg>): VirtualChannelSettlementProposalMsg {
+    return VirtualChannelSettlementProposalMsg.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<VirtualChannelSettlementProposalMsg>, I>>(
-    object: I,
-  ): VirtualChannelSettlementProposalMsg {
+  fromPartial(object: DeepPartial<VirtualChannelSettlementProposalMsg>): VirtualChannelSettlementProposalMsg {
     const message = createBaseVirtualChannelSettlementProposalMsg();
     message.channelUpdateMsg = (object.channelUpdateMsg !== undefined && object.channelUpdateMsg !== null)
       ? ChannelUpdateMsg.fromPartial(object.channelUpdateMsg)
@@ -2918,7 +2918,7 @@ export const ChannelUpdateAccMsg = {
   fromJSON(object: any): ChannelUpdateAccMsg {
     return {
       channelId: isSet(object.channelId) ? bytesFromBase64(object.channelId) : new Uint8Array(0),
-      version: isSet(object.version) ? Number(object.version) : 0,
+      version: isSet(object.version) ? globalThis.Number(object.version) : 0,
       sig: isSet(object.sig) ? bytesFromBase64(object.sig) : new Uint8Array(0),
     };
   },
@@ -2937,10 +2937,10 @@ export const ChannelUpdateAccMsg = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ChannelUpdateAccMsg>, I>>(base?: I): ChannelUpdateAccMsg {
-    return ChannelUpdateAccMsg.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ChannelUpdateAccMsg>): ChannelUpdateAccMsg {
+    return ChannelUpdateAccMsg.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ChannelUpdateAccMsg>, I>>(object: I): ChannelUpdateAccMsg {
+  fromPartial(object: DeepPartial<ChannelUpdateAccMsg>): ChannelUpdateAccMsg {
     const message = createBaseChannelUpdateAccMsg();
     message.channelId = object.channelId ?? new Uint8Array(0);
     message.version = object.version ?? 0;
@@ -3007,8 +3007,8 @@ export const ChannelUpdateRejMsg = {
   fromJSON(object: any): ChannelUpdateRejMsg {
     return {
       channelId: isSet(object.channelId) ? bytesFromBase64(object.channelId) : new Uint8Array(0),
-      version: isSet(object.version) ? Number(object.version) : 0,
-      reason: isSet(object.reason) ? String(object.reason) : "",
+      version: isSet(object.version) ? globalThis.Number(object.version) : 0,
+      reason: isSet(object.reason) ? globalThis.String(object.reason) : "",
     };
   },
 
@@ -3026,10 +3026,10 @@ export const ChannelUpdateRejMsg = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ChannelUpdateRejMsg>, I>>(base?: I): ChannelUpdateRejMsg {
-    return ChannelUpdateRejMsg.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ChannelUpdateRejMsg>): ChannelUpdateRejMsg {
+    return ChannelUpdateRejMsg.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ChannelUpdateRejMsg>, I>>(object: I): ChannelUpdateRejMsg {
+  fromPartial(object: DeepPartial<ChannelUpdateRejMsg>): ChannelUpdateRejMsg {
     const message = createBaseChannelUpdateRejMsg();
     message.channelId = object.channelId ?? new Uint8Array(0);
     message.version = object.version ?? 0;
@@ -3085,7 +3085,7 @@ export const ChannelSyncMsg = {
 
   fromJSON(object: any): ChannelSyncMsg {
     return {
-      phase: isSet(object.phase) ? Number(object.phase) : 0,
+      phase: isSet(object.phase) ? globalThis.Number(object.phase) : 0,
       currentTx: isSet(object.currentTx) ? Transaction.fromJSON(object.currentTx) : undefined,
     };
   },
@@ -3101,10 +3101,10 @@ export const ChannelSyncMsg = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ChannelSyncMsg>, I>>(base?: I): ChannelSyncMsg {
-    return ChannelSyncMsg.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ChannelSyncMsg>): ChannelSyncMsg {
+    return ChannelSyncMsg.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ChannelSyncMsg>, I>>(object: I): ChannelSyncMsg {
+  fromPartial(object: DeepPartial<ChannelSyncMsg>): ChannelSyncMsg {
     const message = createBaseChannelSyncMsg();
     message.phase = object.phase ?? 0;
     message.currentTx = (object.currentTx !== undefined && object.currentTx !== null)
@@ -3114,30 +3114,11 @@ export const ChannelSyncMsg = {
   },
 };
 
-declare const self: any | undefined;
-declare const window: any | undefined;
-declare const global: any | undefined;
-const tsProtoGlobalThis: any = (() => {
-  if (typeof globalThis !== "undefined") {
-    return globalThis;
-  }
-  if (typeof self !== "undefined") {
-    return self;
-  }
-  if (typeof window !== "undefined") {
-    return window;
-  }
-  if (typeof global !== "undefined") {
-    return global;
-  }
-  throw "Unable to locate global object";
-})();
-
 function bytesFromBase64(b64: string): Uint8Array {
-  if (tsProtoGlobalThis.Buffer) {
-    return Uint8Array.from(tsProtoGlobalThis.Buffer.from(b64, "base64"));
+  if (globalThis.Buffer) {
+    return Uint8Array.from(globalThis.Buffer.from(b64, "base64"));
   } else {
-    const bin = tsProtoGlobalThis.atob(b64);
+    const bin = globalThis.atob(b64);
     const arr = new Uint8Array(bin.length);
     for (let i = 0; i < bin.length; ++i) {
       arr[i] = bin.charCodeAt(i);
@@ -3147,31 +3128,28 @@ function bytesFromBase64(b64: string): Uint8Array {
 }
 
 function base64FromBytes(arr: Uint8Array): string {
-  if (tsProtoGlobalThis.Buffer) {
-    return tsProtoGlobalThis.Buffer.from(arr).toString("base64");
+  if (globalThis.Buffer) {
+    return globalThis.Buffer.from(arr).toString("base64");
   } else {
     const bin: string[] = [];
     arr.forEach((byte) => {
-      bin.push(String.fromCharCode(byte));
+      bin.push(globalThis.String.fromCharCode(byte));
     });
-    return tsProtoGlobalThis.btoa(bin.join(""));
+    return globalThis.btoa(bin.join(""));
   }
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 export type DeepPartial<T> = T extends Builtin ? T
-  : T extends Array<infer U> ? Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
 
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
-
 function longToNumber(long: Long): number {
-  if (long.gt(Number.MAX_SAFE_INTEGER)) {
-    throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+  if (long.gt(globalThis.Number.MAX_SAFE_INTEGER)) {
+    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
   }
   return long.toNumber();
 }

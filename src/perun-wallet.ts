@@ -1,4 +1,5 @@
 /* eslint-disable */
+import type { CallContext, CallOptions } from "nice-grpc-common";
 import * as _m0 from "protobufjs/minimal";
 import { Empty } from "./google/protobuf/empty";
 import { Balances, State } from "./wire";
@@ -230,7 +231,7 @@ export const Rejected = {
   },
 
   fromJSON(object: any): Rejected {
-    return { reason: isSet(object.reason) ? String(object.reason) : "" };
+    return { reason: isSet(object.reason) ? globalThis.String(object.reason) : "" };
   },
 
   toJSON(message: Rejected): unknown {
@@ -241,10 +242,10 @@ export const Rejected = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Rejected>, I>>(base?: I): Rejected {
-    return Rejected.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Rejected>): Rejected {
+    return Rejected.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Rejected>, I>>(object: I): Rejected {
+  fromPartial(object: DeepPartial<Rejected>): Rejected {
     const message = createBaseRejected();
     message.reason = object.reason ?? "";
     return message;
@@ -314,10 +315,10 @@ export const ChannelOpenRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ChannelOpenRequest>, I>>(base?: I): ChannelOpenRequest {
-    return ChannelOpenRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ChannelOpenRequest>): ChannelOpenRequest {
+    return ChannelOpenRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ChannelOpenRequest>, I>>(object: I): ChannelOpenRequest {
+  fromPartial(object: DeepPartial<ChannelOpenRequest>): ChannelOpenRequest {
     const message = createBaseChannelOpenRequest();
     message.peer = object.peer ?? new Uint8Array(0);
     message.assets = (object.assets !== undefined && object.assets !== null)
@@ -390,10 +391,10 @@ export const ChannelOpenResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ChannelOpenResponse>, I>>(base?: I): ChannelOpenResponse {
-    return ChannelOpenResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ChannelOpenResponse>): ChannelOpenResponse {
+    return ChannelOpenResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ChannelOpenResponse>, I>>(object: I): ChannelOpenResponse {
+  fromPartial(object: DeepPartial<ChannelOpenResponse>): ChannelOpenResponse {
     const message = createBaseChannelOpenResponse();
     message.rejected = (object.rejected !== undefined && object.rejected !== null)
       ? Rejected.fromPartial(object.rejected)
@@ -466,10 +467,10 @@ export const ChannelUpdateRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ChannelUpdateRequest>, I>>(base?: I): ChannelUpdateRequest {
-    return ChannelUpdateRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ChannelUpdateRequest>): ChannelUpdateRequest {
+    return ChannelUpdateRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ChannelUpdateRequest>, I>>(object: I): ChannelUpdateRequest {
+  fromPartial(object: DeepPartial<ChannelUpdateRequest>): ChannelUpdateRequest {
     const message = createBaseChannelUpdateRequest();
     message.state = (object.state !== undefined && object.state !== null) ? State.fromPartial(object.state) : undefined;
     message.channelId = object.channelId ?? new Uint8Array(0);
@@ -540,10 +541,10 @@ export const SuccessfulUpdate = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<SuccessfulUpdate>, I>>(base?: I): SuccessfulUpdate {
-    return SuccessfulUpdate.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<SuccessfulUpdate>): SuccessfulUpdate {
+    return SuccessfulUpdate.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<SuccessfulUpdate>, I>>(object: I): SuccessfulUpdate {
+  fromPartial(object: DeepPartial<SuccessfulUpdate>): SuccessfulUpdate {
     const message = createBaseSuccessfulUpdate();
     message.state = (object.state !== undefined && object.state !== null) ? State.fromPartial(object.state) : undefined;
     message.channelId = object.channelId ?? new Uint8Array(0);
@@ -614,10 +615,10 @@ export const ChannelUpdateResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ChannelUpdateResponse>, I>>(base?: I): ChannelUpdateResponse {
-    return ChannelUpdateResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ChannelUpdateResponse>): ChannelUpdateResponse {
+    return ChannelUpdateResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ChannelUpdateResponse>, I>>(object: I): ChannelUpdateResponse {
+  fromPartial(object: DeepPartial<ChannelUpdateResponse>): ChannelUpdateResponse {
     const message = createBaseChannelUpdateResponse();
     message.rejected = (object.rejected !== undefined && object.rejected !== null)
       ? Rejected.fromPartial(object.rejected)
@@ -676,10 +677,10 @@ export const ChannelCloseRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ChannelCloseRequest>, I>>(base?: I): ChannelCloseRequest {
-    return ChannelCloseRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ChannelCloseRequest>): ChannelCloseRequest {
+    return ChannelCloseRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ChannelCloseRequest>, I>>(object: I): ChannelCloseRequest {
+  fromPartial(object: DeepPartial<ChannelCloseRequest>): ChannelCloseRequest {
     const message = createBaseChannelCloseRequest();
     message.channelId = object.channelId ?? new Uint8Array(0);
     return message;
@@ -733,10 +734,10 @@ export const SuccessfulClose = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<SuccessfulClose>, I>>(base?: I): SuccessfulClose {
-    return SuccessfulClose.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<SuccessfulClose>): SuccessfulClose {
+    return SuccessfulClose.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<SuccessfulClose>, I>>(object: I): SuccessfulClose {
+  fromPartial(object: DeepPartial<SuccessfulClose>): SuccessfulClose {
     const message = createBaseSuccessfulClose();
     message.channelId = object.channelId ?? new Uint8Array(0);
     return message;
@@ -806,10 +807,10 @@ export const ChannelCloseResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ChannelCloseResponse>, I>>(base?: I): ChannelCloseResponse {
-    return ChannelCloseResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ChannelCloseResponse>): ChannelCloseResponse {
+    return ChannelCloseResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ChannelCloseResponse>, I>>(object: I): ChannelCloseResponse {
+  fromPartial(object: DeepPartial<ChannelCloseResponse>): ChannelCloseResponse {
     const message = createBaseChannelCloseResponse();
     message.rejected = (object.rejected !== undefined && object.rejected !== null)
       ? Rejected.fromPartial(object.rejected)
@@ -868,10 +869,10 @@ export const ChannelForceCloseRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ChannelForceCloseRequest>, I>>(base?: I): ChannelForceCloseRequest {
-    return ChannelForceCloseRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ChannelForceCloseRequest>): ChannelForceCloseRequest {
+    return ChannelForceCloseRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ChannelForceCloseRequest>, I>>(object: I): ChannelForceCloseRequest {
+  fromPartial(object: DeepPartial<ChannelForceCloseRequest>): ChannelForceCloseRequest {
     const message = createBaseChannelForceCloseRequest();
     message.channelId = object.channelId ?? new Uint8Array(0);
     return message;
@@ -925,10 +926,10 @@ export const SuccessfulForceClose = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<SuccessfulForceClose>, I>>(base?: I): SuccessfulForceClose {
-    return SuccessfulForceClose.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<SuccessfulForceClose>): SuccessfulForceClose {
+    return SuccessfulForceClose.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<SuccessfulForceClose>, I>>(object: I): SuccessfulForceClose {
+  fromPartial(object: DeepPartial<SuccessfulForceClose>): SuccessfulForceClose {
     const message = createBaseSuccessfulForceClose();
     message.channelId = object.channelId ?? new Uint8Array(0);
     return message;
@@ -998,10 +999,10 @@ export const ChannelForceCloseResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ChannelForceCloseResponse>, I>>(base?: I): ChannelForceCloseResponse {
-    return ChannelForceCloseResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ChannelForceCloseResponse>): ChannelForceCloseResponse {
+    return ChannelForceCloseResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ChannelForceCloseResponse>, I>>(object: I): ChannelForceCloseResponse {
+  fromPartial(object: DeepPartial<ChannelForceCloseResponse>): ChannelForceCloseResponse {
     const message = createBaseChannelForceCloseResponse();
     message.rejected = (object.rejected !== undefined && object.rejected !== null)
       ? Rejected.fromPartial(object.rejected)
@@ -1076,10 +1077,10 @@ export const ChallengeChannelRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ChallengeChannelRequest>, I>>(base?: I): ChallengeChannelRequest {
-    return ChallengeChannelRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ChallengeChannelRequest>): ChallengeChannelRequest {
+    return ChallengeChannelRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ChallengeChannelRequest>, I>>(object: I): ChallengeChannelRequest {
+  fromPartial(object: DeepPartial<ChallengeChannelRequest>): ChallengeChannelRequest {
     const message = createBaseChallengeChannelRequest();
     message.channelId = object.channelId ?? new Uint8Array(0);
     message.state = (object.state !== undefined && object.state !== null) ? State.fromPartial(object.state) : undefined;
@@ -1150,10 +1151,10 @@ export const ChallengeChannelResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ChallengeChannelResponse>, I>>(base?: I): ChallengeChannelResponse {
-    return ChallengeChannelResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ChallengeChannelResponse>): ChallengeChannelResponse {
+    return ChallengeChannelResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ChallengeChannelResponse>, I>>(object: I): ChallengeChannelResponse {
+  fromPartial(object: DeepPartial<ChallengeChannelResponse>): ChallengeChannelResponse {
     const message = createBaseChallengeChannelResponse();
     message.rejected = (object.rejected !== undefined && object.rejected !== null)
       ? Rejected.fromPartial(object.rejected)
@@ -1228,10 +1229,10 @@ export const OpenChannelRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<OpenChannelRequest>, I>>(base?: I): OpenChannelRequest {
-    return OpenChannelRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<OpenChannelRequest>): OpenChannelRequest {
+    return OpenChannelRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<OpenChannelRequest>, I>>(object: I): OpenChannelRequest {
+  fromPartial(object: DeepPartial<OpenChannelRequest>): OpenChannelRequest {
     const message = createBaseOpenChannelRequest();
     message.state = (object.state !== undefined && object.state !== null) ? State.fromPartial(object.state) : undefined;
     message.channelId = object.channelId ?? new Uint8Array(0);
@@ -1302,10 +1303,10 @@ export const CloseChannelRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<CloseChannelRequest>, I>>(base?: I): CloseChannelRequest {
-    return CloseChannelRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<CloseChannelRequest>): CloseChannelRequest {
+    return CloseChannelRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<CloseChannelRequest>, I>>(object: I): CloseChannelRequest {
+  fromPartial(object: DeepPartial<CloseChannelRequest>): CloseChannelRequest {
     const message = createBaseCloseChannelRequest();
     message.channelId = object.channelId ?? new Uint8Array(0);
     message.state = (object.state !== undefined && object.state !== null) ? State.fromPartial(object.state) : undefined;
@@ -1376,10 +1377,10 @@ export const ForceCloseChannelRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ForceCloseChannelRequest>, I>>(base?: I): ForceCloseChannelRequest {
-    return ForceCloseChannelRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ForceCloseChannelRequest>): ForceCloseChannelRequest {
+    return ForceCloseChannelRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ForceCloseChannelRequest>, I>>(object: I): ForceCloseChannelRequest {
+  fromPartial(object: DeepPartial<ForceCloseChannelRequest>): ForceCloseChannelRequest {
     const message = createBaseForceCloseChannelRequest();
     message.channelId = object.channelId ?? new Uint8Array(0);
     message.state = (object.state !== undefined && object.state !== null) ? State.fromPartial(object.state) : undefined;
@@ -1450,10 +1451,10 @@ export const ChallengeEventRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ChallengeEventRequest>, I>>(base?: I): ChallengeEventRequest {
-    return ChallengeEventRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ChallengeEventRequest>): ChallengeEventRequest {
+    return ChallengeEventRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ChallengeEventRequest>, I>>(object: I): ChallengeEventRequest {
+  fromPartial(object: DeepPartial<ChallengeEventRequest>): ChallengeEventRequest {
     const message = createBaseChallengeEventRequest();
     message.channelId = object.channelId ?? new Uint8Array(0);
     message.state = (object.state !== undefined && object.state !== null) ? State.fromPartial(object.state) : undefined;
@@ -1524,10 +1525,10 @@ export const UpdateNotificationRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<UpdateNotificationRequest>, I>>(base?: I): UpdateNotificationRequest {
-    return UpdateNotificationRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<UpdateNotificationRequest>): UpdateNotificationRequest {
+    return UpdateNotificationRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<UpdateNotificationRequest>, I>>(object: I): UpdateNotificationRequest {
+  fromPartial(object: DeepPartial<UpdateNotificationRequest>): UpdateNotificationRequest {
     const message = createBaseUpdateNotificationRequest();
     message.state = (object.state !== undefined && object.state !== null) ? State.fromPartial(object.state) : undefined;
     message.channelId = object.channelId ?? new Uint8Array(0);
@@ -1571,7 +1572,7 @@ export const UpdateNotificationResponse = {
   },
 
   fromJSON(object: any): UpdateNotificationResponse {
-    return { accepted: isSet(object.accepted) ? Boolean(object.accepted) : false };
+    return { accepted: isSet(object.accepted) ? globalThis.Boolean(object.accepted) : false };
   },
 
   toJSON(message: UpdateNotificationResponse): unknown {
@@ -1582,10 +1583,10 @@ export const UpdateNotificationResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<UpdateNotificationResponse>, I>>(base?: I): UpdateNotificationResponse {
-    return UpdateNotificationResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<UpdateNotificationResponse>): UpdateNotificationResponse {
+    return UpdateNotificationResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<UpdateNotificationResponse>, I>>(object: I): UpdateNotificationResponse {
+  fromPartial(object: DeepPartial<UpdateNotificationResponse>): UpdateNotificationResponse {
     const message = createBaseUpdateNotificationResponse();
     message.accepted = object.accepted ?? false;
     return message;
@@ -1639,10 +1640,10 @@ export const SignMessageRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<SignMessageRequest>, I>>(base?: I): SignMessageRequest {
-    return SignMessageRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<SignMessageRequest>): SignMessageRequest {
+    return SignMessageRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<SignMessageRequest>, I>>(object: I): SignMessageRequest {
+  fromPartial(object: DeepPartial<SignMessageRequest>): SignMessageRequest {
     const message = createBaseSignMessageRequest();
     message.data = object.data ?? new Uint8Array(0);
     return message;
@@ -1712,10 +1713,10 @@ export const SignMessageResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<SignMessageResponse>, I>>(base?: I): SignMessageResponse {
-    return SignMessageResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<SignMessageResponse>): SignMessageResponse {
+    return SignMessageResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<SignMessageResponse>, I>>(object: I): SignMessageResponse {
+  fromPartial(object: DeepPartial<SignMessageResponse>): SignMessageResponse {
     const message = createBaseSignMessageResponse();
     message.rejected = (object.rejected !== undefined && object.rejected !== null)
       ? Rejected.fromPartial(object.rejected)
@@ -1772,10 +1773,10 @@ export const GetAssetsRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<GetAssetsRequest>, I>>(base?: I): GetAssetsRequest {
-    return GetAssetsRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<GetAssetsRequest>): GetAssetsRequest {
+    return GetAssetsRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<GetAssetsRequest>, I>>(object: I): GetAssetsRequest {
+  fromPartial(object: DeepPartial<GetAssetsRequest>): GetAssetsRequest {
     const message = createBaseGetAssetsRequest();
     message.assets = (object.assets !== undefined && object.assets !== null)
       ? Balances.fromPartial(object.assets)
@@ -1832,7 +1833,9 @@ export const Asset = {
   fromJSON(object: any): Asset {
     return {
       assetId: isSet(object.assetId) ? bytesFromBase64(object.assetId) : new Uint8Array(0),
-      outpoints: Array.isArray(object?.outpoints) ? object.outpoints.map((e: any) => bytesFromBase64(e)) : [],
+      outpoints: globalThis.Array.isArray(object?.outpoints)
+        ? object.outpoints.map((e: any) => bytesFromBase64(e))
+        : [],
     };
   },
 
@@ -1847,10 +1850,10 @@ export const Asset = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Asset>, I>>(base?: I): Asset {
-    return Asset.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Asset>): Asset {
+    return Asset.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Asset>, I>>(object: I): Asset {
+  fromPartial(object: DeepPartial<Asset>): Asset {
     const message = createBaseAsset();
     message.assetId = object.assetId ?? new Uint8Array(0);
     message.outpoints = object.outpoints?.map((e) => e) || [];
@@ -1894,7 +1897,7 @@ export const Assets = {
   },
 
   fromJSON(object: any): Assets {
-    return { assets: Array.isArray(object?.assets) ? object.assets.map((e: any) => Asset.fromJSON(e)) : [] };
+    return { assets: globalThis.Array.isArray(object?.assets) ? object.assets.map((e: any) => Asset.fromJSON(e)) : [] };
   },
 
   toJSON(message: Assets): unknown {
@@ -1905,10 +1908,10 @@ export const Assets = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Assets>, I>>(base?: I): Assets {
-    return Assets.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Assets>): Assets {
+    return Assets.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Assets>, I>>(object: I): Assets {
+  fromPartial(object: DeepPartial<Assets>): Assets {
     const message = createBaseAssets();
     message.assets = object.assets?.map((e) => Asset.fromPartial(e)) || [];
     return message;
@@ -1962,8 +1965,8 @@ export const UnmatchableAssetsResponse = {
 
   fromJSON(object: any): UnmatchableAssetsResponse {
     return {
-      assetIdx: isSet(object.assetIdx) ? Number(object.assetIdx) : 0,
-      reason: isSet(object.reason) ? String(object.reason) : "",
+      assetIdx: isSet(object.assetIdx) ? globalThis.Number(object.assetIdx) : 0,
+      reason: isSet(object.reason) ? globalThis.String(object.reason) : "",
     };
   },
 
@@ -1978,10 +1981,10 @@ export const UnmatchableAssetsResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<UnmatchableAssetsResponse>, I>>(base?: I): UnmatchableAssetsResponse {
-    return UnmatchableAssetsResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<UnmatchableAssetsResponse>): UnmatchableAssetsResponse {
+    return UnmatchableAssetsResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<UnmatchableAssetsResponse>, I>>(object: I): UnmatchableAssetsResponse {
+  fromPartial(object: DeepPartial<UnmatchableAssetsResponse>): UnmatchableAssetsResponse {
     const message = createBaseUnmatchableAssetsResponse();
     message.assetIdx = object.assetIdx ?? 0;
     message.reason = object.reason ?? "";
@@ -2052,10 +2055,10 @@ export const GetAssetsResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<GetAssetsResponse>, I>>(base?: I): GetAssetsResponse {
-    return GetAssetsResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<GetAssetsResponse>): GetAssetsResponse {
+    return GetAssetsResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<GetAssetsResponse>, I>>(object: I): GetAssetsResponse {
+  fromPartial(object: DeepPartial<GetAssetsResponse>): GetAssetsResponse {
     const message = createBaseGetAssetsResponse();
     message.rejected = (object.rejected !== undefined && object.rejected !== null)
       ? UnmatchableAssetsResponse.fromPartial(object.rejected)
@@ -2114,10 +2117,10 @@ export const SignTransactionRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<SignTransactionRequest>, I>>(base?: I): SignTransactionRequest {
-    return SignTransactionRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<SignTransactionRequest>): SignTransactionRequest {
+    return SignTransactionRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<SignTransactionRequest>, I>>(object: I): SignTransactionRequest {
+  fromPartial(object: DeepPartial<SignTransactionRequest>): SignTransactionRequest {
     const message = createBaseSignTransactionRequest();
     message.transaction = object.transaction ?? new Uint8Array(0);
     return message;
@@ -2187,10 +2190,10 @@ export const SignTransactionResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<SignTransactionResponse>, I>>(base?: I): SignTransactionResponse {
-    return SignTransactionResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<SignTransactionResponse>): SignTransactionResponse {
+    return SignTransactionResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<SignTransactionResponse>, I>>(object: I): SignTransactionResponse {
+  fromPartial(object: DeepPartial<SignTransactionResponse>): SignTransactionResponse {
     const message = createBaseSignTransactionResponse();
     message.rejected = (object.rejected !== undefined && object.rejected !== null)
       ? Rejected.fromPartial(object.rejected)
@@ -2204,61 +2207,113 @@ export const SignTransactionResponse = {
  * ChannelService running as a background worker providing core functionality
  * to interact with Perun channels.
  */
-export interface ChannelService {
+export type ChannelServiceDefinition = typeof ChannelServiceDefinition;
+export const ChannelServiceDefinition = {
+  name: "ChannelService",
+  fullName: "perunservice.ChannelService",
+  methods: {
+    /** Initiate channel opening. */
+    openChannel: {
+      name: "OpenChannel",
+      requestType: ChannelOpenRequest,
+      requestStream: false,
+      responseType: ChannelOpenResponse,
+      responseStream: false,
+      options: {},
+    },
+    /** Initiate some channel update. */
+    updateChannel: {
+      name: "UpdateChannel",
+      requestType: ChannelUpdateRequest,
+      requestStream: false,
+      responseType: ChannelUpdateResponse,
+      responseStream: false,
+      options: {},
+    },
+    /** Initiate channel closing. */
+    closeChannel: {
+      name: "CloseChannel",
+      requestType: ChannelCloseRequest,
+      requestStream: false,
+      responseType: ChannelCloseResponse,
+      responseStream: false,
+      options: {},
+    },
+    /** Initiate force closing a channel. */
+    forceCloseChannel: {
+      name: "ForceCloseChannel",
+      requestType: ChannelForceCloseRequest,
+      requestStream: false,
+      responseType: ChannelForceCloseResponse,
+      responseStream: false,
+      options: {},
+    },
+    /** Initiate challenging some channel. */
+    challengeChannel: {
+      name: "ChallengeChannel",
+      requestType: ChallengeChannelRequest,
+      requestStream: false,
+      responseType: ChallengeChannelResponse,
+      responseStream: false,
+      options: {},
+    },
+  },
+} as const;
+
+export interface ChannelServiceImplementation<CallContextExt = {}> {
   /** Initiate channel opening. */
-  OpenChannel(request: ChannelOpenRequest): Promise<ChannelOpenResponse>;
+  openChannel(
+    request: ChannelOpenRequest,
+    context: CallContext & CallContextExt,
+  ): Promise<DeepPartial<ChannelOpenResponse>>;
   /** Initiate some channel update. */
-  UpdateChannel(request: ChannelUpdateRequest): Promise<ChannelUpdateResponse>;
+  updateChannel(
+    request: ChannelUpdateRequest,
+    context: CallContext & CallContextExt,
+  ): Promise<DeepPartial<ChannelUpdateResponse>>;
   /** Initiate channel closing. */
-  CloseChannel(request: ChannelCloseRequest): Promise<ChannelCloseResponse>;
+  closeChannel(
+    request: ChannelCloseRequest,
+    context: CallContext & CallContextExt,
+  ): Promise<DeepPartial<ChannelCloseResponse>>;
   /** Initiate force closing a channel. */
-  ForceCloseChannel(request: ChannelForceCloseRequest): Promise<ChannelForceCloseResponse>;
+  forceCloseChannel(
+    request: ChannelForceCloseRequest,
+    context: CallContext & CallContextExt,
+  ): Promise<DeepPartial<ChannelForceCloseResponse>>;
   /** Initiate challenging some channel. */
-  ChallengeChannel(request: ChallengeChannelRequest): Promise<ChallengeChannelResponse>;
+  challengeChannel(
+    request: ChallengeChannelRequest,
+    context: CallContext & CallContextExt,
+  ): Promise<DeepPartial<ChallengeChannelResponse>>;
 }
 
-export const ChannelServiceServiceName = "perunservice.ChannelService";
-export class ChannelServiceClientImpl implements ChannelService {
-  private readonly rpc: Rpc;
-  private readonly service: string;
-  constructor(rpc: Rpc, opts?: { service?: string }) {
-    this.service = opts?.service || ChannelServiceServiceName;
-    this.rpc = rpc;
-    this.OpenChannel = this.OpenChannel.bind(this);
-    this.UpdateChannel = this.UpdateChannel.bind(this);
-    this.CloseChannel = this.CloseChannel.bind(this);
-    this.ForceCloseChannel = this.ForceCloseChannel.bind(this);
-    this.ChallengeChannel = this.ChallengeChannel.bind(this);
-  }
-  OpenChannel(request: ChannelOpenRequest): Promise<ChannelOpenResponse> {
-    const data = ChannelOpenRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "OpenChannel", data);
-    return promise.then((data) => ChannelOpenResponse.decode(_m0.Reader.create(data)));
-  }
-
-  UpdateChannel(request: ChannelUpdateRequest): Promise<ChannelUpdateResponse> {
-    const data = ChannelUpdateRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "UpdateChannel", data);
-    return promise.then((data) => ChannelUpdateResponse.decode(_m0.Reader.create(data)));
-  }
-
-  CloseChannel(request: ChannelCloseRequest): Promise<ChannelCloseResponse> {
-    const data = ChannelCloseRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "CloseChannel", data);
-    return promise.then((data) => ChannelCloseResponse.decode(_m0.Reader.create(data)));
-  }
-
-  ForceCloseChannel(request: ChannelForceCloseRequest): Promise<ChannelForceCloseResponse> {
-    const data = ChannelForceCloseRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "ForceCloseChannel", data);
-    return promise.then((data) => ChannelForceCloseResponse.decode(_m0.Reader.create(data)));
-  }
-
-  ChallengeChannel(request: ChallengeChannelRequest): Promise<ChallengeChannelResponse> {
-    const data = ChallengeChannelRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "ChallengeChannel", data);
-    return promise.then((data) => ChallengeChannelResponse.decode(_m0.Reader.create(data)));
-  }
+export interface ChannelServiceClient<CallOptionsExt = {}> {
+  /** Initiate channel opening. */
+  openChannel(
+    request: DeepPartial<ChannelOpenRequest>,
+    options?: CallOptions & CallOptionsExt,
+  ): Promise<ChannelOpenResponse>;
+  /** Initiate some channel update. */
+  updateChannel(
+    request: DeepPartial<ChannelUpdateRequest>,
+    options?: CallOptions & CallOptionsExt,
+  ): Promise<ChannelUpdateResponse>;
+  /** Initiate channel closing. */
+  closeChannel(
+    request: DeepPartial<ChannelCloseRequest>,
+    options?: CallOptions & CallOptionsExt,
+  ): Promise<ChannelCloseResponse>;
+  /** Initiate force closing a channel. */
+  forceCloseChannel(
+    request: DeepPartial<ChannelForceCloseRequest>,
+    options?: CallOptions & CallOptionsExt,
+  ): Promise<ChannelForceCloseResponse>;
+  /** Initiate challenging some channel. */
+  challengeChannel(
+    request: DeepPartial<ChallengeChannelRequest>,
+    options?: CallOptions & CallOptionsExt,
+  ): Promise<ChallengeChannelResponse>;
 }
 
 /**
@@ -2266,34 +2321,146 @@ export class ChannelServiceClientImpl implements ChannelService {
  * provide an interface which can be called by the `ChannelService` if channel
  * updates happen and require user interaction.
  */
-export interface WalletService {
+export type WalletServiceDefinition = typeof WalletServiceDefinition;
+export const WalletServiceDefinition = {
+  name: "WalletService",
+  fullName: "perunservice.WalletService",
+  methods: {
+    /**
+     * Requesting a channel opening from the wallet. This happens if the Perun
+     * channel service received a channel opening request from another peer.
+     * This method lets the wallet know that it should ask the user whether or
+     * not to accept the channel opening request.
+     */
+    openChannel: {
+      name: "OpenChannel",
+      requestType: OpenChannelRequest,
+      requestStream: false,
+      responseType: Empty,
+      responseStream: false,
+      options: {},
+    },
+    /**
+     * Requesting channel closing form the wallet. This happesn if the Perun
+     * channel service received a channel closing request from another peer.
+     * This method lets the wallet know that it should ask the user whether or
+     * not to accept the channel closing request.
+     */
+    closeChannel: {
+      name: "CloseChannel",
+      requestType: CloseChannelRequest,
+      requestStream: false,
+      responseType: Empty,
+      responseStream: false,
+      options: {},
+    },
+    /**
+     * Requesting force closing a channel from the wallet. This happens if some
+     * Perun channel can be force closed by this user and might be called by the
+     * Perun channel service if it deems it to be an appropriate action.
+     */
+    forceCloseChannel: {
+      name: "ForceCloseChannel",
+      requestType: ForceCloseChannelRequest,
+      requestStream: false,
+      responseType: Empty,
+      responseStream: false,
+      options: {},
+    },
+    /**
+     * Notifying the wallet about a challenge event regarding some channel. This
+     * is called by the Perun channel service if it receives challenge events
+     * from the ledger. The wallet might use this event to query the user whether
+     * or not to act on the challenge event.
+     */
+    challengeEvent: {
+      name: "ChallengeEvent",
+      requestType: ChallengeEventRequest,
+      requestStream: false,
+      responseType: Empty,
+      responseStream: false,
+      options: {},
+    },
+    /**
+     * The Perun channel service calls this method if it received a channel
+     * update request from another peer. The wallet might use this channel update
+     * request containing the proposed/new channel state to shown it in the
+     * front-end. The wallet might use this update event to query the user
+     * whether or not to accept the channel update.
+     */
+    updateNotification: {
+      name: "UpdateNotification",
+      requestType: UpdateNotificationRequest,
+      requestStream: false,
+      responseType: UpdateNotificationResponse,
+      responseStream: false,
+      options: {},
+    },
+    /** Request a signature on the given message by some wallet. */
+    signMessage: {
+      name: "SignMessage",
+      requestType: SignMessageRequest,
+      requestStream: false,
+      responseType: SignMessageResponse,
+      responseStream: false,
+      options: {},
+    },
+    /** Request a signature on the given transaction by some wallet. */
+    signTransaction: {
+      name: "SignTransaction",
+      requestType: SignTransactionRequest,
+      requestStream: false,
+      responseType: SignTransactionResponse,
+      responseStream: false,
+      options: {},
+    },
+    /**
+     * Request a list outpoints from a wallet at least matching the requested
+     * amount of possibly different assets. This can be called by the Perun
+     * channel backend if it builds transactions.
+     */
+    getAssets: {
+      name: "GetAssets",
+      requestType: GetAssetsRequest,
+      requestStream: false,
+      responseType: GetAssetsResponse,
+      responseStream: false,
+      options: {},
+    },
+  },
+} as const;
+
+export interface WalletServiceImplementation<CallContextExt = {}> {
   /**
    * Requesting a channel opening from the wallet. This happens if the Perun
    * channel service received a channel opening request from another peer.
    * This method lets the wallet know that it should ask the user whether or
    * not to accept the channel opening request.
    */
-  OpenChannel(request: OpenChannelRequest): Promise<Empty>;
+  openChannel(request: OpenChannelRequest, context: CallContext & CallContextExt): Promise<DeepPartial<Empty>>;
   /**
    * Requesting channel closing form the wallet. This happesn if the Perun
    * channel service received a channel closing request from another peer.
    * This method lets the wallet know that it should ask the user whether or
    * not to accept the channel closing request.
    */
-  CloseChannel(request: CloseChannelRequest): Promise<Empty>;
+  closeChannel(request: CloseChannelRequest, context: CallContext & CallContextExt): Promise<DeepPartial<Empty>>;
   /**
    * Requesting force closing a channel from the wallet. This happens if some
    * Perun channel can be force closed by this user and might be called by the
    * Perun channel service if it deems it to be an appropriate action.
    */
-  ForceCloseChannel(request: ForceCloseChannelRequest): Promise<Empty>;
+  forceCloseChannel(
+    request: ForceCloseChannelRequest,
+    context: CallContext & CallContextExt,
+  ): Promise<DeepPartial<Empty>>;
   /**
    * Notifying the wallet about a challenge event regarding some channel. This
    * is called by the Perun channel service if it receives challenge events
    * from the ledger. The wallet might use this event to query the user whether
    * or not to act on the challenge event.
    */
-  ChallengeEvent(request: ChallengeEventRequest): Promise<Empty>;
+  challengeEvent(request: ChallengeEventRequest, context: CallContext & CallContextExt): Promise<DeepPartial<Empty>>;
   /**
    * The Perun channel service calls this method if it received a channel
    * update request from another peer. The wallet might use this channel update
@@ -2301,112 +2468,93 @@ export interface WalletService {
    * front-end. The wallet might use this update event to query the user
    * whether or not to accept the channel update.
    */
-  UpdateNotification(request: UpdateNotificationRequest): Promise<UpdateNotificationResponse>;
+  updateNotification(
+    request: UpdateNotificationRequest,
+    context: CallContext & CallContextExt,
+  ): Promise<DeepPartial<UpdateNotificationResponse>>;
   /** Request a signature on the given message by some wallet. */
-  SignMessage(request: SignMessageRequest): Promise<SignMessageResponse>;
+  signMessage(
+    request: SignMessageRequest,
+    context: CallContext & CallContextExt,
+  ): Promise<DeepPartial<SignMessageResponse>>;
   /** Request a signature on the given transaction by some wallet. */
-  SignTransaction(request: SignTransactionRequest): Promise<SignTransactionResponse>;
+  signTransaction(
+    request: SignTransactionRequest,
+    context: CallContext & CallContextExt,
+  ): Promise<DeepPartial<SignTransactionResponse>>;
   /**
    * Request a list outpoints from a wallet at least matching the requested
    * amount of possibly different assets. This can be called by the Perun
    * channel backend if it builds transactions.
    */
-  GetAssets(request: GetAssetsRequest): Promise<GetAssetsResponse>;
+  getAssets(request: GetAssetsRequest, context: CallContext & CallContextExt): Promise<DeepPartial<GetAssetsResponse>>;
 }
 
-export const WalletServiceServiceName = "perunservice.WalletService";
-export class WalletServiceClientImpl implements WalletService {
-  private readonly rpc: Rpc;
-  private readonly service: string;
-  constructor(rpc: Rpc, opts?: { service?: string }) {
-    this.service = opts?.service || WalletServiceServiceName;
-    this.rpc = rpc;
-    this.OpenChannel = this.OpenChannel.bind(this);
-    this.CloseChannel = this.CloseChannel.bind(this);
-    this.ForceCloseChannel = this.ForceCloseChannel.bind(this);
-    this.ChallengeEvent = this.ChallengeEvent.bind(this);
-    this.UpdateNotification = this.UpdateNotification.bind(this);
-    this.SignMessage = this.SignMessage.bind(this);
-    this.SignTransaction = this.SignTransaction.bind(this);
-    this.GetAssets = this.GetAssets.bind(this);
-  }
-  OpenChannel(request: OpenChannelRequest): Promise<Empty> {
-    const data = OpenChannelRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "OpenChannel", data);
-    return promise.then((data) => Empty.decode(_m0.Reader.create(data)));
-  }
-
-  CloseChannel(request: CloseChannelRequest): Promise<Empty> {
-    const data = CloseChannelRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "CloseChannel", data);
-    return promise.then((data) => Empty.decode(_m0.Reader.create(data)));
-  }
-
-  ForceCloseChannel(request: ForceCloseChannelRequest): Promise<Empty> {
-    const data = ForceCloseChannelRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "ForceCloseChannel", data);
-    return promise.then((data) => Empty.decode(_m0.Reader.create(data)));
-  }
-
-  ChallengeEvent(request: ChallengeEventRequest): Promise<Empty> {
-    const data = ChallengeEventRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "ChallengeEvent", data);
-    return promise.then((data) => Empty.decode(_m0.Reader.create(data)));
-  }
-
-  UpdateNotification(request: UpdateNotificationRequest): Promise<UpdateNotificationResponse> {
-    const data = UpdateNotificationRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "UpdateNotification", data);
-    return promise.then((data) => UpdateNotificationResponse.decode(_m0.Reader.create(data)));
-  }
-
-  SignMessage(request: SignMessageRequest): Promise<SignMessageResponse> {
-    const data = SignMessageRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "SignMessage", data);
-    return promise.then((data) => SignMessageResponse.decode(_m0.Reader.create(data)));
-  }
-
-  SignTransaction(request: SignTransactionRequest): Promise<SignTransactionResponse> {
-    const data = SignTransactionRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "SignTransaction", data);
-    return promise.then((data) => SignTransactionResponse.decode(_m0.Reader.create(data)));
-  }
-
-  GetAssets(request: GetAssetsRequest): Promise<GetAssetsResponse> {
-    const data = GetAssetsRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "GetAssets", data);
-    return promise.then((data) => GetAssetsResponse.decode(_m0.Reader.create(data)));
-  }
+export interface WalletServiceClient<CallOptionsExt = {}> {
+  /**
+   * Requesting a channel opening from the wallet. This happens if the Perun
+   * channel service received a channel opening request from another peer.
+   * This method lets the wallet know that it should ask the user whether or
+   * not to accept the channel opening request.
+   */
+  openChannel(request: DeepPartial<OpenChannelRequest>, options?: CallOptions & CallOptionsExt): Promise<Empty>;
+  /**
+   * Requesting channel closing form the wallet. This happesn if the Perun
+   * channel service received a channel closing request from another peer.
+   * This method lets the wallet know that it should ask the user whether or
+   * not to accept the channel closing request.
+   */
+  closeChannel(request: DeepPartial<CloseChannelRequest>, options?: CallOptions & CallOptionsExt): Promise<Empty>;
+  /**
+   * Requesting force closing a channel from the wallet. This happens if some
+   * Perun channel can be force closed by this user and might be called by the
+   * Perun channel service if it deems it to be an appropriate action.
+   */
+  forceCloseChannel(
+    request: DeepPartial<ForceCloseChannelRequest>,
+    options?: CallOptions & CallOptionsExt,
+  ): Promise<Empty>;
+  /**
+   * Notifying the wallet about a challenge event regarding some channel. This
+   * is called by the Perun channel service if it receives challenge events
+   * from the ledger. The wallet might use this event to query the user whether
+   * or not to act on the challenge event.
+   */
+  challengeEvent(request: DeepPartial<ChallengeEventRequest>, options?: CallOptions & CallOptionsExt): Promise<Empty>;
+  /**
+   * The Perun channel service calls this method if it received a channel
+   * update request from another peer. The wallet might use this channel update
+   * request containing the proposed/new channel state to shown it in the
+   * front-end. The wallet might use this update event to query the user
+   * whether or not to accept the channel update.
+   */
+  updateNotification(
+    request: DeepPartial<UpdateNotificationRequest>,
+    options?: CallOptions & CallOptionsExt,
+  ): Promise<UpdateNotificationResponse>;
+  /** Request a signature on the given message by some wallet. */
+  signMessage(
+    request: DeepPartial<SignMessageRequest>,
+    options?: CallOptions & CallOptionsExt,
+  ): Promise<SignMessageResponse>;
+  /** Request a signature on the given transaction by some wallet. */
+  signTransaction(
+    request: DeepPartial<SignTransactionRequest>,
+    options?: CallOptions & CallOptionsExt,
+  ): Promise<SignTransactionResponse>;
+  /**
+   * Request a list outpoints from a wallet at least matching the requested
+   * amount of possibly different assets. This can be called by the Perun
+   * channel backend if it builds transactions.
+   */
+  getAssets(request: DeepPartial<GetAssetsRequest>, options?: CallOptions & CallOptionsExt): Promise<GetAssetsResponse>;
 }
-
-interface Rpc {
-  request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
-}
-
-declare const self: any | undefined;
-declare const window: any | undefined;
-declare const global: any | undefined;
-const tsProtoGlobalThis: any = (() => {
-  if (typeof globalThis !== "undefined") {
-    return globalThis;
-  }
-  if (typeof self !== "undefined") {
-    return self;
-  }
-  if (typeof window !== "undefined") {
-    return window;
-  }
-  if (typeof global !== "undefined") {
-    return global;
-  }
-  throw "Unable to locate global object";
-})();
 
 function bytesFromBase64(b64: string): Uint8Array {
-  if (tsProtoGlobalThis.Buffer) {
-    return Uint8Array.from(tsProtoGlobalThis.Buffer.from(b64, "base64"));
+  if (globalThis.Buffer) {
+    return Uint8Array.from(globalThis.Buffer.from(b64, "base64"));
   } else {
-    const bin = tsProtoGlobalThis.atob(b64);
+    const bin = globalThis.atob(b64);
     const arr = new Uint8Array(bin.length);
     for (let i = 0; i < bin.length; ++i) {
       arr[i] = bin.charCodeAt(i);
@@ -2416,27 +2564,24 @@ function bytesFromBase64(b64: string): Uint8Array {
 }
 
 function base64FromBytes(arr: Uint8Array): string {
-  if (tsProtoGlobalThis.Buffer) {
-    return tsProtoGlobalThis.Buffer.from(arr).toString("base64");
+  if (globalThis.Buffer) {
+    return globalThis.Buffer.from(arr).toString("base64");
   } else {
     const bin: string[] = [];
     arr.forEach((byte) => {
-      bin.push(String.fromCharCode(byte));
+      bin.push(globalThis.String.fromCharCode(byte));
     });
-    return tsProtoGlobalThis.btoa(bin.join(""));
+    return globalThis.btoa(bin.join(""));
   }
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 export type DeepPartial<T> = T extends Builtin ? T
-  : T extends Array<infer U> ? Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;
