@@ -1,5 +1,6 @@
 import { CallContext, Server, createServer } from "nice-grpc";
 import {
+  ChannelServiceImplementation,
   GetAssetsRequest,
   OpenChannelRequest,
   SignMessageRequest,
@@ -14,26 +15,34 @@ import {
   ValidSignMessageRequest,
   verifyOpenChannelRequest,
 } from "./verifier";
+import { Allocation } from "./wire";
 
 export interface SimpleChannelServiceClient {
-  openChannel(): Promise<void>;
-  updateChannel(): Promise<void>;
-  closeChannel(): Promise<void>;
+  // Request to open a channel with the given peer using the given allocation
+  // as the initial channel state. For more information on the Allocation see
+  // `verifier.ts` ValidOpenChannelRequest.initBals.
+  openChannel(
+    me: Uint8Array,
+    peerToConnectTo: Uint8Array,
+    allocation: Allocation,
+    challengeDuration: number,
+  ): ServiceResponse<ChannelServiceImplementation["openChannel"]>;
+
+  // Update the channel by paying the given amount to the peer. The asset is
+  // identified by the idx of said asset in the channels state. See
+  // ValidOpenChannelRequest.fundingAgreement in `verifier.ts` for more
+  // details.
+  updateChannel(
+    channelId: Uint8Array,
+    assetIdx: number,
+    amount: bigint,
+  ): ServiceResponse<ChannelServiceImplementation["updateChannel"]>;
+
+  // Close and settle the channel.
+  closeChannel(
+    channelId: Uint8Array,
+  ): ServiceResponse<ChannelServiceImplementation["closeChannel"]>;
 }
-
-type ServiceRequest<T> = T extends (
-  request: infer U,
-  context: CallContext,
-) => infer _
-  ? U
-  : never;
-
-type ServiceResponse<T> = T extends (
-  request: infer _,
-  context: CallContext,
-) => infer U
-  ? U
-  : never;
 
 // The WalletBackend is parameterized on the MessageType it is able to sign
 // when requested to sign an arbitrary data blob.
@@ -157,3 +166,17 @@ export function mkWalletServiceServer<MessageType>(
   server.add(WalletServiceDefinition, new WalletServiceServer(b, v));
   return server;
 }
+
+type ServiceRequest<T> = T extends (
+  request: infer U,
+  context: CallContext,
+) => infer _
+  ? U
+  : never;
+
+type ServiceResponse<T> = T extends (
+  request: infer _,
+  context: CallContext,
+) => infer U
+  ? U
+  : never;
