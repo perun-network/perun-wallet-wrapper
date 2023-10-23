@@ -35,6 +35,8 @@ type ServiceResponse<T> = T extends (
   ? U
   : never;
 
+// The WalletBackend is parameterized on the MessageType it is able to sign
+// when requested to sign an arbitrary data blob.
 export interface WalletBackend<MessageType> {
   // A request to open a channel from another peer.
   openChannelRequest(
