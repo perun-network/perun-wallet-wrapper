@@ -1,8 +1,5 @@
 import { CallContext, Server, createServer } from "nice-grpc";
 import {
-  ChallengeEventRequest,
-  CloseChannelRequest,
-  ForceCloseChannelRequest,
   GetAssetsRequest,
   OpenChannelRequest,
   SignMessageRequest,
@@ -19,33 +16,23 @@ export interface SimpleChannelServiceClient {
 }
 
 export class WalletServiceServer implements WalletServiceImplementation {
-  openChannel(request: OpenChannelRequest, context: CallContext): Promise<{}> {
-    throw new Error("Method not implemented.");
-  }
-  closeChannel(
-    request: CloseChannelRequest,
+  openChannel(
+    request: OpenChannelRequest,
     context: CallContext,
-  ): Promise<{}> {
+  ): Promise<{
+    rejected?: { reason?: string | undefined } | undefined;
+    nonceShare?: Uint8Array | undefined;
+  }> {
     throw new Error("Method not implemented.");
   }
-  forceCloseChannel(
-    request: ForceCloseChannelRequest,
-    context: CallContext,
-  ): Promise<{}> {
-    throw new Error("Method not implemented.");
-  }
-  challengeEvent(
-    request: ChallengeEventRequest,
-    context: CallContext,
-  ): Promise<{}> {
-    throw new Error("Method not implemented.");
-  }
+
   updateNotification(
     request: UpdateNotificationRequest,
     context: CallContext,
   ): Promise<{ accepted?: boolean | undefined }> {
     throw new Error("Method not implemented.");
   }
+
   signMessage(
     request: SignMessageRequest,
     context: CallContext,
@@ -55,31 +42,23 @@ export class WalletServiceServer implements WalletServiceImplementation {
   }> {
     throw new Error("Method not implemented.");
   }
+
   signTransaction(
     request: SignTransactionRequest,
     context: CallContext,
   ): Promise<{
     rejected?: { reason?: string | undefined } | undefined;
-    signature?: Uint8Array | undefined;
+    transaction?: Uint8Array | undefined;
   }> {
     throw new Error("Method not implemented.");
   }
+
   getAssets(
     request: GetAssetsRequest,
     context: CallContext,
   ): Promise<{
     rejected?:
       | { assetIdx?: number | undefined; reason?: string | undefined }
-      | undefined;
-    assets?:
-      | {
-          assets?:
-            | {
-                assetId?: Uint8Array | undefined;
-                outpoints?: Uint8Array[] | undefined;
-              }[]
-            | undefined;
-        }
       | undefined;
   }> {
     throw new Error("Method not implemented.");
