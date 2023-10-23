@@ -8,6 +8,12 @@ import {
   WalletServiceDefinition,
   WalletServiceImplementation,
 } from "./perun-wallet";
+import { PerunError } from "./error";
+import {
+  ValidOpenChannelRequest,
+  ValidSignMessageRequest,
+  verifyOpenChannelRequest,
+} from "./verifier";
 
 export interface SimpleChannelServiceClient {
   openChannel(): Promise<void>;
@@ -15,47 +21,123 @@ export interface SimpleChannelServiceClient {
   closeChannel(): Promise<void>;
 }
 
-export class WalletServiceServer implements WalletServiceImplementation {
-  openChannel(
+type ServiceRequest<T> = T extends (
+  request: infer U,
+  context: CallContext,
+) => infer _
+  ? U
+  : never;
+
+type ServiceResponse<T> = T extends (
+  request: infer _,
+  context: CallContext,
+) => infer U
+  ? U
+  : never;
+
+export interface WalletBackend<MessageType> {
+  // A request to open a channel from another peer.
+  openChannelRequest(
+    req: ValidOpenChannelRequest,
+  ): ServiceResponse<WalletServiceImplementation["openChannel"]>;
+
+  // A notification to the wallet, which should be forwarded to the user to ask
+  // for agreement to the update.
+  updateNotificationRequest(
+    req: ServiceRequest<WalletServiceImplementation["updateNotification"]>,
+  ): ServiceResponse<WalletServiceImplementation["updateNotification"]>;
+
+  // A request to sign an arbitrary message. The message that is signed is per
+  // definition a byte-blob but the wallet can choose to interpret it and deny
+  // signing it if it is not of a format it understands.
+  signMessageRequest(
+    req: ValidSignMessageRequest<MessageType>,
+  ): ServiceResponse<WalletServiceImplementation["signMessage"]>;
+
+  signTransactionRequest(
+    req: ServiceRequest<WalletServiceImplementation["signTransaction"]>,
+  ): ServiceResponse<WalletServiceImplementation["signTransaction"]>;
+}
+
+export interface MessageValidator<T> {
+  // Tries to parse the message into a known format. If the message is not
+  // understood an PerunError is thrown.
+  (message: Uint8Array): T;
+}
+
+export class WalletServiceServer<MessageType>
+  implements WalletServiceImplementation
+{
+  private b: WalletBackend<MessageType>;
+
+  private messageValidator: MessageValidator<MessageType>;
+
+  constructor(
+    backend: WalletBackend<MessageType>,
+    messageValidator: MessageValidator<MessageType>,
+  ) {
+    this.b = backend;
+    this.messageValidator = messageValidator;
+  }
+
+  async openChannel(
     request: OpenChannelRequest,
-    context: CallContext,
+    _context: CallContext,
   ): Promise<{
     rejected?: { reason?: string | undefined } | undefined;
     nonceShare?: Uint8Array | undefined;
   }> {
-    throw new Error("Method not implemented.");
+    try {
+      let validRequest = verifyOpenChannelRequest(request);
+      return this.b.openChannelRequest(validRequest);
+    } catch (e) {
+      if (e instanceof PerunError) {
+        return { rejected: { reason: e.message } };
+      }
+
+      // Rethrow unexpected errors.
+      throw e;
+    }
   }
 
   updateNotification(
     request: UpdateNotificationRequest,
-    context: CallContext,
+    _context: CallContext,
   ): Promise<{ accepted?: boolean | undefined }> {
-    throw new Error("Method not implemented.");
+    return this.b.updateNotificationRequest(request);
   }
 
-  signMessage(
+  async signMessage(
     request: SignMessageRequest,
-    context: CallContext,
+    _context: CallContext,
   ): Promise<{
     rejected?: { reason?: string | undefined } | undefined;
     signature?: Uint8Array | undefined;
   }> {
-    throw new Error("Method not implemented.");
+    try {
+      const validMessage = this.messageValidator(request.data);
+      return this.b.signMessageRequest({ ...request, decoded: validMessage });
+    } catch (e) {
+      if (e instanceof PerunError) {
+        return { rejected: { reason: e.message } };
+      }
+      throw e;
+    }
   }
 
   signTransaction(
     request: SignTransactionRequest,
-    context: CallContext,
+    _context: CallContext,
   ): Promise<{
     rejected?: { reason?: string | undefined } | undefined;
     transaction?: Uint8Array | undefined;
   }> {
-    throw new Error("Method not implemented.");
+    return this.b.signTransactionRequest(request);
   }
 
   getAssets(
-    request: GetAssetsRequest,
-    context: CallContext,
+    _request: GetAssetsRequest,
+    _context: CallContext,
   ): Promise<{
     rejected?:
       | { assetIdx?: number | undefined; reason?: string | undefined }
@@ -65,8 +147,11 @@ export class WalletServiceServer implements WalletServiceImplementation {
   }
 }
 
-export function mkWalletServiceServer(): Server<{}> {
+export function mkWalletServiceServer<MessageType>(
+  b: WalletBackend<MessageType>,
+  v: MessageValidator<MessageType>,
+): Server<{}> {
   const server = createServer();
-  server.add(WalletServiceDefinition, new WalletServiceServer());
+  server.add(WalletServiceDefinition, new WalletServiceServer(b, v));
   return server;
 }
