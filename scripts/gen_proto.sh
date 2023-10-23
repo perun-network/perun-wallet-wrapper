@@ -21,7 +21,7 @@ PROTO_DIR=$1
 
 CD=$(pwd)
 
-cd $PROTO_DIR/src
+cd $PROTO_DIR/src/proto
 
 protoc --plugin=$CD/node_modules/.bin/protoc-gen-ts_proto \
   --ts_proto_out=$CD/src \
