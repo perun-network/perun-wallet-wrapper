@@ -75,7 +75,7 @@ function verifyAllocation(allocation: Allocation): ValidAllocation {
   };
 }
 
-function bigintFromLEBytes(bytes: Uint8Array): bigint {
+export function bigintFromLEBytes(bytes: Uint8Array): bigint {
   let result = BigInt(0);
   let shift = BigInt(0);
 

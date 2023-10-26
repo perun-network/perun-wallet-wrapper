@@ -167,14 +167,14 @@ export function mkWalletServiceServer<MessageType>(
   return server;
 }
 
-type ServiceRequest<T> = T extends (
+export type ServiceRequest<T> = T extends (
   request: infer U,
   context: CallContext,
 ) => infer _
   ? U
   : never;
 
-type ServiceResponse<T> = T extends (
+export type ServiceResponse<T> = T extends (
   request: infer _,
   context: CallContext,
 ) => infer U
