@@ -4,8 +4,8 @@ import {
   ChannelServiceDefinition,
   ChannelServiceImplementation,
 } from "./perun-wallet";
-import { ServiceResponse, SimpleChannelServiceClient, channelIdToString } from "./services";
-import { AddressEncoder } from "./translator";
+import { ServiceResponse, SimpleChannelServiceClient } from "./services";
+import { AddressEncoder, channelIdToString } from "./translator";
 import { Allocation, State } from "./wire";
 import { bigintFromLEBytes } from "./verifier";
 

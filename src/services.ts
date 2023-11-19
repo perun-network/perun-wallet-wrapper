@@ -17,16 +17,6 @@ import {
 } from "./verifier";
 import { Allocation } from "./wire";
 
-export function channelIdToString(id: Uint8Array): string {
-  const decoder = new TextDecoder("utf-8");
-  return decoder.decode(id);
-}
-
-export function channelIdFromString(id: string): Uint8Array {
-  const encoder = new TextEncoder();
-  return encoder.encode(id);
-}
-
 export interface SimpleChannelServiceClient {
   // Request to open a channel with the given peer using the given allocation
   // as the initial channel state. For more information on the Allocation see
@@ -109,13 +99,17 @@ export class WalletServiceServer<MessageType>
     nonceShare?: Uint8Array | undefined;
   }> {
     try {
+      console.log("WALLET_SERVER: openChannel");
       let validRequest = verifyOpenChannelRequest(request);
+      console.log("WALLET_SERVER: validated request");
       return this.b.openChannelRequest(validRequest);
     } catch (e) {
+      console.log("WALLET_SERVER: openChannel: encountered error");
       if (e instanceof PerunError) {
         return { rejected: { reason: e.message } };
       }
 
+      console.log("WALLET_SERVER: openChannel: rethrowing error");
       // Rethrow unexpected errors.
       throw e;
     }
@@ -125,6 +119,7 @@ export class WalletServiceServer<MessageType>
     request: UpdateNotificationRequest,
     _context: CallContext,
   ): Promise<{ accepted?: boolean | undefined }> {
+    console.log("WALLET_SERVER: updateNotification");
     return this.b.updateNotificationRequest(request);
   }
 
@@ -135,6 +130,7 @@ export class WalletServiceServer<MessageType>
     rejected?: { reason?: string | undefined } | undefined;
     signature?: Uint8Array | undefined;
   }> {
+    console.log("WALLET_SERVER: signMessage");
     try {
       const validMessage = this.messageValidator(request.data);
       return this.b.signMessageRequest({ ...request, decoded: validMessage });
@@ -153,6 +149,7 @@ export class WalletServiceServer<MessageType>
     rejected?: { reason?: string | undefined } | undefined;
     transaction?: Uint8Array | undefined;
   }> {
+    console.log("WALLET_SERVER: signTransaction");
     return this.b.signTransactionRequest(request);
   }
 
