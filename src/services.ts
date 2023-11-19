@@ -17,6 +17,16 @@ import {
 } from "./verifier";
 import { Allocation } from "./wire";
 
+export function channelIdToString(id: Uint8Array): string {
+  const decoder = new TextDecoder("utf-8");
+  return decoder.decode(id);
+}
+
+export function channelIdFromString(id: string): Uint8Array {
+  const encoder = new TextEncoder();
+  return encoder.encode(id);
+}
+
 export interface SimpleChannelServiceClient {
   // Request to open a channel with the given peer using the given allocation
   // as the initial channel state. For more information on the Allocation see

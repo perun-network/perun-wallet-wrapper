@@ -4,7 +4,7 @@ import {
   ChannelServiceDefinition,
   ChannelServiceImplementation,
 } from "./perun-wallet";
-import { ServiceResponse, SimpleChannelServiceClient } from "./services";
+import { ServiceResponse, SimpleChannelServiceClient, channelIdToString } from "./services";
 import { AddressEncoder } from "./translator";
 import { Allocation, State } from "./wire";
 import { bigintFromLEBytes } from "./verifier";
@@ -24,6 +24,22 @@ export class ServiceClient implements SimpleChannelServiceClient {
     this.addrEncoder = addrEncoder;
     this.channelServiceClient = channelServiceClient;
     this.channels = new Map();
+  }
+
+  getCachedChannelState(id: Uint8Array | string): State | undefined {
+    let channelId;
+    if (id instanceof Uint8Array) {
+      channelId = this.idToString(id);
+    } else {
+      channelId = id;
+    }
+
+    const channel = this.channels.get(channelId);
+    if (!channel) {
+      return undefined;
+    }
+
+    return channel.state;
   }
 
   updateChannelState(id: Uint8Array | string, state: State): void {
@@ -132,8 +148,7 @@ export class ServiceClient implements SimpleChannelServiceClient {
   }
 
   idToString(id: Uint8Array): string {
-    const decoder = new TextDecoder("utf-8");
-    return decoder.decode(id);
+    return channelIdToString(id);
   }
 }
 

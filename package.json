@@ -6,6 +6,8 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@ckb-lumos/base": "^0.20.0",
+    "@ckb-lumos/lumos": "^0.20.0",
     "@grpc/grpc-js": "^1.9.2",
     "@grpc/proto-loader": "^0.7.9",
     "long": "^5.2.3",

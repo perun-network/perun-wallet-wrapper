@@ -155,6 +155,18 @@ export function verifyOpenChannelRequest(
     throw new PerunError("open", "Missing baseChannelProposal");
   }
 
+  if (!baseProp.initBals) {
+    throw new PerunError("open", "Missing initBals");
+  }
+
+  if (!baseProp.initBals.balances) {
+    throw new PerunError("open", "Missing balance distribution in initBals");
+  }
+
+  if (baseProp.initBals.balances.balances[0].balance.length != 2) {
+    throw new PerunError("open", "Only two party channels are supported");
+  }
+
   const validInitBals = verifyAllocation(baseProp.initBals);
 
   return {

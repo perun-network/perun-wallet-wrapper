@@ -25,8 +25,12 @@ export interface Envelope {
   virtualChannelProposalAccMsg?: VirtualChannelProposalAccMsg | undefined;
   channelProposalRejMsg?: ChannelProposalRejMsg | undefined;
   channelUpdateMsg?: ChannelUpdateMsg | undefined;
-  virtualChannelFundingProposalMsg?: VirtualChannelFundingProposalMsg | undefined;
-  virtualChannelSettlementProposalMsg?: VirtualChannelSettlementProposalMsg | undefined;
+  virtualChannelFundingProposalMsg?:
+    | VirtualChannelFundingProposalMsg
+    | undefined;
+  virtualChannelSettlementProposalMsg?:
+    | VirtualChannelSettlementProposalMsg
+    | undefined;
   channelUpdateAccMsg?: ChannelUpdateAccMsg | undefined;
   channelUpdateRejMsg?: ChannelUpdateRejMsg | undefined;
   channelSyncMsg?: ChannelSyncMsg | undefined;
@@ -144,8 +148,7 @@ export interface ShutdownMsg {
 }
 
 /** AuthResponseMsg represents wire.AuthResponseMsg. */
-export interface AuthResponseMsg {
-}
+export interface AuthResponseMsg {}
 
 /** LedgerChannelProposalMsg represents client.LedgerChannelProposalMsg. */
 export interface LedgerChannelProposalMsg {
@@ -262,7 +265,10 @@ function createBaseEnvelope(): Envelope {
 }
 
 export const Envelope = {
-  encode(message: Envelope, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: Envelope,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.sender.length !== 0) {
       writer.uint32(10).bytes(message.sender);
     }
@@ -276,57 +282,101 @@ export const Envelope = {
       PongMsg.encode(message.pongMsg, writer.uint32(34).fork()).ldelim();
     }
     if (message.shutdownMsg !== undefined) {
-      ShutdownMsg.encode(message.shutdownMsg, writer.uint32(42).fork()).ldelim();
+      ShutdownMsg.encode(
+        message.shutdownMsg,
+        writer.uint32(42).fork(),
+      ).ldelim();
     }
     if (message.authResponseMsg !== undefined) {
-      AuthResponseMsg.encode(message.authResponseMsg, writer.uint32(50).fork()).ldelim();
+      AuthResponseMsg.encode(
+        message.authResponseMsg,
+        writer.uint32(50).fork(),
+      ).ldelim();
     }
     if (message.ledgerChannelProposalMsg !== undefined) {
-      LedgerChannelProposalMsg.encode(message.ledgerChannelProposalMsg, writer.uint32(58).fork()).ldelim();
+      LedgerChannelProposalMsg.encode(
+        message.ledgerChannelProposalMsg,
+        writer.uint32(58).fork(),
+      ).ldelim();
     }
     if (message.ledgerChannelProposalAccMsg !== undefined) {
-      LedgerChannelProposalAccMsg.encode(message.ledgerChannelProposalAccMsg, writer.uint32(66).fork()).ldelim();
+      LedgerChannelProposalAccMsg.encode(
+        message.ledgerChannelProposalAccMsg,
+        writer.uint32(66).fork(),
+      ).ldelim();
     }
     if (message.subChannelProposalMsg !== undefined) {
-      SubChannelProposalMsg.encode(message.subChannelProposalMsg, writer.uint32(74).fork()).ldelim();
+      SubChannelProposalMsg.encode(
+        message.subChannelProposalMsg,
+        writer.uint32(74).fork(),
+      ).ldelim();
     }
     if (message.subChannelProposalAccMsg !== undefined) {
-      SubChannelProposalAccMsg.encode(message.subChannelProposalAccMsg, writer.uint32(82).fork()).ldelim();
+      SubChannelProposalAccMsg.encode(
+        message.subChannelProposalAccMsg,
+        writer.uint32(82).fork(),
+      ).ldelim();
     }
     if (message.virtualChannelProposalMsg !== undefined) {
-      VirtualChannelProposalMsg.encode(message.virtualChannelProposalMsg, writer.uint32(90).fork()).ldelim();
+      VirtualChannelProposalMsg.encode(
+        message.virtualChannelProposalMsg,
+        writer.uint32(90).fork(),
+      ).ldelim();
     }
     if (message.virtualChannelProposalAccMsg !== undefined) {
-      VirtualChannelProposalAccMsg.encode(message.virtualChannelProposalAccMsg, writer.uint32(98).fork()).ldelim();
+      VirtualChannelProposalAccMsg.encode(
+        message.virtualChannelProposalAccMsg,
+        writer.uint32(98).fork(),
+      ).ldelim();
     }
     if (message.channelProposalRejMsg !== undefined) {
-      ChannelProposalRejMsg.encode(message.channelProposalRejMsg, writer.uint32(106).fork()).ldelim();
+      ChannelProposalRejMsg.encode(
+        message.channelProposalRejMsg,
+        writer.uint32(106).fork(),
+      ).ldelim();
     }
     if (message.channelUpdateMsg !== undefined) {
-      ChannelUpdateMsg.encode(message.channelUpdateMsg, writer.uint32(114).fork()).ldelim();
+      ChannelUpdateMsg.encode(
+        message.channelUpdateMsg,
+        writer.uint32(114).fork(),
+      ).ldelim();
     }
     if (message.virtualChannelFundingProposalMsg !== undefined) {
-      VirtualChannelFundingProposalMsg.encode(message.virtualChannelFundingProposalMsg, writer.uint32(122).fork())
-        .ldelim();
+      VirtualChannelFundingProposalMsg.encode(
+        message.virtualChannelFundingProposalMsg,
+        writer.uint32(122).fork(),
+      ).ldelim();
     }
     if (message.virtualChannelSettlementProposalMsg !== undefined) {
-      VirtualChannelSettlementProposalMsg.encode(message.virtualChannelSettlementProposalMsg, writer.uint32(130).fork())
-        .ldelim();
+      VirtualChannelSettlementProposalMsg.encode(
+        message.virtualChannelSettlementProposalMsg,
+        writer.uint32(130).fork(),
+      ).ldelim();
     }
     if (message.channelUpdateAccMsg !== undefined) {
-      ChannelUpdateAccMsg.encode(message.channelUpdateAccMsg, writer.uint32(138).fork()).ldelim();
+      ChannelUpdateAccMsg.encode(
+        message.channelUpdateAccMsg,
+        writer.uint32(138).fork(),
+      ).ldelim();
     }
     if (message.channelUpdateRejMsg !== undefined) {
-      ChannelUpdateRejMsg.encode(message.channelUpdateRejMsg, writer.uint32(146).fork()).ldelim();
+      ChannelUpdateRejMsg.encode(
+        message.channelUpdateRejMsg,
+        writer.uint32(146).fork(),
+      ).ldelim();
     }
     if (message.channelSyncMsg !== undefined) {
-      ChannelSyncMsg.encode(message.channelSyncMsg, writer.uint32(154).fork()).ldelim();
+      ChannelSyncMsg.encode(
+        message.channelSyncMsg,
+        writer.uint32(154).fork(),
+      ).ldelim();
     }
     return writer;
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Envelope {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEnvelope();
     while (reader.pos < end) {
@@ -372,101 +422,132 @@ export const Envelope = {
             break;
           }
 
-          message.authResponseMsg = AuthResponseMsg.decode(reader, reader.uint32());
+          message.authResponseMsg = AuthResponseMsg.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
         case 7:
           if (tag !== 58) {
             break;
           }
 
-          message.ledgerChannelProposalMsg = LedgerChannelProposalMsg.decode(reader, reader.uint32());
+          message.ledgerChannelProposalMsg = LedgerChannelProposalMsg.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
         case 8:
           if (tag !== 66) {
             break;
           }
 
-          message.ledgerChannelProposalAccMsg = LedgerChannelProposalAccMsg.decode(reader, reader.uint32());
+          message.ledgerChannelProposalAccMsg =
+            LedgerChannelProposalAccMsg.decode(reader, reader.uint32());
           continue;
         case 9:
           if (tag !== 74) {
             break;
           }
 
-          message.subChannelProposalMsg = SubChannelProposalMsg.decode(reader, reader.uint32());
+          message.subChannelProposalMsg = SubChannelProposalMsg.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
         case 10:
           if (tag !== 82) {
             break;
           }
 
-          message.subChannelProposalAccMsg = SubChannelProposalAccMsg.decode(reader, reader.uint32());
+          message.subChannelProposalAccMsg = SubChannelProposalAccMsg.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
         case 11:
           if (tag !== 90) {
             break;
           }
 
-          message.virtualChannelProposalMsg = VirtualChannelProposalMsg.decode(reader, reader.uint32());
+          message.virtualChannelProposalMsg = VirtualChannelProposalMsg.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
         case 12:
           if (tag !== 98) {
             break;
           }
 
-          message.virtualChannelProposalAccMsg = VirtualChannelProposalAccMsg.decode(reader, reader.uint32());
+          message.virtualChannelProposalAccMsg =
+            VirtualChannelProposalAccMsg.decode(reader, reader.uint32());
           continue;
         case 13:
           if (tag !== 106) {
             break;
           }
 
-          message.channelProposalRejMsg = ChannelProposalRejMsg.decode(reader, reader.uint32());
+          message.channelProposalRejMsg = ChannelProposalRejMsg.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
         case 14:
           if (tag !== 114) {
             break;
           }
 
-          message.channelUpdateMsg = ChannelUpdateMsg.decode(reader, reader.uint32());
+          message.channelUpdateMsg = ChannelUpdateMsg.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
         case 15:
           if (tag !== 122) {
             break;
           }
 
-          message.virtualChannelFundingProposalMsg = VirtualChannelFundingProposalMsg.decode(reader, reader.uint32());
+          message.virtualChannelFundingProposalMsg =
+            VirtualChannelFundingProposalMsg.decode(reader, reader.uint32());
           continue;
         case 16:
           if (tag !== 130) {
             break;
           }
 
-          message.virtualChannelSettlementProposalMsg = VirtualChannelSettlementProposalMsg.decode(
-            reader,
-            reader.uint32(),
-          );
+          message.virtualChannelSettlementProposalMsg =
+            VirtualChannelSettlementProposalMsg.decode(reader, reader.uint32());
           continue;
         case 17:
           if (tag !== 138) {
             break;
           }
 
-          message.channelUpdateAccMsg = ChannelUpdateAccMsg.decode(reader, reader.uint32());
+          message.channelUpdateAccMsg = ChannelUpdateAccMsg.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
         case 18:
           if (tag !== 146) {
             break;
           }
 
-          message.channelUpdateRejMsg = ChannelUpdateRejMsg.decode(reader, reader.uint32());
+          message.channelUpdateRejMsg = ChannelUpdateRejMsg.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
         case 19:
           if (tag !== 154) {
             break;
           }
 
-          message.channelSyncMsg = ChannelSyncMsg.decode(reader, reader.uint32());
+          message.channelSyncMsg = ChannelSyncMsg.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -479,17 +560,31 @@ export const Envelope = {
 
   fromJSON(object: any): Envelope {
     return {
-      sender: isSet(object.sender) ? bytesFromBase64(object.sender) : new Uint8Array(0),
-      recipient: isSet(object.recipient) ? bytesFromBase64(object.recipient) : new Uint8Array(0),
-      pingMsg: isSet(object.pingMsg) ? PingMsg.fromJSON(object.pingMsg) : undefined,
-      pongMsg: isSet(object.pongMsg) ? PongMsg.fromJSON(object.pongMsg) : undefined,
-      shutdownMsg: isSet(object.shutdownMsg) ? ShutdownMsg.fromJSON(object.shutdownMsg) : undefined,
-      authResponseMsg: isSet(object.authResponseMsg) ? AuthResponseMsg.fromJSON(object.authResponseMsg) : undefined,
+      sender: isSet(object.sender)
+        ? bytesFromBase64(object.sender)
+        : new Uint8Array(0),
+      recipient: isSet(object.recipient)
+        ? bytesFromBase64(object.recipient)
+        : new Uint8Array(0),
+      pingMsg: isSet(object.pingMsg)
+        ? PingMsg.fromJSON(object.pingMsg)
+        : undefined,
+      pongMsg: isSet(object.pongMsg)
+        ? PongMsg.fromJSON(object.pongMsg)
+        : undefined,
+      shutdownMsg: isSet(object.shutdownMsg)
+        ? ShutdownMsg.fromJSON(object.shutdownMsg)
+        : undefined,
+      authResponseMsg: isSet(object.authResponseMsg)
+        ? AuthResponseMsg.fromJSON(object.authResponseMsg)
+        : undefined,
       ledgerChannelProposalMsg: isSet(object.ledgerChannelProposalMsg)
         ? LedgerChannelProposalMsg.fromJSON(object.ledgerChannelProposalMsg)
         : undefined,
       ledgerChannelProposalAccMsg: isSet(object.ledgerChannelProposalAccMsg)
-        ? LedgerChannelProposalAccMsg.fromJSON(object.ledgerChannelProposalAccMsg)
+        ? LedgerChannelProposalAccMsg.fromJSON(
+            object.ledgerChannelProposalAccMsg,
+          )
         : undefined,
       subChannelProposalMsg: isSet(object.subChannelProposalMsg)
         ? SubChannelProposalMsg.fromJSON(object.subChannelProposalMsg)
@@ -501,17 +596,29 @@ export const Envelope = {
         ? VirtualChannelProposalMsg.fromJSON(object.virtualChannelProposalMsg)
         : undefined,
       virtualChannelProposalAccMsg: isSet(object.virtualChannelProposalAccMsg)
-        ? VirtualChannelProposalAccMsg.fromJSON(object.virtualChannelProposalAccMsg)
+        ? VirtualChannelProposalAccMsg.fromJSON(
+            object.virtualChannelProposalAccMsg,
+          )
         : undefined,
       channelProposalRejMsg: isSet(object.channelProposalRejMsg)
         ? ChannelProposalRejMsg.fromJSON(object.channelProposalRejMsg)
         : undefined,
-      channelUpdateMsg: isSet(object.channelUpdateMsg) ? ChannelUpdateMsg.fromJSON(object.channelUpdateMsg) : undefined,
-      virtualChannelFundingProposalMsg: isSet(object.virtualChannelFundingProposalMsg)
-        ? VirtualChannelFundingProposalMsg.fromJSON(object.virtualChannelFundingProposalMsg)
+      channelUpdateMsg: isSet(object.channelUpdateMsg)
+        ? ChannelUpdateMsg.fromJSON(object.channelUpdateMsg)
         : undefined,
-      virtualChannelSettlementProposalMsg: isSet(object.virtualChannelSettlementProposalMsg)
-        ? VirtualChannelSettlementProposalMsg.fromJSON(object.virtualChannelSettlementProposalMsg)
+      virtualChannelFundingProposalMsg: isSet(
+        object.virtualChannelFundingProposalMsg,
+      )
+        ? VirtualChannelFundingProposalMsg.fromJSON(
+            object.virtualChannelFundingProposalMsg,
+          )
+        : undefined,
+      virtualChannelSettlementProposalMsg: isSet(
+        object.virtualChannelSettlementProposalMsg,
+      )
+        ? VirtualChannelSettlementProposalMsg.fromJSON(
+            object.virtualChannelSettlementProposalMsg,
+          )
         : undefined,
       channelUpdateAccMsg: isSet(object.channelUpdateAccMsg)
         ? ChannelUpdateAccMsg.fromJSON(object.channelUpdateAccMsg)
@@ -519,7 +626,9 @@ export const Envelope = {
       channelUpdateRejMsg: isSet(object.channelUpdateRejMsg)
         ? ChannelUpdateRejMsg.fromJSON(object.channelUpdateRejMsg)
         : undefined,
-      channelSyncMsg: isSet(object.channelSyncMsg) ? ChannelSyncMsg.fromJSON(object.channelSyncMsg) : undefined,
+      channelSyncMsg: isSet(object.channelSyncMsg)
+        ? ChannelSyncMsg.fromJSON(object.channelSyncMsg)
+        : undefined,
     };
   },
 
@@ -544,44 +653,64 @@ export const Envelope = {
       obj.authResponseMsg = AuthResponseMsg.toJSON(message.authResponseMsg);
     }
     if (message.ledgerChannelProposalMsg !== undefined) {
-      obj.ledgerChannelProposalMsg = LedgerChannelProposalMsg.toJSON(message.ledgerChannelProposalMsg);
+      obj.ledgerChannelProposalMsg = LedgerChannelProposalMsg.toJSON(
+        message.ledgerChannelProposalMsg,
+      );
     }
     if (message.ledgerChannelProposalAccMsg !== undefined) {
-      obj.ledgerChannelProposalAccMsg = LedgerChannelProposalAccMsg.toJSON(message.ledgerChannelProposalAccMsg);
+      obj.ledgerChannelProposalAccMsg = LedgerChannelProposalAccMsg.toJSON(
+        message.ledgerChannelProposalAccMsg,
+      );
     }
     if (message.subChannelProposalMsg !== undefined) {
-      obj.subChannelProposalMsg = SubChannelProposalMsg.toJSON(message.subChannelProposalMsg);
+      obj.subChannelProposalMsg = SubChannelProposalMsg.toJSON(
+        message.subChannelProposalMsg,
+      );
     }
     if (message.subChannelProposalAccMsg !== undefined) {
-      obj.subChannelProposalAccMsg = SubChannelProposalAccMsg.toJSON(message.subChannelProposalAccMsg);
+      obj.subChannelProposalAccMsg = SubChannelProposalAccMsg.toJSON(
+        message.subChannelProposalAccMsg,
+      );
     }
     if (message.virtualChannelProposalMsg !== undefined) {
-      obj.virtualChannelProposalMsg = VirtualChannelProposalMsg.toJSON(message.virtualChannelProposalMsg);
+      obj.virtualChannelProposalMsg = VirtualChannelProposalMsg.toJSON(
+        message.virtualChannelProposalMsg,
+      );
     }
     if (message.virtualChannelProposalAccMsg !== undefined) {
-      obj.virtualChannelProposalAccMsg = VirtualChannelProposalAccMsg.toJSON(message.virtualChannelProposalAccMsg);
+      obj.virtualChannelProposalAccMsg = VirtualChannelProposalAccMsg.toJSON(
+        message.virtualChannelProposalAccMsg,
+      );
     }
     if (message.channelProposalRejMsg !== undefined) {
-      obj.channelProposalRejMsg = ChannelProposalRejMsg.toJSON(message.channelProposalRejMsg);
+      obj.channelProposalRejMsg = ChannelProposalRejMsg.toJSON(
+        message.channelProposalRejMsg,
+      );
     }
     if (message.channelUpdateMsg !== undefined) {
       obj.channelUpdateMsg = ChannelUpdateMsg.toJSON(message.channelUpdateMsg);
     }
     if (message.virtualChannelFundingProposalMsg !== undefined) {
-      obj.virtualChannelFundingProposalMsg = VirtualChannelFundingProposalMsg.toJSON(
-        message.virtualChannelFundingProposalMsg,
-      );
+      obj.virtualChannelFundingProposalMsg =
+        VirtualChannelFundingProposalMsg.toJSON(
+          message.virtualChannelFundingProposalMsg,
+        );
     }
     if (message.virtualChannelSettlementProposalMsg !== undefined) {
-      obj.virtualChannelSettlementProposalMsg = VirtualChannelSettlementProposalMsg.toJSON(
-        message.virtualChannelSettlementProposalMsg,
-      );
+      obj.virtualChannelSettlementProposalMsg =
+        VirtualChannelSettlementProposalMsg.toJSON(
+          message.virtualChannelSettlementProposalMsg,
+        );
     }
     if (message.channelUpdateAccMsg !== undefined) {
-      obj.channelUpdateAccMsg = ChannelUpdateAccMsg.toJSON(message.channelUpdateAccMsg);
+      obj.channelUpdateAccMsg = ChannelUpdateAccMsg.toJSON(
+        message.channelUpdateAccMsg,
+      );
     }
     if (message.channelUpdateRejMsg !== undefined) {
-      obj.channelUpdateRejMsg = ChannelUpdateRejMsg.toJSON(message.channelUpdateRejMsg);
+      obj.channelUpdateRejMsg = ChannelUpdateRejMsg.toJSON(
+        message.channelUpdateRejMsg,
+      );
     }
     if (message.channelSyncMsg !== undefined) {
       obj.channelSyncMsg = ChannelSyncMsg.toJSON(message.channelSyncMsg);
@@ -596,66 +725,95 @@ export const Envelope = {
     const message = createBaseEnvelope();
     message.sender = object.sender ?? new Uint8Array(0);
     message.recipient = object.recipient ?? new Uint8Array(0);
-    message.pingMsg = (object.pingMsg !== undefined && object.pingMsg !== null)
-      ? PingMsg.fromPartial(object.pingMsg)
-      : undefined;
-    message.pongMsg = (object.pongMsg !== undefined && object.pongMsg !== null)
-      ? PongMsg.fromPartial(object.pongMsg)
-      : undefined;
-    message.shutdownMsg = (object.shutdownMsg !== undefined && object.shutdownMsg !== null)
-      ? ShutdownMsg.fromPartial(object.shutdownMsg)
-      : undefined;
-    message.authResponseMsg = (object.authResponseMsg !== undefined && object.authResponseMsg !== null)
-      ? AuthResponseMsg.fromPartial(object.authResponseMsg)
-      : undefined;
+    message.pingMsg =
+      object.pingMsg !== undefined && object.pingMsg !== null
+        ? PingMsg.fromPartial(object.pingMsg)
+        : undefined;
+    message.pongMsg =
+      object.pongMsg !== undefined && object.pongMsg !== null
+        ? PongMsg.fromPartial(object.pongMsg)
+        : undefined;
+    message.shutdownMsg =
+      object.shutdownMsg !== undefined && object.shutdownMsg !== null
+        ? ShutdownMsg.fromPartial(object.shutdownMsg)
+        : undefined;
+    message.authResponseMsg =
+      object.authResponseMsg !== undefined && object.authResponseMsg !== null
+        ? AuthResponseMsg.fromPartial(object.authResponseMsg)
+        : undefined;
     message.ledgerChannelProposalMsg =
-      (object.ledgerChannelProposalMsg !== undefined && object.ledgerChannelProposalMsg !== null)
+      object.ledgerChannelProposalMsg !== undefined &&
+      object.ledgerChannelProposalMsg !== null
         ? LedgerChannelProposalMsg.fromPartial(object.ledgerChannelProposalMsg)
         : undefined;
     message.ledgerChannelProposalAccMsg =
-      (object.ledgerChannelProposalAccMsg !== undefined && object.ledgerChannelProposalAccMsg !== null)
-        ? LedgerChannelProposalAccMsg.fromPartial(object.ledgerChannelProposalAccMsg)
+      object.ledgerChannelProposalAccMsg !== undefined &&
+      object.ledgerChannelProposalAccMsg !== null
+        ? LedgerChannelProposalAccMsg.fromPartial(
+            object.ledgerChannelProposalAccMsg,
+          )
         : undefined;
     message.subChannelProposalMsg =
-      (object.subChannelProposalMsg !== undefined && object.subChannelProposalMsg !== null)
+      object.subChannelProposalMsg !== undefined &&
+      object.subChannelProposalMsg !== null
         ? SubChannelProposalMsg.fromPartial(object.subChannelProposalMsg)
         : undefined;
     message.subChannelProposalAccMsg =
-      (object.subChannelProposalAccMsg !== undefined && object.subChannelProposalAccMsg !== null)
+      object.subChannelProposalAccMsg !== undefined &&
+      object.subChannelProposalAccMsg !== null
         ? SubChannelProposalAccMsg.fromPartial(object.subChannelProposalAccMsg)
         : undefined;
     message.virtualChannelProposalMsg =
-      (object.virtualChannelProposalMsg !== undefined && object.virtualChannelProposalMsg !== null)
-        ? VirtualChannelProposalMsg.fromPartial(object.virtualChannelProposalMsg)
+      object.virtualChannelProposalMsg !== undefined &&
+      object.virtualChannelProposalMsg !== null
+        ? VirtualChannelProposalMsg.fromPartial(
+            object.virtualChannelProposalMsg,
+          )
         : undefined;
     message.virtualChannelProposalAccMsg =
-      (object.virtualChannelProposalAccMsg !== undefined && object.virtualChannelProposalAccMsg !== null)
-        ? VirtualChannelProposalAccMsg.fromPartial(object.virtualChannelProposalAccMsg)
+      object.virtualChannelProposalAccMsg !== undefined &&
+      object.virtualChannelProposalAccMsg !== null
+        ? VirtualChannelProposalAccMsg.fromPartial(
+            object.virtualChannelProposalAccMsg,
+          )
         : undefined;
     message.channelProposalRejMsg =
-      (object.channelProposalRejMsg !== undefined && object.channelProposalRejMsg !== null)
+      object.channelProposalRejMsg !== undefined &&
+      object.channelProposalRejMsg !== null
         ? ChannelProposalRejMsg.fromPartial(object.channelProposalRejMsg)
         : undefined;
-    message.channelUpdateMsg = (object.channelUpdateMsg !== undefined && object.channelUpdateMsg !== null)
-      ? ChannelUpdateMsg.fromPartial(object.channelUpdateMsg)
-      : undefined;
+    message.channelUpdateMsg =
+      object.channelUpdateMsg !== undefined && object.channelUpdateMsg !== null
+        ? ChannelUpdateMsg.fromPartial(object.channelUpdateMsg)
+        : undefined;
     message.virtualChannelFundingProposalMsg =
-      (object.virtualChannelFundingProposalMsg !== undefined && object.virtualChannelFundingProposalMsg !== null)
-        ? VirtualChannelFundingProposalMsg.fromPartial(object.virtualChannelFundingProposalMsg)
+      object.virtualChannelFundingProposalMsg !== undefined &&
+      object.virtualChannelFundingProposalMsg !== null
+        ? VirtualChannelFundingProposalMsg.fromPartial(
+            object.virtualChannelFundingProposalMsg,
+          )
         : undefined;
     message.virtualChannelSettlementProposalMsg =
-      (object.virtualChannelSettlementProposalMsg !== undefined && object.virtualChannelSettlementProposalMsg !== null)
-        ? VirtualChannelSettlementProposalMsg.fromPartial(object.virtualChannelSettlementProposalMsg)
+      object.virtualChannelSettlementProposalMsg !== undefined &&
+      object.virtualChannelSettlementProposalMsg !== null
+        ? VirtualChannelSettlementProposalMsg.fromPartial(
+            object.virtualChannelSettlementProposalMsg,
+          )
         : undefined;
-    message.channelUpdateAccMsg = (object.channelUpdateAccMsg !== undefined && object.channelUpdateAccMsg !== null)
-      ? ChannelUpdateAccMsg.fromPartial(object.channelUpdateAccMsg)
-      : undefined;
-    message.channelUpdateRejMsg = (object.channelUpdateRejMsg !== undefined && object.channelUpdateRejMsg !== null)
-      ? ChannelUpdateRejMsg.fromPartial(object.channelUpdateRejMsg)
-      : undefined;
-    message.channelSyncMsg = (object.channelSyncMsg !== undefined && object.channelSyncMsg !== null)
-      ? ChannelSyncMsg.fromPartial(object.channelSyncMsg)
-      : undefined;
+    message.channelUpdateAccMsg =
+      object.channelUpdateAccMsg !== undefined &&
+      object.channelUpdateAccMsg !== null
+        ? ChannelUpdateAccMsg.fromPartial(object.channelUpdateAccMsg)
+        : undefined;
+    message.channelUpdateRejMsg =
+      object.channelUpdateRejMsg !== undefined &&
+      object.channelUpdateRejMsg !== null
+        ? ChannelUpdateRejMsg.fromPartial(object.channelUpdateRejMsg)
+        : undefined;
+    message.channelSyncMsg =
+      object.channelSyncMsg !== undefined && object.channelSyncMsg !== null
+        ? ChannelSyncMsg.fromPartial(object.channelSyncMsg)
+        : undefined;
     return message;
   },
 };
@@ -665,7 +823,10 @@ function createBaseBalance(): Balance {
 }
 
 export const Balance = {
-  encode(message: Balance, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: Balance,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     for (const v of message.balance) {
       writer.uint32(10).bytes(v!);
     }
@@ -673,7 +834,8 @@ export const Balance = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Balance {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBalance();
     while (reader.pos < end) {
@@ -697,7 +859,9 @@ export const Balance = {
 
   fromJSON(object: any): Balance {
     return {
-      balance: globalThis.Array.isArray(object?.balance) ? object.balance.map((e: any) => bytesFromBase64(e)) : [],
+      balance: globalThis.Array.isArray(object?.balance)
+        ? object.balance.map((e: any) => bytesFromBase64(e))
+        : [],
     };
   },
 
@@ -724,7 +888,10 @@ function createBaseBalances(): Balances {
 }
 
 export const Balances = {
-  encode(message: Balances, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: Balances,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     for (const v of message.balances) {
       Balance.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -732,7 +899,8 @@ export const Balances = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Balances {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBalances();
     while (reader.pos < end) {
@@ -756,7 +924,9 @@ export const Balances = {
 
   fromJSON(object: any): Balances {
     return {
-      balances: globalThis.Array.isArray(object?.balances) ? object.balances.map((e: any) => Balance.fromJSON(e)) : [],
+      balances: globalThis.Array.isArray(object?.balances)
+        ? object.balances.map((e: any) => Balance.fromJSON(e))
+        : [],
     };
   },
 
@@ -773,7 +943,8 @@ export const Balances = {
   },
   fromPartial(object: DeepPartial<Balances>): Balances {
     const message = createBaseBalances();
-    message.balances = object.balances?.map((e) => Balance.fromPartial(e)) || [];
+    message.balances =
+      object.balances?.map((e) => Balance.fromPartial(e)) || [];
     return message;
   },
 };
@@ -783,7 +954,10 @@ function createBaseIndexMap(): IndexMap {
 }
 
 export const IndexMap = {
-  encode(message: IndexMap, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: IndexMap,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     writer.uint32(10).fork();
     for (const v of message.indexMap) {
       writer.uint32(v);
@@ -793,7 +967,8 @@ export const IndexMap = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): IndexMap {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseIndexMap();
     while (reader.pos < end) {
@@ -827,7 +1002,9 @@ export const IndexMap = {
 
   fromJSON(object: any): IndexMap {
     return {
-      indexMap: globalThis.Array.isArray(object?.indexMap) ? object.indexMap.map((e: any) => globalThis.Number(e)) : [],
+      indexMap: globalThis.Array.isArray(object?.indexMap)
+        ? object.indexMap.map((e: any) => globalThis.Number(e))
+        : [],
     };
   },
 
@@ -854,7 +1031,10 @@ function createBaseSubAlloc(): SubAlloc {
 }
 
 export const SubAlloc = {
-  encode(message: SubAlloc, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: SubAlloc,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.id.length !== 0) {
       writer.uint32(10).bytes(message.id);
     }
@@ -868,7 +1048,8 @@ export const SubAlloc = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): SubAlloc {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSubAlloc();
     while (reader.pos < end) {
@@ -908,7 +1089,9 @@ export const SubAlloc = {
     return {
       id: isSet(object.id) ? bytesFromBase64(object.id) : new Uint8Array(0),
       bals: isSet(object.bals) ? Balance.fromJSON(object.bals) : undefined,
-      indexMap: isSet(object.indexMap) ? IndexMap.fromJSON(object.indexMap) : undefined,
+      indexMap: isSet(object.indexMap)
+        ? IndexMap.fromJSON(object.indexMap)
+        : undefined,
     };
   },
 
@@ -932,10 +1115,14 @@ export const SubAlloc = {
   fromPartial(object: DeepPartial<SubAlloc>): SubAlloc {
     const message = createBaseSubAlloc();
     message.id = object.id ?? new Uint8Array(0);
-    message.bals = (object.bals !== undefined && object.bals !== null) ? Balance.fromPartial(object.bals) : undefined;
-    message.indexMap = (object.indexMap !== undefined && object.indexMap !== null)
-      ? IndexMap.fromPartial(object.indexMap)
-      : undefined;
+    message.bals =
+      object.bals !== undefined && object.bals !== null
+        ? Balance.fromPartial(object.bals)
+        : undefined;
+    message.indexMap =
+      object.indexMap !== undefined && object.indexMap !== null
+        ? IndexMap.fromPartial(object.indexMap)
+        : undefined;
     return message;
   },
 };
@@ -945,7 +1132,10 @@ function createBaseAllocation(): Allocation {
 }
 
 export const Allocation = {
-  encode(message: Allocation, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: Allocation,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     for (const v of message.assets) {
       writer.uint32(10).bytes(v!);
     }
@@ -959,7 +1149,8 @@ export const Allocation = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Allocation {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAllocation();
     while (reader.pos < end) {
@@ -997,9 +1188,15 @@ export const Allocation = {
 
   fromJSON(object: any): Allocation {
     return {
-      assets: globalThis.Array.isArray(object?.assets) ? object.assets.map((e: any) => bytesFromBase64(e)) : [],
-      balances: isSet(object.balances) ? Balances.fromJSON(object.balances) : undefined,
-      locked: globalThis.Array.isArray(object?.locked) ? object.locked.map((e: any) => SubAlloc.fromJSON(e)) : [],
+      assets: globalThis.Array.isArray(object?.assets)
+        ? object.assets.map((e: any) => bytesFromBase64(e))
+        : [],
+      balances: isSet(object.balances)
+        ? Balances.fromJSON(object.balances)
+        : undefined,
+      locked: globalThis.Array.isArray(object?.locked)
+        ? object.locked.map((e: any) => SubAlloc.fromJSON(e))
+        : [],
     };
   },
 
@@ -1023,9 +1220,10 @@ export const Allocation = {
   fromPartial(object: DeepPartial<Allocation>): Allocation {
     const message = createBaseAllocation();
     message.assets = object.assets?.map((e) => e) || [];
-    message.balances = (object.balances !== undefined && object.balances !== null)
-      ? Balances.fromPartial(object.balances)
-      : undefined;
+    message.balances =
+      object.balances !== undefined && object.balances !== null
+        ? Balances.fromPartial(object.balances)
+        : undefined;
     message.locked = object.locked?.map((e) => SubAlloc.fromPartial(e)) || [];
     return message;
   },
@@ -1044,7 +1242,10 @@ function createBaseBaseChannelProposal(): BaseChannelProposal {
 }
 
 export const BaseChannelProposal = {
-  encode(message: BaseChannelProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: BaseChannelProposal,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.proposalId.length !== 0) {
       writer.uint32(10).bytes(message.proposalId);
     }
@@ -1064,13 +1265,17 @@ export const BaseChannelProposal = {
       Allocation.encode(message.initBals, writer.uint32(50).fork()).ldelim();
     }
     if (message.fundingAgreement !== undefined) {
-      Balances.encode(message.fundingAgreement, writer.uint32(58).fork()).ldelim();
+      Balances.encode(
+        message.fundingAgreement,
+        writer.uint32(58).fork(),
+      ).ldelim();
     }
     return writer;
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): BaseChannelProposal {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBaseChannelProposal();
     while (reader.pos < end) {
@@ -1136,13 +1341,25 @@ export const BaseChannelProposal = {
 
   fromJSON(object: any): BaseChannelProposal {
     return {
-      proposalId: isSet(object.proposalId) ? bytesFromBase64(object.proposalId) : new Uint8Array(0),
-      challengeDuration: isSet(object.challengeDuration) ? globalThis.Number(object.challengeDuration) : 0,
-      nonceShare: isSet(object.nonceShare) ? bytesFromBase64(object.nonceShare) : new Uint8Array(0),
+      proposalId: isSet(object.proposalId)
+        ? bytesFromBase64(object.proposalId)
+        : new Uint8Array(0),
+      challengeDuration: isSet(object.challengeDuration)
+        ? globalThis.Number(object.challengeDuration)
+        : 0,
+      nonceShare: isSet(object.nonceShare)
+        ? bytesFromBase64(object.nonceShare)
+        : new Uint8Array(0),
       app: isSet(object.app) ? bytesFromBase64(object.app) : new Uint8Array(0),
-      initData: isSet(object.initData) ? bytesFromBase64(object.initData) : new Uint8Array(0),
-      initBals: isSet(object.initBals) ? Allocation.fromJSON(object.initBals) : undefined,
-      fundingAgreement: isSet(object.fundingAgreement) ? Balances.fromJSON(object.fundingAgreement) : undefined,
+      initData: isSet(object.initData)
+        ? bytesFromBase64(object.initData)
+        : new Uint8Array(0),
+      initBals: isSet(object.initBals)
+        ? Allocation.fromJSON(object.initBals)
+        : undefined,
+      fundingAgreement: isSet(object.fundingAgreement)
+        ? Balances.fromJSON(object.fundingAgreement)
+        : undefined,
     };
   },
 
@@ -1182,12 +1399,14 @@ export const BaseChannelProposal = {
     message.nonceShare = object.nonceShare ?? new Uint8Array(0);
     message.app = object.app ?? new Uint8Array(0);
     message.initData = object.initData ?? new Uint8Array(0);
-    message.initBals = (object.initBals !== undefined && object.initBals !== null)
-      ? Allocation.fromPartial(object.initBals)
-      : undefined;
-    message.fundingAgreement = (object.fundingAgreement !== undefined && object.fundingAgreement !== null)
-      ? Balances.fromPartial(object.fundingAgreement)
-      : undefined;
+    message.initBals =
+      object.initBals !== undefined && object.initBals !== null
+        ? Allocation.fromPartial(object.initBals)
+        : undefined;
+    message.fundingAgreement =
+      object.fundingAgreement !== undefined && object.fundingAgreement !== null
+        ? Balances.fromPartial(object.fundingAgreement)
+        : undefined;
     return message;
   },
 };
@@ -1197,7 +1416,10 @@ function createBaseBaseChannelProposalAcc(): BaseChannelProposalAcc {
 }
 
 export const BaseChannelProposalAcc = {
-  encode(message: BaseChannelProposalAcc, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: BaseChannelProposalAcc,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.proposalId.length !== 0) {
       writer.uint32(10).bytes(message.proposalId);
     }
@@ -1207,8 +1429,12 @@ export const BaseChannelProposalAcc = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): BaseChannelProposalAcc {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): BaseChannelProposalAcc {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBaseChannelProposalAcc();
     while (reader.pos < end) {
@@ -1239,8 +1465,12 @@ export const BaseChannelProposalAcc = {
 
   fromJSON(object: any): BaseChannelProposalAcc {
     return {
-      proposalId: isSet(object.proposalId) ? bytesFromBase64(object.proposalId) : new Uint8Array(0),
-      nonceShare: isSet(object.nonceShare) ? bytesFromBase64(object.nonceShare) : new Uint8Array(0),
+      proposalId: isSet(object.proposalId)
+        ? bytesFromBase64(object.proposalId)
+        : new Uint8Array(0),
+      nonceShare: isSet(object.nonceShare)
+        ? bytesFromBase64(object.nonceShare)
+        : new Uint8Array(0),
     };
   },
 
@@ -1258,7 +1488,9 @@ export const BaseChannelProposalAcc = {
   create(base?: DeepPartial<BaseChannelProposalAcc>): BaseChannelProposalAcc {
     return BaseChannelProposalAcc.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<BaseChannelProposalAcc>): BaseChannelProposalAcc {
+  fromPartial(
+    object: DeepPartial<BaseChannelProposalAcc>,
+  ): BaseChannelProposalAcc {
     const message = createBaseBaseChannelProposalAcc();
     message.proposalId = object.proposalId ?? new Uint8Array(0);
     message.nonceShare = object.nonceShare ?? new Uint8Array(0);
@@ -1279,7 +1511,10 @@ function createBaseParams(): Params {
 }
 
 export const Params = {
-  encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: Params,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.id.length !== 0) {
       writer.uint32(10).bytes(message.id);
     }
@@ -1305,7 +1540,8 @@ export const Params = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Params {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParams();
     while (reader.pos < end) {
@@ -1372,12 +1608,22 @@ export const Params = {
   fromJSON(object: any): Params {
     return {
       id: isSet(object.id) ? bytesFromBase64(object.id) : new Uint8Array(0),
-      challengeDuration: isSet(object.challengeDuration) ? globalThis.Number(object.challengeDuration) : 0,
-      parts: globalThis.Array.isArray(object?.parts) ? object.parts.map((e: any) => bytesFromBase64(e)) : [],
+      challengeDuration: isSet(object.challengeDuration)
+        ? globalThis.Number(object.challengeDuration)
+        : 0,
+      parts: globalThis.Array.isArray(object?.parts)
+        ? object.parts.map((e: any) => bytesFromBase64(e))
+        : [],
       app: isSet(object.app) ? bytesFromBase64(object.app) : new Uint8Array(0),
-      nonce: isSet(object.nonce) ? bytesFromBase64(object.nonce) : new Uint8Array(0),
-      ledgerChannel: isSet(object.ledgerChannel) ? globalThis.Boolean(object.ledgerChannel) : false,
-      virtualChannel: isSet(object.virtualChannel) ? globalThis.Boolean(object.virtualChannel) : false,
+      nonce: isSet(object.nonce)
+        ? bytesFromBase64(object.nonce)
+        : new Uint8Array(0),
+      ledgerChannel: isSet(object.ledgerChannel)
+        ? globalThis.Boolean(object.ledgerChannel)
+        : false,
+      virtualChannel: isSet(object.virtualChannel)
+        ? globalThis.Boolean(object.virtualChannel)
+        : false,
     };
   },
 
@@ -1458,7 +1704,8 @@ export const State = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): State {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseState();
     while (reader.pos < end) {
@@ -1520,9 +1767,15 @@ export const State = {
       id: isSet(object.id) ? bytesFromBase64(object.id) : new Uint8Array(0),
       version: isSet(object.version) ? globalThis.Number(object.version) : 0,
       app: isSet(object.app) ? bytesFromBase64(object.app) : new Uint8Array(0),
-      allocation: isSet(object.allocation) ? Allocation.fromJSON(object.allocation) : undefined,
-      data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(0),
-      isFinal: isSet(object.isFinal) ? globalThis.Boolean(object.isFinal) : false,
+      allocation: isSet(object.allocation)
+        ? Allocation.fromJSON(object.allocation)
+        : undefined,
+      data: isSet(object.data)
+        ? bytesFromBase64(object.data)
+        : new Uint8Array(0),
+      isFinal: isSet(object.isFinal)
+        ? globalThis.Boolean(object.isFinal)
+        : false,
     };
   },
 
@@ -1557,9 +1810,10 @@ export const State = {
     message.id = object.id ?? new Uint8Array(0);
     message.version = object.version ?? 0;
     message.app = object.app ?? new Uint8Array(0);
-    message.allocation = (object.allocation !== undefined && object.allocation !== null)
-      ? Allocation.fromPartial(object.allocation)
-      : undefined;
+    message.allocation =
+      object.allocation !== undefined && object.allocation !== null
+        ? Allocation.fromPartial(object.allocation)
+        : undefined;
     message.data = object.data ?? new Uint8Array(0);
     message.isFinal = object.isFinal ?? false;
     return message;
@@ -1571,7 +1825,10 @@ function createBaseTransaction(): Transaction {
 }
 
 export const Transaction = {
-  encode(message: Transaction, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: Transaction,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.state !== undefined) {
       State.encode(message.state, writer.uint32(10).fork()).ldelim();
     }
@@ -1582,7 +1839,8 @@ export const Transaction = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Transaction {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTransaction();
     while (reader.pos < end) {
@@ -1614,7 +1872,9 @@ export const Transaction = {
   fromJSON(object: any): Transaction {
     return {
       state: isSet(object.state) ? State.fromJSON(object.state) : undefined,
-      sigs: globalThis.Array.isArray(object?.sigs) ? object.sigs.map((e: any) => bytesFromBase64(e)) : [],
+      sigs: globalThis.Array.isArray(object?.sigs)
+        ? object.sigs.map((e: any) => bytesFromBase64(e))
+        : [],
     };
   },
 
@@ -1634,7 +1894,10 @@ export const Transaction = {
   },
   fromPartial(object: DeepPartial<Transaction>): Transaction {
     const message = createBaseTransaction();
-    message.state = (object.state !== undefined && object.state !== null) ? State.fromPartial(object.state) : undefined;
+    message.state =
+      object.state !== undefined && object.state !== null
+        ? State.fromPartial(object.state)
+        : undefined;
     message.sigs = object.sigs?.map((e) => e) || [];
     return message;
   },
@@ -1645,7 +1908,10 @@ function createBaseSignedState(): SignedState {
 }
 
 export const SignedState = {
-  encode(message: SignedState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: SignedState,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
     }
@@ -1659,7 +1925,8 @@ export const SignedState = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): SignedState {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSignedState();
     while (reader.pos < end) {
@@ -1699,7 +1966,9 @@ export const SignedState = {
     return {
       params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
       state: isSet(object.state) ? State.fromJSON(object.state) : undefined,
-      sigs: globalThis.Array.isArray(object?.sigs) ? object.sigs.map((e: any) => bytesFromBase64(e)) : [],
+      sigs: globalThis.Array.isArray(object?.sigs)
+        ? object.sigs.map((e: any) => bytesFromBase64(e))
+        : [],
     };
   },
 
@@ -1722,10 +1991,14 @@ export const SignedState = {
   },
   fromPartial(object: DeepPartial<SignedState>): SignedState {
     const message = createBaseSignedState();
-    message.params = (object.params !== undefined && object.params !== null)
-      ? Params.fromPartial(object.params)
-      : undefined;
-    message.state = (object.state !== undefined && object.state !== null) ? State.fromPartial(object.state) : undefined;
+    message.params =
+      object.params !== undefined && object.params !== null
+        ? Params.fromPartial(object.params)
+        : undefined;
+    message.state =
+      object.state !== undefined && object.state !== null
+        ? State.fromPartial(object.state)
+        : undefined;
     message.sigs = object.sigs?.map((e) => e) || [];
     return message;
   },
@@ -1736,7 +2009,10 @@ function createBaseChannelUpdate(): ChannelUpdate {
 }
 
 export const ChannelUpdate = {
-  encode(message: ChannelUpdate, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: ChannelUpdate,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.state !== undefined) {
       State.encode(message.state, writer.uint32(10).fork()).ldelim();
     }
@@ -1747,7 +2023,8 @@ export const ChannelUpdate = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): ChannelUpdate {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseChannelUpdate();
     while (reader.pos < end) {
@@ -1799,7 +2076,10 @@ export const ChannelUpdate = {
   },
   fromPartial(object: DeepPartial<ChannelUpdate>): ChannelUpdate {
     const message = createBaseChannelUpdate();
-    message.state = (object.state !== undefined && object.state !== null) ? State.fromPartial(object.state) : undefined;
+    message.state =
+      object.state !== undefined && object.state !== null
+        ? State.fromPartial(object.state)
+        : undefined;
     message.actorIdx = object.actorIdx ?? 0;
     return message;
   },
@@ -1810,7 +2090,10 @@ function createBasePingMsg(): PingMsg {
 }
 
 export const PingMsg = {
-  encode(message: PingMsg, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: PingMsg,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.created !== 0) {
       writer.uint32(8).int64(message.created);
     }
@@ -1818,7 +2101,8 @@ export const PingMsg = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): PingMsg {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePingMsg();
     while (reader.pos < end) {
@@ -1841,7 +2125,9 @@ export const PingMsg = {
   },
 
   fromJSON(object: any): PingMsg {
-    return { created: isSet(object.created) ? globalThis.Number(object.created) : 0 };
+    return {
+      created: isSet(object.created) ? globalThis.Number(object.created) : 0,
+    };
   },
 
   toJSON(message: PingMsg): unknown {
@@ -1867,7 +2153,10 @@ function createBasePongMsg(): PongMsg {
 }
 
 export const PongMsg = {
-  encode(message: PongMsg, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: PongMsg,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.created !== 0) {
       writer.uint32(8).int64(message.created);
     }
@@ -1875,7 +2164,8 @@ export const PongMsg = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): PongMsg {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePongMsg();
     while (reader.pos < end) {
@@ -1898,7 +2188,9 @@ export const PongMsg = {
   },
 
   fromJSON(object: any): PongMsg {
-    return { created: isSet(object.created) ? globalThis.Number(object.created) : 0 };
+    return {
+      created: isSet(object.created) ? globalThis.Number(object.created) : 0,
+    };
   },
 
   toJSON(message: PongMsg): unknown {
@@ -1924,7 +2216,10 @@ function createBaseShutdownMsg(): ShutdownMsg {
 }
 
 export const ShutdownMsg = {
-  encode(message: ShutdownMsg, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: ShutdownMsg,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.reason !== "") {
       writer.uint32(10).string(message.reason);
     }
@@ -1932,7 +2227,8 @@ export const ShutdownMsg = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): ShutdownMsg {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseShutdownMsg();
     while (reader.pos < end) {
@@ -1955,7 +2251,9 @@ export const ShutdownMsg = {
   },
 
   fromJSON(object: any): ShutdownMsg {
-    return { reason: isSet(object.reason) ? globalThis.String(object.reason) : "" };
+    return {
+      reason: isSet(object.reason) ? globalThis.String(object.reason) : "",
+    };
   },
 
   toJSON(message: ShutdownMsg): unknown {
@@ -1981,12 +2279,16 @@ function createBaseAuthResponseMsg(): AuthResponseMsg {
 }
 
 export const AuthResponseMsg = {
-  encode(_: AuthResponseMsg, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    _: AuthResponseMsg,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     return writer;
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): AuthResponseMsg {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAuthResponseMsg();
     while (reader.pos < end) {
@@ -2020,13 +2322,23 @@ export const AuthResponseMsg = {
 };
 
 function createBaseLedgerChannelProposalMsg(): LedgerChannelProposalMsg {
-  return { baseChannelProposal: undefined, participant: new Uint8Array(0), peers: [] };
+  return {
+    baseChannelProposal: undefined,
+    participant: new Uint8Array(0),
+    peers: [],
+  };
 }
 
 export const LedgerChannelProposalMsg = {
-  encode(message: LedgerChannelProposalMsg, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: LedgerChannelProposalMsg,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.baseChannelProposal !== undefined) {
-      BaseChannelProposal.encode(message.baseChannelProposal, writer.uint32(10).fork()).ldelim();
+      BaseChannelProposal.encode(
+        message.baseChannelProposal,
+        writer.uint32(10).fork(),
+      ).ldelim();
     }
     if (message.participant.length !== 0) {
       writer.uint32(18).bytes(message.participant);
@@ -2037,8 +2349,12 @@ export const LedgerChannelProposalMsg = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): LedgerChannelProposalMsg {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): LedgerChannelProposalMsg {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseLedgerChannelProposalMsg();
     while (reader.pos < end) {
@@ -2049,7 +2365,10 @@ export const LedgerChannelProposalMsg = {
             break;
           }
 
-          message.baseChannelProposal = BaseChannelProposal.decode(reader, reader.uint32());
+          message.baseChannelProposal = BaseChannelProposal.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
         case 2:
           if (tag !== 18) {
@@ -2079,15 +2398,21 @@ export const LedgerChannelProposalMsg = {
       baseChannelProposal: isSet(object.baseChannelProposal)
         ? BaseChannelProposal.fromJSON(object.baseChannelProposal)
         : undefined,
-      participant: isSet(object.participant) ? bytesFromBase64(object.participant) : new Uint8Array(0),
-      peers: globalThis.Array.isArray(object?.peers) ? object.peers.map((e: any) => bytesFromBase64(e)) : [],
+      participant: isSet(object.participant)
+        ? bytesFromBase64(object.participant)
+        : new Uint8Array(0),
+      peers: globalThis.Array.isArray(object?.peers)
+        ? object.peers.map((e: any) => bytesFromBase64(e))
+        : [],
     };
   },
 
   toJSON(message: LedgerChannelProposalMsg): unknown {
     const obj: any = {};
     if (message.baseChannelProposal !== undefined) {
-      obj.baseChannelProposal = BaseChannelProposal.toJSON(message.baseChannelProposal);
+      obj.baseChannelProposal = BaseChannelProposal.toJSON(
+        message.baseChannelProposal,
+      );
     }
     if (message.participant.length !== 0) {
       obj.participant = base64FromBytes(message.participant);
@@ -2098,14 +2423,20 @@ export const LedgerChannelProposalMsg = {
     return obj;
   },
 
-  create(base?: DeepPartial<LedgerChannelProposalMsg>): LedgerChannelProposalMsg {
+  create(
+    base?: DeepPartial<LedgerChannelProposalMsg>,
+  ): LedgerChannelProposalMsg {
     return LedgerChannelProposalMsg.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<LedgerChannelProposalMsg>): LedgerChannelProposalMsg {
+  fromPartial(
+    object: DeepPartial<LedgerChannelProposalMsg>,
+  ): LedgerChannelProposalMsg {
     const message = createBaseLedgerChannelProposalMsg();
-    message.baseChannelProposal = (object.baseChannelProposal !== undefined && object.baseChannelProposal !== null)
-      ? BaseChannelProposal.fromPartial(object.baseChannelProposal)
-      : undefined;
+    message.baseChannelProposal =
+      object.baseChannelProposal !== undefined &&
+      object.baseChannelProposal !== null
+        ? BaseChannelProposal.fromPartial(object.baseChannelProposal)
+        : undefined;
     message.participant = object.participant ?? new Uint8Array(0);
     message.peers = object.peers?.map((e) => e) || [];
     return message;
@@ -2117,9 +2448,15 @@ function createBaseLedgerChannelProposalAccMsg(): LedgerChannelProposalAccMsg {
 }
 
 export const LedgerChannelProposalAccMsg = {
-  encode(message: LedgerChannelProposalAccMsg, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: LedgerChannelProposalAccMsg,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.baseChannelProposalAcc !== undefined) {
-      BaseChannelProposalAcc.encode(message.baseChannelProposalAcc, writer.uint32(10).fork()).ldelim();
+      BaseChannelProposalAcc.encode(
+        message.baseChannelProposalAcc,
+        writer.uint32(10).fork(),
+      ).ldelim();
     }
     if (message.participant.length !== 0) {
       writer.uint32(18).bytes(message.participant);
@@ -2127,8 +2464,12 @@ export const LedgerChannelProposalAccMsg = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): LedgerChannelProposalAccMsg {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): LedgerChannelProposalAccMsg {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseLedgerChannelProposalAccMsg();
     while (reader.pos < end) {
@@ -2139,7 +2480,10 @@ export const LedgerChannelProposalAccMsg = {
             break;
           }
 
-          message.baseChannelProposalAcc = BaseChannelProposalAcc.decode(reader, reader.uint32());
+          message.baseChannelProposalAcc = BaseChannelProposalAcc.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
         case 2:
           if (tag !== 18) {
@@ -2162,14 +2506,18 @@ export const LedgerChannelProposalAccMsg = {
       baseChannelProposalAcc: isSet(object.baseChannelProposalAcc)
         ? BaseChannelProposalAcc.fromJSON(object.baseChannelProposalAcc)
         : undefined,
-      participant: isSet(object.participant) ? bytesFromBase64(object.participant) : new Uint8Array(0),
+      participant: isSet(object.participant)
+        ? bytesFromBase64(object.participant)
+        : new Uint8Array(0),
     };
   },
 
   toJSON(message: LedgerChannelProposalAccMsg): unknown {
     const obj: any = {};
     if (message.baseChannelProposalAcc !== undefined) {
-      obj.baseChannelProposalAcc = BaseChannelProposalAcc.toJSON(message.baseChannelProposalAcc);
+      obj.baseChannelProposalAcc = BaseChannelProposalAcc.toJSON(
+        message.baseChannelProposalAcc,
+      );
     }
     if (message.participant.length !== 0) {
       obj.participant = base64FromBytes(message.participant);
@@ -2177,13 +2525,18 @@ export const LedgerChannelProposalAccMsg = {
     return obj;
   },
 
-  create(base?: DeepPartial<LedgerChannelProposalAccMsg>): LedgerChannelProposalAccMsg {
+  create(
+    base?: DeepPartial<LedgerChannelProposalAccMsg>,
+  ): LedgerChannelProposalAccMsg {
     return LedgerChannelProposalAccMsg.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<LedgerChannelProposalAccMsg>): LedgerChannelProposalAccMsg {
+  fromPartial(
+    object: DeepPartial<LedgerChannelProposalAccMsg>,
+  ): LedgerChannelProposalAccMsg {
     const message = createBaseLedgerChannelProposalAccMsg();
     message.baseChannelProposalAcc =
-      (object.baseChannelProposalAcc !== undefined && object.baseChannelProposalAcc !== null)
+      object.baseChannelProposalAcc !== undefined &&
+      object.baseChannelProposalAcc !== null
         ? BaseChannelProposalAcc.fromPartial(object.baseChannelProposalAcc)
         : undefined;
     message.participant = object.participant ?? new Uint8Array(0);
@@ -2196,9 +2549,15 @@ function createBaseSubChannelProposalMsg(): SubChannelProposalMsg {
 }
 
 export const SubChannelProposalMsg = {
-  encode(message: SubChannelProposalMsg, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: SubChannelProposalMsg,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.baseChannelProposal !== undefined) {
-      BaseChannelProposal.encode(message.baseChannelProposal, writer.uint32(10).fork()).ldelim();
+      BaseChannelProposal.encode(
+        message.baseChannelProposal,
+        writer.uint32(10).fork(),
+      ).ldelim();
     }
     if (message.parent.length !== 0) {
       writer.uint32(18).bytes(message.parent);
@@ -2206,8 +2565,12 @@ export const SubChannelProposalMsg = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): SubChannelProposalMsg {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): SubChannelProposalMsg {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSubChannelProposalMsg();
     while (reader.pos < end) {
@@ -2218,7 +2581,10 @@ export const SubChannelProposalMsg = {
             break;
           }
 
-          message.baseChannelProposal = BaseChannelProposal.decode(reader, reader.uint32());
+          message.baseChannelProposal = BaseChannelProposal.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
         case 2:
           if (tag !== 18) {
@@ -2241,14 +2607,18 @@ export const SubChannelProposalMsg = {
       baseChannelProposal: isSet(object.baseChannelProposal)
         ? BaseChannelProposal.fromJSON(object.baseChannelProposal)
         : undefined,
-      parent: isSet(object.parent) ? bytesFromBase64(object.parent) : new Uint8Array(0),
+      parent: isSet(object.parent)
+        ? bytesFromBase64(object.parent)
+        : new Uint8Array(0),
     };
   },
 
   toJSON(message: SubChannelProposalMsg): unknown {
     const obj: any = {};
     if (message.baseChannelProposal !== undefined) {
-      obj.baseChannelProposal = BaseChannelProposal.toJSON(message.baseChannelProposal);
+      obj.baseChannelProposal = BaseChannelProposal.toJSON(
+        message.baseChannelProposal,
+      );
     }
     if (message.parent.length !== 0) {
       obj.parent = base64FromBytes(message.parent);
@@ -2259,11 +2629,15 @@ export const SubChannelProposalMsg = {
   create(base?: DeepPartial<SubChannelProposalMsg>): SubChannelProposalMsg {
     return SubChannelProposalMsg.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<SubChannelProposalMsg>): SubChannelProposalMsg {
+  fromPartial(
+    object: DeepPartial<SubChannelProposalMsg>,
+  ): SubChannelProposalMsg {
     const message = createBaseSubChannelProposalMsg();
-    message.baseChannelProposal = (object.baseChannelProposal !== undefined && object.baseChannelProposal !== null)
-      ? BaseChannelProposal.fromPartial(object.baseChannelProposal)
-      : undefined;
+    message.baseChannelProposal =
+      object.baseChannelProposal !== undefined &&
+      object.baseChannelProposal !== null
+        ? BaseChannelProposal.fromPartial(object.baseChannelProposal)
+        : undefined;
     message.parent = object.parent ?? new Uint8Array(0);
     return message;
   },
@@ -2274,15 +2648,25 @@ function createBaseSubChannelProposalAccMsg(): SubChannelProposalAccMsg {
 }
 
 export const SubChannelProposalAccMsg = {
-  encode(message: SubChannelProposalAccMsg, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: SubChannelProposalAccMsg,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.baseChannelProposalAcc !== undefined) {
-      BaseChannelProposalAcc.encode(message.baseChannelProposalAcc, writer.uint32(10).fork()).ldelim();
+      BaseChannelProposalAcc.encode(
+        message.baseChannelProposalAcc,
+        writer.uint32(10).fork(),
+      ).ldelim();
     }
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): SubChannelProposalAccMsg {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): SubChannelProposalAccMsg {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSubChannelProposalAccMsg();
     while (reader.pos < end) {
@@ -2293,7 +2677,10 @@ export const SubChannelProposalAccMsg = {
             break;
           }
 
-          message.baseChannelProposalAcc = BaseChannelProposalAcc.decode(reader, reader.uint32());
+          message.baseChannelProposalAcc = BaseChannelProposalAcc.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -2315,18 +2702,25 @@ export const SubChannelProposalAccMsg = {
   toJSON(message: SubChannelProposalAccMsg): unknown {
     const obj: any = {};
     if (message.baseChannelProposalAcc !== undefined) {
-      obj.baseChannelProposalAcc = BaseChannelProposalAcc.toJSON(message.baseChannelProposalAcc);
+      obj.baseChannelProposalAcc = BaseChannelProposalAcc.toJSON(
+        message.baseChannelProposalAcc,
+      );
     }
     return obj;
   },
 
-  create(base?: DeepPartial<SubChannelProposalAccMsg>): SubChannelProposalAccMsg {
+  create(
+    base?: DeepPartial<SubChannelProposalAccMsg>,
+  ): SubChannelProposalAccMsg {
     return SubChannelProposalAccMsg.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<SubChannelProposalAccMsg>): SubChannelProposalAccMsg {
+  fromPartial(
+    object: DeepPartial<SubChannelProposalAccMsg>,
+  ): SubChannelProposalAccMsg {
     const message = createBaseSubChannelProposalAccMsg();
     message.baseChannelProposalAcc =
-      (object.baseChannelProposalAcc !== undefined && object.baseChannelProposalAcc !== null)
+      object.baseChannelProposalAcc !== undefined &&
+      object.baseChannelProposalAcc !== null
         ? BaseChannelProposalAcc.fromPartial(object.baseChannelProposalAcc)
         : undefined;
     return message;
@@ -2334,13 +2728,25 @@ export const SubChannelProposalAccMsg = {
 };
 
 function createBaseVirtualChannelProposalMsg(): VirtualChannelProposalMsg {
-  return { baseChannelProposal: undefined, proposer: new Uint8Array(0), peers: [], parents: [], indexMaps: [] };
+  return {
+    baseChannelProposal: undefined,
+    proposer: new Uint8Array(0),
+    peers: [],
+    parents: [],
+    indexMaps: [],
+  };
 }
 
 export const VirtualChannelProposalMsg = {
-  encode(message: VirtualChannelProposalMsg, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: VirtualChannelProposalMsg,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.baseChannelProposal !== undefined) {
-      BaseChannelProposal.encode(message.baseChannelProposal, writer.uint32(10).fork()).ldelim();
+      BaseChannelProposal.encode(
+        message.baseChannelProposal,
+        writer.uint32(10).fork(),
+      ).ldelim();
     }
     if (message.proposer.length !== 0) {
       writer.uint32(18).bytes(message.proposer);
@@ -2357,8 +2763,12 @@ export const VirtualChannelProposalMsg = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): VirtualChannelProposalMsg {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): VirtualChannelProposalMsg {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseVirtualChannelProposalMsg();
     while (reader.pos < end) {
@@ -2369,7 +2779,10 @@ export const VirtualChannelProposalMsg = {
             break;
           }
 
-          message.baseChannelProposal = BaseChannelProposal.decode(reader, reader.uint32());
+          message.baseChannelProposal = BaseChannelProposal.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
         case 2:
           if (tag !== 18) {
@@ -2413,9 +2826,15 @@ export const VirtualChannelProposalMsg = {
       baseChannelProposal: isSet(object.baseChannelProposal)
         ? BaseChannelProposal.fromJSON(object.baseChannelProposal)
         : undefined,
-      proposer: isSet(object.proposer) ? bytesFromBase64(object.proposer) : new Uint8Array(0),
-      peers: globalThis.Array.isArray(object?.peers) ? object.peers.map((e: any) => bytesFromBase64(e)) : [],
-      parents: globalThis.Array.isArray(object?.parents) ? object.parents.map((e: any) => bytesFromBase64(e)) : [],
+      proposer: isSet(object.proposer)
+        ? bytesFromBase64(object.proposer)
+        : new Uint8Array(0),
+      peers: globalThis.Array.isArray(object?.peers)
+        ? object.peers.map((e: any) => bytesFromBase64(e))
+        : [],
+      parents: globalThis.Array.isArray(object?.parents)
+        ? object.parents.map((e: any) => bytesFromBase64(e))
+        : [],
       indexMaps: globalThis.Array.isArray(object?.indexMaps)
         ? object.indexMaps.map((e: any) => IndexMap.fromJSON(e))
         : [],
@@ -2425,7 +2844,9 @@ export const VirtualChannelProposalMsg = {
   toJSON(message: VirtualChannelProposalMsg): unknown {
     const obj: any = {};
     if (message.baseChannelProposal !== undefined) {
-      obj.baseChannelProposal = BaseChannelProposal.toJSON(message.baseChannelProposal);
+      obj.baseChannelProposal = BaseChannelProposal.toJSON(
+        message.baseChannelProposal,
+      );
     }
     if (message.proposer.length !== 0) {
       obj.proposer = base64FromBytes(message.proposer);
@@ -2442,18 +2863,25 @@ export const VirtualChannelProposalMsg = {
     return obj;
   },
 
-  create(base?: DeepPartial<VirtualChannelProposalMsg>): VirtualChannelProposalMsg {
+  create(
+    base?: DeepPartial<VirtualChannelProposalMsg>,
+  ): VirtualChannelProposalMsg {
     return VirtualChannelProposalMsg.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<VirtualChannelProposalMsg>): VirtualChannelProposalMsg {
+  fromPartial(
+    object: DeepPartial<VirtualChannelProposalMsg>,
+  ): VirtualChannelProposalMsg {
     const message = createBaseVirtualChannelProposalMsg();
-    message.baseChannelProposal = (object.baseChannelProposal !== undefined && object.baseChannelProposal !== null)
-      ? BaseChannelProposal.fromPartial(object.baseChannelProposal)
-      : undefined;
+    message.baseChannelProposal =
+      object.baseChannelProposal !== undefined &&
+      object.baseChannelProposal !== null
+        ? BaseChannelProposal.fromPartial(object.baseChannelProposal)
+        : undefined;
     message.proposer = object.proposer ?? new Uint8Array(0);
     message.peers = object.peers?.map((e) => e) || [];
     message.parents = object.parents?.map((e) => e) || [];
-    message.indexMaps = object.indexMaps?.map((e) => IndexMap.fromPartial(e)) || [];
+    message.indexMaps =
+      object.indexMaps?.map((e) => IndexMap.fromPartial(e)) || [];
     return message;
   },
 };
@@ -2463,9 +2891,15 @@ function createBaseVirtualChannelProposalAccMsg(): VirtualChannelProposalAccMsg 
 }
 
 export const VirtualChannelProposalAccMsg = {
-  encode(message: VirtualChannelProposalAccMsg, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: VirtualChannelProposalAccMsg,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.baseChannelProposalAcc !== undefined) {
-      BaseChannelProposalAcc.encode(message.baseChannelProposalAcc, writer.uint32(10).fork()).ldelim();
+      BaseChannelProposalAcc.encode(
+        message.baseChannelProposalAcc,
+        writer.uint32(10).fork(),
+      ).ldelim();
     }
     if (message.responder.length !== 0) {
       writer.uint32(18).bytes(message.responder);
@@ -2473,8 +2907,12 @@ export const VirtualChannelProposalAccMsg = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): VirtualChannelProposalAccMsg {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): VirtualChannelProposalAccMsg {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseVirtualChannelProposalAccMsg();
     while (reader.pos < end) {
@@ -2485,7 +2923,10 @@ export const VirtualChannelProposalAccMsg = {
             break;
           }
 
-          message.baseChannelProposalAcc = BaseChannelProposalAcc.decode(reader, reader.uint32());
+          message.baseChannelProposalAcc = BaseChannelProposalAcc.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
         case 2:
           if (tag !== 18) {
@@ -2508,14 +2949,18 @@ export const VirtualChannelProposalAccMsg = {
       baseChannelProposalAcc: isSet(object.baseChannelProposalAcc)
         ? BaseChannelProposalAcc.fromJSON(object.baseChannelProposalAcc)
         : undefined,
-      responder: isSet(object.responder) ? bytesFromBase64(object.responder) : new Uint8Array(0),
+      responder: isSet(object.responder)
+        ? bytesFromBase64(object.responder)
+        : new Uint8Array(0),
     };
   },
 
   toJSON(message: VirtualChannelProposalAccMsg): unknown {
     const obj: any = {};
     if (message.baseChannelProposalAcc !== undefined) {
-      obj.baseChannelProposalAcc = BaseChannelProposalAcc.toJSON(message.baseChannelProposalAcc);
+      obj.baseChannelProposalAcc = BaseChannelProposalAcc.toJSON(
+        message.baseChannelProposalAcc,
+      );
     }
     if (message.responder.length !== 0) {
       obj.responder = base64FromBytes(message.responder);
@@ -2523,13 +2968,18 @@ export const VirtualChannelProposalAccMsg = {
     return obj;
   },
 
-  create(base?: DeepPartial<VirtualChannelProposalAccMsg>): VirtualChannelProposalAccMsg {
+  create(
+    base?: DeepPartial<VirtualChannelProposalAccMsg>,
+  ): VirtualChannelProposalAccMsg {
     return VirtualChannelProposalAccMsg.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<VirtualChannelProposalAccMsg>): VirtualChannelProposalAccMsg {
+  fromPartial(
+    object: DeepPartial<VirtualChannelProposalAccMsg>,
+  ): VirtualChannelProposalAccMsg {
     const message = createBaseVirtualChannelProposalAccMsg();
     message.baseChannelProposalAcc =
-      (object.baseChannelProposalAcc !== undefined && object.baseChannelProposalAcc !== null)
+      object.baseChannelProposalAcc !== undefined &&
+      object.baseChannelProposalAcc !== null
         ? BaseChannelProposalAcc.fromPartial(object.baseChannelProposalAcc)
         : undefined;
     message.responder = object.responder ?? new Uint8Array(0);
@@ -2542,7 +2992,10 @@ function createBaseChannelProposalRejMsg(): ChannelProposalRejMsg {
 }
 
 export const ChannelProposalRejMsg = {
-  encode(message: ChannelProposalRejMsg, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: ChannelProposalRejMsg,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.proposalId.length !== 0) {
       writer.uint32(10).bytes(message.proposalId);
     }
@@ -2552,8 +3005,12 @@ export const ChannelProposalRejMsg = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): ChannelProposalRejMsg {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): ChannelProposalRejMsg {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseChannelProposalRejMsg();
     while (reader.pos < end) {
@@ -2584,7 +3041,9 @@ export const ChannelProposalRejMsg = {
 
   fromJSON(object: any): ChannelProposalRejMsg {
     return {
-      proposalId: isSet(object.proposalId) ? bytesFromBase64(object.proposalId) : new Uint8Array(0),
+      proposalId: isSet(object.proposalId)
+        ? bytesFromBase64(object.proposalId)
+        : new Uint8Array(0),
       reason: isSet(object.reason) ? globalThis.String(object.reason) : "",
     };
   },
@@ -2603,7 +3062,9 @@ export const ChannelProposalRejMsg = {
   create(base?: DeepPartial<ChannelProposalRejMsg>): ChannelProposalRejMsg {
     return ChannelProposalRejMsg.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<ChannelProposalRejMsg>): ChannelProposalRejMsg {
+  fromPartial(
+    object: DeepPartial<ChannelProposalRejMsg>,
+  ): ChannelProposalRejMsg {
     const message = createBaseChannelProposalRejMsg();
     message.proposalId = object.proposalId ?? new Uint8Array(0);
     message.reason = object.reason ?? "";
@@ -2616,9 +3077,15 @@ function createBaseChannelUpdateMsg(): ChannelUpdateMsg {
 }
 
 export const ChannelUpdateMsg = {
-  encode(message: ChannelUpdateMsg, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: ChannelUpdateMsg,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.channelUpdate !== undefined) {
-      ChannelUpdate.encode(message.channelUpdate, writer.uint32(10).fork()).ldelim();
+      ChannelUpdate.encode(
+        message.channelUpdate,
+        writer.uint32(10).fork(),
+      ).ldelim();
     }
     if (message.sig.length !== 0) {
       writer.uint32(18).bytes(message.sig);
@@ -2627,7 +3094,8 @@ export const ChannelUpdateMsg = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): ChannelUpdateMsg {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseChannelUpdateMsg();
     while (reader.pos < end) {
@@ -2658,7 +3126,9 @@ export const ChannelUpdateMsg = {
 
   fromJSON(object: any): ChannelUpdateMsg {
     return {
-      channelUpdate: isSet(object.channelUpdate) ? ChannelUpdate.fromJSON(object.channelUpdate) : undefined,
+      channelUpdate: isSet(object.channelUpdate)
+        ? ChannelUpdate.fromJSON(object.channelUpdate)
+        : undefined,
       sig: isSet(object.sig) ? bytesFromBase64(object.sig) : new Uint8Array(0),
     };
   },
@@ -2679,22 +3149,33 @@ export const ChannelUpdateMsg = {
   },
   fromPartial(object: DeepPartial<ChannelUpdateMsg>): ChannelUpdateMsg {
     const message = createBaseChannelUpdateMsg();
-    message.channelUpdate = (object.channelUpdate !== undefined && object.channelUpdate !== null)
-      ? ChannelUpdate.fromPartial(object.channelUpdate)
-      : undefined;
+    message.channelUpdate =
+      object.channelUpdate !== undefined && object.channelUpdate !== null
+        ? ChannelUpdate.fromPartial(object.channelUpdate)
+        : undefined;
     message.sig = object.sig ?? new Uint8Array(0);
     return message;
   },
 };
 
 function createBaseVirtualChannelFundingProposalMsg(): VirtualChannelFundingProposalMsg {
-  return { channelUpdateMsg: undefined, initial: undefined, indexMap: undefined };
+  return {
+    channelUpdateMsg: undefined,
+    initial: undefined,
+    indexMap: undefined,
+  };
 }
 
 export const VirtualChannelFundingProposalMsg = {
-  encode(message: VirtualChannelFundingProposalMsg, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: VirtualChannelFundingProposalMsg,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.channelUpdateMsg !== undefined) {
-      ChannelUpdateMsg.encode(message.channelUpdateMsg, writer.uint32(10).fork()).ldelim();
+      ChannelUpdateMsg.encode(
+        message.channelUpdateMsg,
+        writer.uint32(10).fork(),
+      ).ldelim();
     }
     if (message.initial !== undefined) {
       SignedState.encode(message.initial, writer.uint32(18).fork()).ldelim();
@@ -2705,8 +3186,12 @@ export const VirtualChannelFundingProposalMsg = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): VirtualChannelFundingProposalMsg {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): VirtualChannelFundingProposalMsg {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseVirtualChannelFundingProposalMsg();
     while (reader.pos < end) {
@@ -2717,7 +3202,10 @@ export const VirtualChannelFundingProposalMsg = {
             break;
           }
 
-          message.channelUpdateMsg = ChannelUpdateMsg.decode(reader, reader.uint32());
+          message.channelUpdateMsg = ChannelUpdateMsg.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
         case 2:
           if (tag !== 18) {
@@ -2744,9 +3232,15 @@ export const VirtualChannelFundingProposalMsg = {
 
   fromJSON(object: any): VirtualChannelFundingProposalMsg {
     return {
-      channelUpdateMsg: isSet(object.channelUpdateMsg) ? ChannelUpdateMsg.fromJSON(object.channelUpdateMsg) : undefined,
-      initial: isSet(object.initial) ? SignedState.fromJSON(object.initial) : undefined,
-      indexMap: isSet(object.indexMap) ? IndexMap.fromJSON(object.indexMap) : undefined,
+      channelUpdateMsg: isSet(object.channelUpdateMsg)
+        ? ChannelUpdateMsg.fromJSON(object.channelUpdateMsg)
+        : undefined,
+      initial: isSet(object.initial)
+        ? SignedState.fromJSON(object.initial)
+        : undefined,
+      indexMap: isSet(object.indexMap)
+        ? IndexMap.fromJSON(object.indexMap)
+        : undefined,
     };
   },
 
@@ -2764,20 +3258,27 @@ export const VirtualChannelFundingProposalMsg = {
     return obj;
   },
 
-  create(base?: DeepPartial<VirtualChannelFundingProposalMsg>): VirtualChannelFundingProposalMsg {
+  create(
+    base?: DeepPartial<VirtualChannelFundingProposalMsg>,
+  ): VirtualChannelFundingProposalMsg {
     return VirtualChannelFundingProposalMsg.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<VirtualChannelFundingProposalMsg>): VirtualChannelFundingProposalMsg {
+  fromPartial(
+    object: DeepPartial<VirtualChannelFundingProposalMsg>,
+  ): VirtualChannelFundingProposalMsg {
     const message = createBaseVirtualChannelFundingProposalMsg();
-    message.channelUpdateMsg = (object.channelUpdateMsg !== undefined && object.channelUpdateMsg !== null)
-      ? ChannelUpdateMsg.fromPartial(object.channelUpdateMsg)
-      : undefined;
-    message.initial = (object.initial !== undefined && object.initial !== null)
-      ? SignedState.fromPartial(object.initial)
-      : undefined;
-    message.indexMap = (object.indexMap !== undefined && object.indexMap !== null)
-      ? IndexMap.fromPartial(object.indexMap)
-      : undefined;
+    message.channelUpdateMsg =
+      object.channelUpdateMsg !== undefined && object.channelUpdateMsg !== null
+        ? ChannelUpdateMsg.fromPartial(object.channelUpdateMsg)
+        : undefined;
+    message.initial =
+      object.initial !== undefined && object.initial !== null
+        ? SignedState.fromPartial(object.initial)
+        : undefined;
+    message.indexMap =
+      object.indexMap !== undefined && object.indexMap !== null
+        ? IndexMap.fromPartial(object.indexMap)
+        : undefined;
     return message;
   },
 };
@@ -2787,9 +3288,15 @@ function createBaseVirtualChannelSettlementProposalMsg(): VirtualChannelSettleme
 }
 
 export const VirtualChannelSettlementProposalMsg = {
-  encode(message: VirtualChannelSettlementProposalMsg, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: VirtualChannelSettlementProposalMsg,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.channelUpdateMsg !== undefined) {
-      ChannelUpdateMsg.encode(message.channelUpdateMsg, writer.uint32(10).fork()).ldelim();
+      ChannelUpdateMsg.encode(
+        message.channelUpdateMsg,
+        writer.uint32(10).fork(),
+      ).ldelim();
     }
     if (message.final !== undefined) {
       SignedState.encode(message.final, writer.uint32(18).fork()).ldelim();
@@ -2797,8 +3304,12 @@ export const VirtualChannelSettlementProposalMsg = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): VirtualChannelSettlementProposalMsg {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): VirtualChannelSettlementProposalMsg {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseVirtualChannelSettlementProposalMsg();
     while (reader.pos < end) {
@@ -2809,7 +3320,10 @@ export const VirtualChannelSettlementProposalMsg = {
             break;
           }
 
-          message.channelUpdateMsg = ChannelUpdateMsg.decode(reader, reader.uint32());
+          message.channelUpdateMsg = ChannelUpdateMsg.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
         case 2:
           if (tag !== 18) {
@@ -2829,8 +3343,12 @@ export const VirtualChannelSettlementProposalMsg = {
 
   fromJSON(object: any): VirtualChannelSettlementProposalMsg {
     return {
-      channelUpdateMsg: isSet(object.channelUpdateMsg) ? ChannelUpdateMsg.fromJSON(object.channelUpdateMsg) : undefined,
-      final: isSet(object.final) ? SignedState.fromJSON(object.final) : undefined,
+      channelUpdateMsg: isSet(object.channelUpdateMsg)
+        ? ChannelUpdateMsg.fromJSON(object.channelUpdateMsg)
+        : undefined,
+      final: isSet(object.final)
+        ? SignedState.fromJSON(object.final)
+        : undefined,
     };
   },
 
@@ -2845,17 +3363,23 @@ export const VirtualChannelSettlementProposalMsg = {
     return obj;
   },
 
-  create(base?: DeepPartial<VirtualChannelSettlementProposalMsg>): VirtualChannelSettlementProposalMsg {
+  create(
+    base?: DeepPartial<VirtualChannelSettlementProposalMsg>,
+  ): VirtualChannelSettlementProposalMsg {
     return VirtualChannelSettlementProposalMsg.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<VirtualChannelSettlementProposalMsg>): VirtualChannelSettlementProposalMsg {
+  fromPartial(
+    object: DeepPartial<VirtualChannelSettlementProposalMsg>,
+  ): VirtualChannelSettlementProposalMsg {
     const message = createBaseVirtualChannelSettlementProposalMsg();
-    message.channelUpdateMsg = (object.channelUpdateMsg !== undefined && object.channelUpdateMsg !== null)
-      ? ChannelUpdateMsg.fromPartial(object.channelUpdateMsg)
-      : undefined;
-    message.final = (object.final !== undefined && object.final !== null)
-      ? SignedState.fromPartial(object.final)
-      : undefined;
+    message.channelUpdateMsg =
+      object.channelUpdateMsg !== undefined && object.channelUpdateMsg !== null
+        ? ChannelUpdateMsg.fromPartial(object.channelUpdateMsg)
+        : undefined;
+    message.final =
+      object.final !== undefined && object.final !== null
+        ? SignedState.fromPartial(object.final)
+        : undefined;
     return message;
   },
 };
@@ -2865,7 +3389,10 @@ function createBaseChannelUpdateAccMsg(): ChannelUpdateAccMsg {
 }
 
 export const ChannelUpdateAccMsg = {
-  encode(message: ChannelUpdateAccMsg, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: ChannelUpdateAccMsg,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.channelId.length !== 0) {
       writer.uint32(10).bytes(message.channelId);
     }
@@ -2879,7 +3406,8 @@ export const ChannelUpdateAccMsg = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): ChannelUpdateAccMsg {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseChannelUpdateAccMsg();
     while (reader.pos < end) {
@@ -2917,7 +3445,9 @@ export const ChannelUpdateAccMsg = {
 
   fromJSON(object: any): ChannelUpdateAccMsg {
     return {
-      channelId: isSet(object.channelId) ? bytesFromBase64(object.channelId) : new Uint8Array(0),
+      channelId: isSet(object.channelId)
+        ? bytesFromBase64(object.channelId)
+        : new Uint8Array(0),
       version: isSet(object.version) ? globalThis.Number(object.version) : 0,
       sig: isSet(object.sig) ? bytesFromBase64(object.sig) : new Uint8Array(0),
     };
@@ -2954,7 +3484,10 @@ function createBaseChannelUpdateRejMsg(): ChannelUpdateRejMsg {
 }
 
 export const ChannelUpdateRejMsg = {
-  encode(message: ChannelUpdateRejMsg, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: ChannelUpdateRejMsg,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.channelId.length !== 0) {
       writer.uint32(10).bytes(message.channelId);
     }
@@ -2968,7 +3501,8 @@ export const ChannelUpdateRejMsg = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): ChannelUpdateRejMsg {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseChannelUpdateRejMsg();
     while (reader.pos < end) {
@@ -3006,7 +3540,9 @@ export const ChannelUpdateRejMsg = {
 
   fromJSON(object: any): ChannelUpdateRejMsg {
     return {
-      channelId: isSet(object.channelId) ? bytesFromBase64(object.channelId) : new Uint8Array(0),
+      channelId: isSet(object.channelId)
+        ? bytesFromBase64(object.channelId)
+        : new Uint8Array(0),
       version: isSet(object.version) ? globalThis.Number(object.version) : 0,
       reason: isSet(object.reason) ? globalThis.String(object.reason) : "",
     };
@@ -3043,7 +3579,10 @@ function createBaseChannelSyncMsg(): ChannelSyncMsg {
 }
 
 export const ChannelSyncMsg = {
-  encode(message: ChannelSyncMsg, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: ChannelSyncMsg,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.phase !== 0) {
       writer.uint32(8).uint32(message.phase);
     }
@@ -3054,7 +3593,8 @@ export const ChannelSyncMsg = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): ChannelSyncMsg {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseChannelSyncMsg();
     while (reader.pos < end) {
@@ -3086,7 +3626,9 @@ export const ChannelSyncMsg = {
   fromJSON(object: any): ChannelSyncMsg {
     return {
       phase: isSet(object.phase) ? globalThis.Number(object.phase) : 0,
-      currentTx: isSet(object.currentTx) ? Transaction.fromJSON(object.currentTx) : undefined,
+      currentTx: isSet(object.currentTx)
+        ? Transaction.fromJSON(object.currentTx)
+        : undefined,
     };
   },
 
@@ -3107,9 +3649,10 @@ export const ChannelSyncMsg = {
   fromPartial(object: DeepPartial<ChannelSyncMsg>): ChannelSyncMsg {
     const message = createBaseChannelSyncMsg();
     message.phase = object.phase ?? 0;
-    message.currentTx = (object.currentTx !== undefined && object.currentTx !== null)
-      ? Transaction.fromPartial(object.currentTx)
-      : undefined;
+    message.currentTx =
+      object.currentTx !== undefined && object.currentTx !== null
+        ? Transaction.fromPartial(object.currentTx)
+        : undefined;
     return message;
   },
 };
@@ -3139,12 +3682,23 @@ function base64FromBytes(arr: Uint8Array): string {
   }
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin =
+  | Date
+  | Function
+  | Uint8Array
+  | string
+  | number
+  | boolean
+  | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-  : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
+export type DeepPartial<T> = T extends Builtin
+  ? T
+  : T extends globalThis.Array<infer U>
+  ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U>
+  ? ReadonlyArray<DeepPartial<U>>
+  : T extends {}
+  ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
 
 function longToNumber(long: Long): number {
