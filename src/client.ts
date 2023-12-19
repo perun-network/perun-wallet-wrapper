@@ -49,7 +49,6 @@ export class ServiceClient implements SimpleChannelServiceClient {
     } else {
       channelId = id;
     }
-
     const channel = this.channels.get(channelId);
     if (!channel) {
       throw new ClientError("channel not found");
@@ -82,6 +81,8 @@ export class ServiceClient implements SimpleChannelServiceClient {
     }
 
     const channelId = this.idToString(res.channelId!);
+    console.log("Wrapper channelId res: ", res.channelId)
+    console.log("Wrapper channelId: ", channelId)
     const initState = {
       id: res.channelId!,
       version: 0,
@@ -91,6 +92,10 @@ export class ServiceClient implements SimpleChannelServiceClient {
       isFinal: false,
     };
     this.channels.set(channelId, { myIndex: 0, state: initState });
+    // loop over this.channels map
+    for (let [key, value] of this.channels) {
+      console.log("Channels after open: ", key, value);
+    }
 
     return res;
   }
@@ -100,7 +105,14 @@ export class ServiceClient implements SimpleChannelServiceClient {
     assetIdx: number,
     amount: bigint,
   ): ServiceResponse<ChannelServiceImplementation["updateChannel"]> {
-    const channel = this.channels.get(this.idToString(channelId));
+    const cID = this.idToString(channelId)
+    console.log("updateChannel cID: ", cID)
+        // loop over this.channels map
+    for (let [key, value] of this.channels) {
+      console.log("Channels during updateChannel: ", key, value);
+    }
+    const channel = this.channels.get(cID);
+    console.log("updateChannel: ", channel)
     if (!channel) {
       throw new ClientError("channel not found");
     }
@@ -115,8 +127,9 @@ export class ServiceClient implements SimpleChannelServiceClient {
     const req = {
       state: proposedState,
     };
-
+    console.log("updateChannel calling Channel Service: ", req)
     const res = await this.channelServiceClient.updateChannel(req);
+    console.log("updateChannel called channel servicec res: ", res)
 
     if (res.rejected) {
       return res;
