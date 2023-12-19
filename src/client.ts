@@ -8,6 +8,7 @@ import { ServiceResponse, SimpleChannelServiceClient } from "./services";
 import { AddressEncoder, channelIdToString } from "./translator";
 import { Allocation, State } from "./wire";
 import { bigintFromLEBytes } from "./verifier";
+import { ChannelState } from "./ckb/serialization";
 
 // The ServiceClient is purely actionable and only knows about the actions it
 // can perform. If channel updates are received from another peer, this client
@@ -99,6 +100,28 @@ export class ServiceClient implements SimpleChannelServiceClient {
 
     return res;
   }
+
+  async getChannels(
+    me: Uint8Array,
+  ): ServiceResponse<ChannelServiceImplementation["getChannels"]> {
+    const req = {
+      requester: this.addrEncoder(me),
+    };
+
+    const res = await this.channelServiceClient.getChannels(req);
+
+    if (res.rejected) {
+      return res;
+    }
+    if (!res.state) {
+      return res;
+    }
+    const cid = this.idToString(res.state!.id);
+    console.log("getChannels poll cid: ", cid);
+    this.updateChannelState(res.state!.id, res.state!);
+    return res;
+  }
+
 
   async updateChannel(
     channelId: Uint8Array,

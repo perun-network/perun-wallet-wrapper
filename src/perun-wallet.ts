@@ -18,7 +18,7 @@ export interface GetChannelsRequest {
 
 export interface GetChannelsResponse {
   rejected?: Rejected | undefined;
-  channels?: Uint8Array | undefined;
+  state?: State | undefined;
 }
 
 export interface ChannelOpenRequest {
@@ -284,7 +284,7 @@ export const GetChannelsRequest = {
 };
 
 function createBaseGetChannelsResponse(): GetChannelsResponse {
-  return { rejected: undefined, channels: undefined };
+  return { rejected: undefined, state: undefined };
 }
 
 export const GetChannelsResponse = {
@@ -292,8 +292,8 @@ export const GetChannelsResponse = {
     if (message.rejected !== undefined) {
       Rejected.encode(message.rejected, writer.uint32(10).fork()).ldelim();
     }
-    if (message.channels !== undefined) {
-      writer.uint32(18).bytes(message.channels);
+    if (message.state !== undefined) {
+      State.encode(message.state, writer.uint32(18).fork()).ldelim();
     }
     return writer;
   },
@@ -317,7 +317,7 @@ export const GetChannelsResponse = {
             break;
           }
 
-          message.channels = reader.bytes();
+          message.state = State.decode(reader, reader.uint32());
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -331,7 +331,7 @@ export const GetChannelsResponse = {
   fromJSON(object: any): GetChannelsResponse {
     return {
       rejected: isSet(object.rejected) ? Rejected.fromJSON(object.rejected) : undefined,
-      channels: isSet(object.channels) ? bytesFromBase64(object.channels) : undefined,
+      state: isSet(object.state) ? State.fromJSON(object.state) : undefined,
     };
   },
 
@@ -340,8 +340,8 @@ export const GetChannelsResponse = {
     if (message.rejected !== undefined) {
       obj.rejected = Rejected.toJSON(message.rejected);
     }
-    if (message.channels !== undefined) {
-      obj.channels = base64FromBytes(message.channels);
+    if (message.state !== undefined) {
+      obj.state = State.toJSON(message.state);
     }
     return obj;
   },
@@ -354,7 +354,7 @@ export const GetChannelsResponse = {
     message.rejected = (object.rejected !== undefined && object.rejected !== null)
       ? Rejected.fromPartial(object.rejected)
       : undefined;
-    message.channels = object.channels ?? undefined;
+    message.state = (object.state !== undefined && object.state !== null) ? State.fromPartial(object.state) : undefined;
     return message;
   },
 };
