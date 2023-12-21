@@ -17,6 +17,7 @@ export class ServiceClient implements SimpleChannelServiceClient {
   private addrEncoder: AddressEncoder;
   private channelServiceClient: ChannelServiceClient;
   private channels: Map<string, ClientChannel>;
+  private indexMap: Map<string, number>;
 
   constructor(
     addrEncoder: AddressEncoder,
@@ -25,6 +26,7 @@ export class ServiceClient implements SimpleChannelServiceClient {
     this.addrEncoder = addrEncoder;
     this.channelServiceClient = channelServiceClient;
     this.channels = new Map();
+    this.indexMap = new Map();
   }
 
   getCachedChannelState(id: Uint8Array | string): State | undefined {
@@ -41,6 +43,17 @@ export class ServiceClient implements SimpleChannelServiceClient {
     }
 
     return channel.state;
+  }
+  
+  addOrUpdateChannels(id: Uint8Array | string, state: State): void {
+    let channelId;
+    if (id instanceof Uint8Array) {
+      channelId = this.idToString(id);
+    } else {
+      channelId = id;
+    }
+    const channel = this.channels.get(channelId);
+    this.channels.set(channelId, {state: state });
   }
 
   updateChannelState(id: Uint8Array | string, state: State): void {
@@ -82,18 +95,9 @@ export class ServiceClient implements SimpleChannelServiceClient {
     }
 
     const channelId = this.idToString(res.channelId!);
+    this.indexMap.set(channelId, 0);
     console.log("Wrapper channelId res: ", res.channelId)
     console.log("Wrapper channelId: ", channelId)
-    const initState = {
-      id: res.channelId!,
-      version: 0,
-      app: new Uint8Array(),
-      allocation: allocation,
-      data: new Uint8Array(),
-      isFinal: false,
-    };
-    this.channels.set(channelId, { myIndex: 0, state: initState });
-    // loop over this.channels map
     for (let [key, value] of this.channels) {
       console.log("Channels after open: ", key, value);
     }
@@ -117,8 +121,8 @@ export class ServiceClient implements SimpleChannelServiceClient {
       return res;
     }
     const cid = this.idToString(res.state!.id);
-    console.log("getChannels poll cid: ", cid);
-    this.updateChannelState(res.state!.id, res.state!);
+    this.addOrUpdateChannels(cid, res.state!);
+    console.log("getChannels poll result: ", JSON.stringify(res));
     return res;
   }
 
@@ -139,11 +143,15 @@ export class ServiceClient implements SimpleChannelServiceClient {
     if (!channel) {
       throw new ClientError("channel not found");
     }
+    let idx = this.indexMap.get(cID);
+    if (idx == undefined) {
+      idx = 1;
+    }
 
     const proposedState = updateStatePayment(
       channel.state,
-      channel.myIndex,
-      channel.myIndex == 0 ? 1 : 0,
+      idx,
+      idx == 0 ? 1 : 0,
       assetIdx,
       amount,
     );
@@ -189,7 +197,6 @@ export class ServiceClient implements SimpleChannelServiceClient {
 }
 
 export interface ClientChannel {
-  myIndex: number;
   state: State;
 }
 
