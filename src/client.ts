@@ -260,7 +260,7 @@ function updateStatePayment(
   newState.allocation!.balances!.balances[assetIdx].balance[to] =
     bigintToBEBytes(newTo);
   // Make sure version count is incremented.
-  newState.version = oldState.version + 1;
+  newState.version = oldState.version;
 
   return newState;
 }
