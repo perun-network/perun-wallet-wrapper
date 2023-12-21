@@ -122,7 +122,7 @@ export class ServiceClient implements SimpleChannelServiceClient {
     }
     const cid = this.idToString(res.state!.id);
     this.addOrUpdateChannels(cid, res.state!);
-    console.log("getChannels poll result: ", JSON.stringify(res));
+    //console.log("getChannels poll result: ", JSON.stringify(res));
     return res;
   }
 
@@ -220,6 +220,16 @@ export class ClientError extends Error {
   }
 }
 
+function bigintFromBEBytes(bytes: Uint8Array): bigint {
+  let result = BigInt(0);
+
+  for (let i = 0; i < bytes.length; i++) {
+    result = (result << BigInt(8)) + BigInt(bytes[i]);
+  }
+
+  return result;
+}
+
 // Updates the given channel state with a payment using the `from` index as the
 // source and the `to` index as the destination with the given `amount`.
 function updateStatePayment(
@@ -229,25 +239,26 @@ function updateStatePayment(
   assetIdx: number,
   amount: bigint,
 ) {
+  console.log("old state:", JSON.stringify(oldState))
   const newState = { ...oldState };
   const oldFrom =
     newState.allocation!.balances!.balances[assetIdx].balance[from];
   const oldTo = newState.allocation!.balances!.balances[assetIdx].balance[to];
-  const oldFromBigInt = bigintFromLEBytes(oldFrom);
+  const oldFromBigInt = bigintFromBEBytes(oldFrom);
 
   if (oldFromBigInt < amount) {
     throw new Error("insufficient funds");
   }
 
-  const oldToBigInt = bigintFromLEBytes(oldTo);
+  const oldToBigInt = bigintFromBEBytes(oldTo);
   const newFrom = oldFromBigInt - amount;
   const newTo = oldToBigInt + amount;
 
   // Update allocation struct for participants.
   newState.allocation!.balances!.balances[assetIdx].balance[from] =
-    bigintToLEBytes(newFrom);
+    bigintToBEBytes(newFrom);
   newState.allocation!.balances!.balances[assetIdx].balance[to] =
-    bigintToLEBytes(newTo);
+    bigintToBEBytes(newTo);
   // Make sure version count is incremented.
   newState.version = oldState.version + 1;
 
@@ -262,5 +273,16 @@ function bigintToLEBytes(n: bigint): Uint8Array {
     bytes.push(Number(n & BigInt(0xff)));
     n = n >> BigInt(8);
   }
+  return Uint8Array.from(bytes);
+}
+
+function bigintToBEBytes(n: bigint): Uint8Array {
+  const bytes = [];
+
+  while (n > 0) {
+    bytes.unshift(Number(n & BigInt(0xff)));
+    n = n >> BigInt(8);
+  }
+
   return Uint8Array.from(bytes);
 }
