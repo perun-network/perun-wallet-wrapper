@@ -28,6 +28,10 @@ export interface SimpleChannelServiceClient {
     challengeDuration: number,
   ): ServiceResponse<ChannelServiceImplementation["openChannel"]>;
 
+  getChannels (
+    requester: Uint8Array
+  ): ServiceResponse<ChannelServiceImplementation["getChannels"]>;
+
   // Update the channel by paying the given amount to the peer. The asset is
   // identified by the idx of said asset in the channels state. See
   // ValidOpenChannelRequest.fundingAgreement in `verifier.ts` for more

@@ -3,11 +3,22 @@ export interface AddressEncoder {
 }
 
 export function channelIdToString(id: Uint8Array): string {
-  const decoder = new TextDecoder("utf-8");
-  return decoder.decode(id);
+  // Convert Uint8Array to hex string
+  const hexString: string = Array.from(id)
+  .map(byte => ('0' + byte.toString(16)).slice(-2))
+  .join('');
+  return "0x" + hexString;
 }
 
 export function channelIdFromString(id: string): Uint8Array {
-  const encoder = new TextEncoder();
-  return encoder.encode(id);
+  if (id.startsWith('0x')) {
+    id = id.slice(2);
+  }
+  const uint8Array = new Uint8Array(id.length / 2);
+  for (let i = 0; i < id.length; i += 2) {
+    const byte = id.slice(i, i + 2);
+    uint8Array[i / 2] = parseInt(byte, 16);
+  }
+
+  return uint8Array;
 }
