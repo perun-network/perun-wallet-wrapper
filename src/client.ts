@@ -96,8 +96,7 @@ export class ServiceClient implements SimpleChannelServiceClient {
 
     const channelId = this.idToString(res.channelId!);
     this.indexMap.set(channelId, 0);
-    console.log("Wrapper channelId res: ", res.channelId)
-    console.log("Wrapper channelId: ", channelId)
+    console.log("Open Channel: ", channelId)
     for (let [key, value] of this.channels) {
       console.log("Channels after open: ", key, value);
     }
@@ -122,7 +121,6 @@ export class ServiceClient implements SimpleChannelServiceClient {
     }
     const cid = this.idToString(res.state!.id);
     this.addOrUpdateChannels(cid, res.state!);
-    //console.log("getChannels poll result: ", JSON.stringify(res));
     return res;
   }
 
@@ -158,9 +156,7 @@ export class ServiceClient implements SimpleChannelServiceClient {
     const req = {
       state: proposedState,
     };
-    console.log("updateChannel calling Channel Service: ", req)
     const res = await this.channelServiceClient.updateChannel(req);
-    console.log("updateChannel called channel servicec res: ", res)
 
     if (res.rejected) {
       return res;
@@ -239,7 +235,6 @@ function updateStatePayment(
   assetIdx: number,
   amount: bigint,
 ) {
-  console.log("old state:", JSON.stringify(oldState))
   const newState = { ...oldState };
   const oldFrom =
     newState.allocation!.balances!.balances[assetIdx].balance[from];
