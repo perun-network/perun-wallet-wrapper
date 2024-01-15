@@ -2,7 +2,7 @@
   "name": "@polycrypt/perun-wallet-wrapper",
   "devDependencies": {
     "grpc-tools": "^1.12.4",
-    "ts-proto": "^1.162.1",
+    "ts-proto": "^1.165.1",
     "typescript": "^5.2.2"
   },
   "dependencies": {
