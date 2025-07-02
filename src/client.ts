@@ -8,6 +8,7 @@ import { ServiceResponse, SimpleChannelServiceClient } from "./services";
 import { AddressEncoder, channelIdToString } from "./translator";
 import { Allocation, State } from "./wire";
 import { bigintFromLEBytes } from "./verifier";
+import { ChannelState } from "./ckb/serialization";
 
 // The ServiceClient is purely actionable and only knows about the actions it
 // can perform. If channel updates are received from another peer, this client
@@ -16,6 +17,7 @@ export class ServiceClient implements SimpleChannelServiceClient {
   private addrEncoder: AddressEncoder;
   private channelServiceClient: ChannelServiceClient;
   private channels: Map<string, ClientChannel>;
+  private indexMap: Map<string, number>;
 
   constructor(
     addrEncoder: AddressEncoder,
@@ -24,6 +26,7 @@ export class ServiceClient implements SimpleChannelServiceClient {
     this.addrEncoder = addrEncoder;
     this.channelServiceClient = channelServiceClient;
     this.channels = new Map();
+    this.indexMap = new Map();
   }
 
   getCachedChannelState(id: Uint8Array | string): State | undefined {
@@ -41,6 +44,17 @@ export class ServiceClient implements SimpleChannelServiceClient {
 
     return channel.state;
   }
+  
+  addOrUpdateChannels(id: Uint8Array | string, state: State): void {
+    let channelId;
+    if (id instanceof Uint8Array) {
+      channelId = this.idToString(id);
+    } else {
+      channelId = id;
+    }
+    const channel = this.channels.get(channelId);
+    this.channels.set(channelId, {state: state });
+  }
 
   updateChannelState(id: Uint8Array | string, state: State): void {
     let channelId;
@@ -49,7 +63,6 @@ export class ServiceClient implements SimpleChannelServiceClient {
     } else {
       channelId = id;
     }
-
     const channel = this.channels.get(channelId);
     if (!channel) {
       throw new ClientError("channel not found");
@@ -82,40 +95,67 @@ export class ServiceClient implements SimpleChannelServiceClient {
     }
 
     const channelId = this.idToString(res.channelId!);
-    const initState = {
-      id: res.channelId!,
-      version: 0,
-      app: new Uint8Array(),
-      allocation: allocation,
-      data: new Uint8Array(),
-      isFinal: false,
-    };
-    this.channels.set(channelId, { myIndex: 0, state: initState });
+    this.indexMap.set(channelId, 0);
+    console.log("Open Channel: ", channelId)
+    for (let [key, value] of this.channels) {
+      console.log("Channels after open: ", key, value);
+    }
 
     return res;
   }
+
+  async getChannels(
+    me: Uint8Array,
+  ): ServiceResponse<ChannelServiceImplementation["getChannels"]> {
+    const req = {
+      requester: this.addrEncoder(me),
+    };
+
+    const res = await this.channelServiceClient.getChannels(req);
+
+    if (res.rejected) {
+      return res;
+    }
+    if (!res.state) {
+      return res;
+    }
+    const cid = this.idToString(res.state!.id);
+    this.addOrUpdateChannels(cid, res.state!);
+    return res;
+  }
+
 
   async updateChannel(
     channelId: Uint8Array,
     assetIdx: number,
     amount: bigint,
   ): ServiceResponse<ChannelServiceImplementation["updateChannel"]> {
-    const channel = this.channels.get(this.idToString(channelId));
+    const cID = this.idToString(channelId)
+    console.log("updateChannel cID: ", cID)
+        // loop over this.channels map
+    for (let [key, value] of this.channels) {
+      console.log("Channels during updateChannel: ", key, value);
+    }
+    const channel = this.channels.get(cID);
+    console.log("updateChannel: ", channel)
     if (!channel) {
       throw new ClientError("channel not found");
+    }
+    let idx = this.indexMap.get(cID);
+    if (idx == undefined) {
+      idx = 1;
     }
 
     const proposedState = updateStatePayment(
       channel.state,
-      channel.myIndex,
-      channel.myIndex == 0 ? 1 : 0,
+      idx,
+      idx == 0 ? 1 : 0,
       assetIdx,
       amount,
     );
     const req = {
       state: proposedState,
     };
-
     const res = await this.channelServiceClient.updateChannel(req);
 
     if (res.rejected) {
@@ -153,7 +193,6 @@ export class ServiceClient implements SimpleChannelServiceClient {
 }
 
 export interface ClientChannel {
-  myIndex: number;
   state: State;
 }
 
@@ -177,6 +216,16 @@ export class ClientError extends Error {
   }
 }
 
+function bigintFromBEBytes(bytes: Uint8Array): bigint {
+  let result = BigInt(0);
+
+  for (let i = 0; i < bytes.length; i++) {
+    result = (result << BigInt(8)) + BigInt(bytes[i]);
+  }
+
+  return result;
+}
+
 // Updates the given channel state with a payment using the `from` index as the
 // source and the `to` index as the destination with the given `amount`.
 function updateStatePayment(
@@ -190,23 +239,23 @@ function updateStatePayment(
   const oldFrom =
     newState.allocation!.balances!.balances[assetIdx].balance[from];
   const oldTo = newState.allocation!.balances!.balances[assetIdx].balance[to];
-  const oldFromBigInt = bigintFromLEBytes(oldFrom);
+  const oldFromBigInt = bigintFromBEBytes(oldFrom);
 
   if (oldFromBigInt < amount) {
     throw new Error("insufficient funds");
   }
 
-  const oldToBigInt = bigintFromLEBytes(oldTo);
+  const oldToBigInt = bigintFromBEBytes(oldTo);
   const newFrom = oldFromBigInt - amount;
   const newTo = oldToBigInt + amount;
 
   // Update allocation struct for participants.
   newState.allocation!.balances!.balances[assetIdx].balance[from] =
-    bigintToLEBytes(newFrom);
+    bigintToBEBytes(newFrom);
   newState.allocation!.balances!.balances[assetIdx].balance[to] =
-    bigintToLEBytes(newTo);
+    bigintToBEBytes(newTo);
   // Make sure version count is incremented.
-  newState.version = oldState.version + 1;
+  newState.version = oldState.version;
 
   return newState;
 }
@@ -219,5 +268,16 @@ function bigintToLEBytes(n: bigint): Uint8Array {
     bytes.push(Number(n & BigInt(0xff)));
     n = n >> BigInt(8);
   }
+  return Uint8Array.from(bytes);
+}
+
+function bigintToBEBytes(n: bigint): Uint8Array {
+  const bytes = [];
+
+  while (n > 0) {
+    bytes.unshift(Number(n & BigInt(0xff)));
+    n = n >> BigInt(8);
+  }
+
   return Uint8Array.from(bytes);
 }

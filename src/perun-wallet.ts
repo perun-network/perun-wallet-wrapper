@@ -11,6 +11,16 @@ export interface Rejected {
   reason: string;
 }
 
+export interface GetChannelsRequest {
+  /** The channel id of the channel to be closed. */
+  requester: Uint8Array;
+}
+
+export interface GetChannelsResponse {
+  rejected?: Rejected | undefined;
+  state?: State | undefined;
+}
+
 export interface ChannelOpenRequest {
   /** The identity of the requester. */
   requester: Uint8Array;
@@ -212,6 +222,139 @@ export const Rejected = {
   fromPartial(object: DeepPartial<Rejected>): Rejected {
     const message = createBaseRejected();
     message.reason = object.reason ?? "";
+    return message;
+  },
+};
+
+function createBaseGetChannelsRequest(): GetChannelsRequest {
+  return { requester: new Uint8Array(0) };
+}
+
+export const GetChannelsRequest = {
+  encode(message: GetChannelsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.requester.length !== 0) {
+      writer.uint32(10).bytes(message.requester);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetChannelsRequest {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGetChannelsRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 10) {
+            break;
+          }
+
+          message.requester = reader.bytes();
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): GetChannelsRequest {
+    return { requester: isSet(object.requester) ? bytesFromBase64(object.requester) : new Uint8Array(0) };
+  },
+
+  toJSON(message: GetChannelsRequest): unknown {
+    const obj: any = {};
+    if (message.requester.length !== 0) {
+      obj.requester = base64FromBytes(message.requester);
+    }
+    return obj;
+  },
+
+  create(base?: DeepPartial<GetChannelsRequest>): GetChannelsRequest {
+    return GetChannelsRequest.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<GetChannelsRequest>): GetChannelsRequest {
+    const message = createBaseGetChannelsRequest();
+    message.requester = object.requester ?? new Uint8Array(0);
+    return message;
+  },
+};
+
+function createBaseGetChannelsResponse(): GetChannelsResponse {
+  return { rejected: undefined, state: undefined };
+}
+
+export const GetChannelsResponse = {
+  encode(message: GetChannelsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.rejected !== undefined) {
+      Rejected.encode(message.rejected, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.state !== undefined) {
+      State.encode(message.state, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetChannelsResponse {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGetChannelsResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 10) {
+            break;
+          }
+
+          message.rejected = Rejected.decode(reader, reader.uint32());
+          continue;
+        case 2:
+          if (tag !== 18) {
+            break;
+          }
+
+          message.state = State.decode(reader, reader.uint32());
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): GetChannelsResponse {
+    return {
+      rejected: isSet(object.rejected) ? Rejected.fromJSON(object.rejected) : undefined,
+      state: isSet(object.state) ? State.fromJSON(object.state) : undefined,
+    };
+  },
+
+  toJSON(message: GetChannelsResponse): unknown {
+    const obj: any = {};
+    if (message.rejected !== undefined) {
+      obj.rejected = Rejected.toJSON(message.rejected);
+    }
+    if (message.state !== undefined) {
+      obj.state = State.toJSON(message.state);
+    }
+    return obj;
+  },
+
+  create(base?: DeepPartial<GetChannelsResponse>): GetChannelsResponse {
+    return GetChannelsResponse.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<GetChannelsResponse>): GetChannelsResponse {
+    const message = createBaseGetChannelsResponse();
+    message.rejected = (object.rejected !== undefined && object.rejected !== null)
+      ? Rejected.fromPartial(object.rejected)
+      : undefined;
+    message.state = (object.state !== undefined && object.state !== null) ? State.fromPartial(object.state) : undefined;
     return message;
   },
 };
@@ -1855,6 +1998,15 @@ export const ChannelServiceDefinition = {
       responseStream: false,
       options: {},
     },
+    /** Query the current state of the Channels.option */
+    getChannels: {
+      name: "GetChannels",
+      requestType: GetChannelsRequest,
+      requestStream: false,
+      responseType: GetChannelsResponse,
+      responseStream: false,
+      options: {},
+    },
   },
 } as const;
 
@@ -1874,6 +2026,11 @@ export interface ChannelServiceImplementation<CallContextExt = {}> {
     request: ChannelCloseRequest,
     context: CallContext & CallContextExt,
   ): Promise<DeepPartial<ChannelCloseResponse>>;
+  /** Query the current state of the Channels.option */
+  getChannels(
+    request: GetChannelsRequest,
+    context: CallContext & CallContextExt,
+  ): Promise<DeepPartial<GetChannelsResponse>>;
 }
 
 export interface ChannelServiceClient<CallOptionsExt = {}> {
@@ -1892,6 +2049,11 @@ export interface ChannelServiceClient<CallOptionsExt = {}> {
     request: DeepPartial<ChannelCloseRequest>,
     options?: CallOptions & CallOptionsExt,
   ): Promise<ChannelCloseResponse>;
+  /** Query the current state of the Channels.option */
+  getChannels(
+    request: DeepPartial<GetChannelsRequest>,
+    options?: CallOptions & CallOptionsExt,
+  ): Promise<GetChannelsResponse>;
 }
 
 /**
