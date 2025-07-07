@@ -46,6 +46,11 @@ export interface SimpleChannelServiceClient {
   closeChannel(
     channelId: Uint8Array,
   ): ServiceResponse<ChannelServiceImplementation["closeChannel"]>;
+
+  // Restore all channels for the user
+  restoreChannels(
+    data: Uint8Array,
+  ): ServiceResponse<ChannelServiceImplementation["restoreChannels"]>;
 }
 
 // The WalletBackend is parameterized on the MessageType it is able to sign

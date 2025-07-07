@@ -52,7 +52,6 @@ export class ServiceClient implements SimpleChannelServiceClient {
     } else {
       channelId = id;
     }
-    const channel = this.channels.get(channelId);
     this.channels.set(channelId, {state: state });
   }
 
@@ -114,13 +113,20 @@ export class ServiceClient implements SimpleChannelServiceClient {
     const res = await this.channelServiceClient.getChannels(req);
 
     if (res.rejected) {
+      console.log("Get channels request rejected:");
       return res;
     }
-    if (!res.state) {
+    if (!res.channelStates) {
+      console.warn("No channel states returned from service");
       return res;
     }
-    const cid = this.idToString(res.state!.id);
-    this.addOrUpdateChannels(cid, res.state!);
+    res.channelStates.states.forEach((state, idx) => {
+      const channelId = this.idToString(state.id);
+      this.addOrUpdateChannels(channelId, state);
+      const actorIdx = res.channelStates!.actorIdxs![idx];
+      this.indexMap.set(channelId, actorIdx); 
+      console.log("Channel added: ", channelId, "actorIdx:", actorIdx);
+    });
     return res;
   }
 
@@ -183,6 +189,20 @@ export class ServiceClient implements SimpleChannelServiceClient {
     }
 
     this.channels.delete(this.idToString(channelId));
+
+    return res;
+  }
+
+  async restoreChannels(
+    data: Uint8Array,
+  ): ServiceResponse<ChannelServiceImplementation["restoreChannels"]> {
+    const res = await this.channelServiceClient.restoreChannels({
+      data: data,
+    });
+
+    if (!res.accepted) {
+      console.error("Unable to restore channels:");
+    }
 
     return res;
   }
