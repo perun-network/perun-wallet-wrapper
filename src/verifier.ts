@@ -2,6 +2,8 @@ import { PerunError } from "./error";
 import { OpenChannelRequest } from "./perun-wallet";
 import { Allocation, Balances } from "./wire";
 
+const TEMP_CHANNEL_ID_LENGTH = 32; // 32-byte array
+
 export interface ValidOpenChannelRequest {
   // The participant opening the channel.
   participant: Uint8Array;
@@ -34,6 +36,8 @@ export interface ValidOpenChannelRequest {
   // So the first participant is paying 200 CKBytes and 100 SUDT to also cover
   // the balances of the second participant.
   fundingAgreement: Balances;
+  // The temporary channel ID used to identify the peer in the first SignMsg request
+  tempChannelId: Uint8Array;
 }
 
 export interface ValidAllocation {
@@ -137,6 +141,15 @@ function verifyAgreement(
   return agreement;
 }
 
+function verifyTempChannelID(
+  data: Uint8Array
+): Uint8Array {
+  if (data.length !== TEMP_CHANNEL_ID_LENGTH) {
+     throw new PerunError("open", `Invalid tempChannelId length: expected ${TEMP_CHANNEL_ID_LENGTH}, got ${data.length}`);
+  }
+  return data;
+}
+
 export function verifyOpenChannelRequest(
   req: OpenChannelRequest,
 ): ValidOpenChannelRequest {
@@ -167,6 +180,10 @@ export function verifyOpenChannelRequest(
     throw new PerunError("open", "Only two party channels are supported");
   }
 
+  if (!baseProp.initData) {
+    throw new PerunError("open", "Missing TempChannelID in baseChannelProposal");
+  }
+  
   const validInitBals = verifyAllocation(baseProp.initBals);
 
   return {
@@ -177,11 +194,13 @@ export function verifyOpenChannelRequest(
     nonceShare: baseProp.nonceShare,
     initBals: validInitBals,
     fundingAgreement: verifyAgreement(validInitBals, baseProp.fundingAgreement),
+    tempChannelId: verifyTempChannelID(baseProp.initData),
   };
 }
 
 export interface ValidSignMessageRequest<T> {
   pubkey: Uint8Array;
   data: Uint8Array;
+  tempChannelID: Uint8Array;
   decoded: T;
 }

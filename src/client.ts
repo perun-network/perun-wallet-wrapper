@@ -73,18 +73,20 @@ export class ServiceClient implements SimpleChannelServiceClient {
 
     this.channels.set(channelId, { ...channel, state: state });
   }
-
+  
   async openChannel(
     me: Uint8Array,
     peerToConnectTo: Uint8Array,
     allocation: Allocation,
     challengeDuration: number,
+    tempChannelId: Uint8Array,
   ): ServiceResponse<ChannelServiceImplementation["openChannel"]> {
     const req = {
       requester: this.addrEncoder(me),
       peer: this.addrEncoder(peerToConnectTo),
       allocation: allocation,
       challengeDuration: challengeDuration,
+      tempChannelId: tempChannelId,
     };
 
     const res = await this.channelServiceClient.openChannel(req);

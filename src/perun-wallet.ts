@@ -71,6 +71,8 @@ export interface ChannelOpenRequest {
     | undefined;
   /** The duration of the challenge period. */
   challengeDuration: number;
+  /** Temporary channel ID to be used for the channel opening. */
+  tempChannelID: Uint8Array;
 }
 
 export interface ChannelOpenResponse {
@@ -166,6 +168,8 @@ export interface SignMessageRequest {
   pubkey: Uint8Array;
   /** The message to be signed. */
   data: Uint8Array;
+  /** temporary channel ID to identify the peer */
+  tempChannelID: Uint8Array;
 }
 
 export interface SignMessageResponse {
@@ -882,7 +886,13 @@ export const ChannelStates = {
 };
 
 function createBaseChannelOpenRequest(): ChannelOpenRequest {
-  return { requester: new Uint8Array(0), peer: new Uint8Array(0), allocation: undefined, challengeDuration: 0 };
+  return {
+    requester: new Uint8Array(0),
+    peer: new Uint8Array(0),
+    allocation: undefined,
+    challengeDuration: 0,
+    tempChannelID: new Uint8Array(0),
+  };
 }
 
 export const ChannelOpenRequest = {
@@ -898,6 +908,9 @@ export const ChannelOpenRequest = {
     }
     if (message.challengeDuration !== 0) {
       writer.uint32(32).uint64(message.challengeDuration);
+    }
+    if (message.tempChannelID.length !== 0) {
+      writer.uint32(42).bytes(message.tempChannelID);
     }
     return writer;
   },
@@ -937,6 +950,13 @@ export const ChannelOpenRequest = {
 
           message.challengeDuration = longToNumber(reader.uint64() as Long);
           continue;
+        case 5:
+          if (tag !== 42) {
+            break;
+          }
+
+          message.tempChannelID = reader.bytes();
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -952,6 +972,7 @@ export const ChannelOpenRequest = {
       peer: isSet(object.peer) ? bytesFromBase64(object.peer) : new Uint8Array(0),
       allocation: isSet(object.allocation) ? Allocation.fromJSON(object.allocation) : undefined,
       challengeDuration: isSet(object.challengeDuration) ? globalThis.Number(object.challengeDuration) : 0,
+      tempChannelID: isSet(object.tempChannelID) ? bytesFromBase64(object.tempChannelID) : new Uint8Array(0),
     };
   },
 
@@ -969,6 +990,9 @@ export const ChannelOpenRequest = {
     if (message.challengeDuration !== 0) {
       obj.challengeDuration = Math.round(message.challengeDuration);
     }
+    if (message.tempChannelID.length !== 0) {
+      obj.tempChannelID = base64FromBytes(message.tempChannelID);
+    }
     return obj;
   },
 
@@ -983,6 +1007,7 @@ export const ChannelOpenRequest = {
       ? Allocation.fromPartial(object.allocation)
       : undefined;
     message.challengeDuration = object.challengeDuration ?? 0;
+    message.tempChannelID = object.tempChannelID ?? new Uint8Array(0);
     return message;
   },
 };
@@ -1936,7 +1961,7 @@ export const UpdateNotificationResponse = {
 };
 
 function createBaseSignMessageRequest(): SignMessageRequest {
-  return { pubkey: new Uint8Array(0), data: new Uint8Array(0) };
+  return { pubkey: new Uint8Array(0), data: new Uint8Array(0), tempChannelID: new Uint8Array(0) };
 }
 
 export const SignMessageRequest = {
@@ -1946,6 +1971,9 @@ export const SignMessageRequest = {
     }
     if (message.data.length !== 0) {
       writer.uint32(18).bytes(message.data);
+    }
+    if (message.tempChannelID.length !== 0) {
+      writer.uint32(26).bytes(message.tempChannelID);
     }
     return writer;
   },
@@ -1971,6 +1999,13 @@ export const SignMessageRequest = {
 
           message.data = reader.bytes();
           continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
+          message.tempChannelID = reader.bytes();
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -1984,6 +2019,7 @@ export const SignMessageRequest = {
     return {
       pubkey: isSet(object.pubkey) ? bytesFromBase64(object.pubkey) : new Uint8Array(0),
       data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(0),
+      tempChannelID: isSet(object.tempChannelID) ? bytesFromBase64(object.tempChannelID) : new Uint8Array(0),
     };
   },
 
@@ -1995,6 +2031,9 @@ export const SignMessageRequest = {
     if (message.data.length !== 0) {
       obj.data = base64FromBytes(message.data);
     }
+    if (message.tempChannelID.length !== 0) {
+      obj.tempChannelID = base64FromBytes(message.tempChannelID);
+    }
     return obj;
   },
 
@@ -2005,6 +2044,7 @@ export const SignMessageRequest = {
     const message = createBaseSignMessageRequest();
     message.pubkey = object.pubkey ?? new Uint8Array(0);
     message.data = object.data ?? new Uint8Array(0);
+    message.tempChannelID = object.tempChannelID ?? new Uint8Array(0);
     return message;
   },
 };

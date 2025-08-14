@@ -26,6 +26,7 @@ export interface SimpleChannelServiceClient {
     peerToConnectTo: Uint8Array,
     allocation: Allocation,
     challengeDuration: number,
+    tempChannelId: Uint8Array,
   ): ServiceResponse<ChannelServiceImplementation["openChannel"]>;
 
   getChannels (
